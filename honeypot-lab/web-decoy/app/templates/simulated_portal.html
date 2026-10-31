@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ApexCore Enterprise — Dispatch Console</title>
+  <link rel="stylesheet" href="/static/css/style.css">
+  <style>
+    .portal-wide { max-width: 800px; }
+    .table-mock { width: 100%; border-collapse: collapse; margin-top: 1rem; font-size: 0.85rem; }
+    .table-mock th, .table-mock td { padding: 0.6rem 0.8rem; text-align: left; border-bottom: 1px solid var(--border-color); }
+    .table-mock th { color: var(--text-secondary); background: rgba(255,255,255,0.02); }
+  </style>
+</head>
+<body>
+  <div class="login-container portal-wide">
+    <div class="portal-brand" style="text-align: left; border-bottom: 1px solid var(--border-color); padding-bottom: 1rem;">
+      <span class="mock-badge">Controlled Simulation View &bull; Read-Only</span>
+      <h1>Operational Dispatch Dashboard (Simulated)</h1>
+      <p>Session ID: <code style="color: #93c5fd;">{{ session_id }}</code></p>
+    </div>
+
+    <div style="margin: 1.5rem 0;">
+      <p style="font-size: 0.9rem; color: var(--text-secondary);">
+        This screen demonstrates safe honeypot simulation behavior. No live internal corporate data or real database tables are connected.
+      </p>
+
+      <table class="table-mock">
+        <thead>
+          <tr>
+            <th>Route ID</th>
+            <th>Terminal Origin</th>
+            <th>Destination Hub</th>
+            <th>Dispatch Status</th>
+            <th>Manifest Code</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><code>RT-8012</code></td>
+            <td>Frankfurt Cargo Terminal (FRA)</td>
+            <td>Rotterdam Deepwater Port (RTM)</td>
+            <td><span style="color: #6ee7b7;">In Transit</span></td>
+            <td><code>MNF-ALPHA-90</code></td>
+          </tr>
+          <tr>
+            <td><code>RT-8015</code></td>
+            <td>Singapore Changi Terminal (SIN)</td>
+            <td>Dubai World Central (DWC)</td>
+            <td><span style="color: #fbbf24;">Scheduled</span></td>
+            <td><code>MNF-BETA-44</code></td>
+          </tr>
+          <tr>
+            <td><code>RT-8021</code></td>
+            <td>Chicago O'Hare Int'l (ORD)</td>
+            <td>Dallas Fort Worth (DFW)</td>
+            <td><span style="color: #6ee7b7;">Delivered</span></td>
+            <td><code>MNF-DELTA-12</code></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div style="text-align: right; margin-top: 1.5rem;">
+      <a href="/logout" style="color: #93c5fd; text-decoration: none; font-size: 0.85rem;">&larr; Terminate Session</a>
+    </div>
+  </div>
+</body>
+</html>
+

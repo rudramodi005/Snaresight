@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ApexCore Enterprise — Single Sign-On Portal</title>
+  <link rel="stylesheet" href="/static/css/style.css">
+</head>
+<body>
+  <div class="login-container">
+    <div class="portal-brand">
+      <svg class="icon-shield" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+      </svg>
+      <h1>ApexCore Global Access</h1>
+      <p>Logistics & Dispatch Management Subsystem</p>
+    </div>
+
+    {% if error_message %}
+    <div class="alert-box" role="alert">
+      <span>{{ error_message }}</span>
+    </div>
+    {% endif %}
+
+    <form method="POST" action="/login" autocomplete="off">
+      <div class="form-group">
+        <label for="username">Corporate ID or Email</label>
+        <input 
+          type="text" 
+          id="username" 
+          name="username" 
+          class="form-control" 
+          placeholder="e.g. j.doe@apexcore-dispatch.local" 
+          maxlength="128" 
+          required 
+          autofocus
+        >
+      </div>
+
+      <div class="form-group">
+        <label for="password">Network Password</label>
+        <input 
+          type="password" 
+          id="password" 
+          name="password" 
+          class="form-control" 
+          placeholder="Enter corporate password" 
+          maxlength="256" 
+          required
+        >
+      </div>
+
+      <button type="submit" class="btn-submit">Authenticate to Network</button>
+    </form>
+
+    <div class="footer-notice">
+      <p><strong>RESTRICTED INFORMATION SYSTEM</strong></p>
+      <p>Unauthorized access attempts are prohibited. All network transactions, timestamps, and interaction metadata are logged for infrastructure security.</p>
+    </div>
+  </div>
+</body>
+</html>
+
