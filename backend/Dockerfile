@@ -7,11 +7,15 @@ WORKDIR /build
 COPY --from=ghcr.io/astral-sh/uv:latest /uv /bin/uv
 
 # Copy dependency specifications
-COPY pyproject.toml .
+COPY pyproject.toml uv.lock* ./
+
+# Configure virtualenv location
+ENV VIRTUAL_ENV=/opt/venv
+ENV PATH="/opt/venv/bin:$PATH"
 
 # Install dependencies into virtualenv
 RUN uv venv /opt/venv && \
-    uv pip install --no-cache -r pyproject.toml
+    uv pip install --no-cache --python /opt/venv/bin/python -r pyproject.toml
 
 # --- Final Runtime Image ---
 FROM python:3.11-slim AS runner

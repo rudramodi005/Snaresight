@@ -4,7 +4,7 @@ Analyzes supporting telemetry, enforces deduplication across evidence references
 validates provenance, checks timestamp consistency, and determines evidence strength.
 """
 
-from typing import Any, Dict, List, Set, Tuple
+from typing import Any, Dict, List, Optional, Set, Tuple
 from datetime import datetime, timezone
 from app.detection.scoring_policy import EvidenceStrength, ProvenanceType
 
