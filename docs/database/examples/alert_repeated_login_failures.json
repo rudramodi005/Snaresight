@@ -1,0 +1,63 @@
+{
+  "alert_id": "c1d2e3f4-a5b6-4c7d-8e9f-0a1b2c3d4e5f",
+  "alert_schema_version": "1.0",
+  "alert_type": "BRUTE_FORCE_BURST",
+  "title": "Rapid Repeated Authentication Failures on Web Portal",
+  "summary": "15 failed authentication attempts observed in 45 seconds from single source IP against simulated employee portal.",
+  "detection_rule_id": "RULE-AUTH-001",
+  "detection_rule_version": "1.0.0",
+  "detection_category": "BRUTE_FORCE",
+  "detection_explanation": "Source exceeded threshold of 10 failed logins within 60 seconds against isolated honeypot portal WEB-001.",
+  "severity": "HIGH",
+  "confidence": 92,
+  "assessment_status": "NEW",
+  "evidence_strength": "DEFINITIVE",
+  "observed_source_id": "src_profile_9876543210ab",
+  "source_address": "198.51.100.45",
+  "decoy_id": "WEB-001",
+  "target_service": "WEB_PORTAL",
+  "first_observed_at": "2026-10-31T10:15:35.654321+00:00",
+  "last_observed_at": "2026-10-31T10:16:20.123456+00:00",
+  "generated_at": "2026-10-31T10:16:20.250000+00:00",
+  "updated_at": null,
+  "session_ids": [
+    "decoy_sess_3430c5e63810486c99cff33faad6a50d"
+  ],
+  "related_event_ids": [
+    "f6a1b2c3-d4e5-4f6a-bf7b-8c9d0e1f2a3b",
+    "b2c3d4e5-f6a1-4b2c-9d3e-4f5a6b7c8d9e"
+  ],
+  "related_alert_ids": [],
+  "attack_chain_id": null,
+  "evidence": {
+    "summary": "15 failed authentication submissions with distinct password length patterns within 45s window",
+    "supporting_count": 15,
+    "triggering_conditions": {
+      "threshold_window_seconds": 60,
+      "observed_failures": 15,
+      "threshold_minimum": 10
+    },
+    "evidence_references": [
+      "f6a1b2c3-d4e5-4f6a-bf7b-8c9d0e1f2a3b"
+    ]
+  },
+  "mitre_attack": {
+    "framework_version": "v14.1",
+    "tactic_id": "TA0006",
+    "tactic_name": "Credential Access",
+    "technique_id": "T1110.001",
+    "technique_name": "Password Guessing",
+    "mapping_confidence": 95,
+    "mapping_evidence": "Sequential authentication failures with varied credentials targeting single web service endpoint."
+  },
+  "analyst_workflow": {
+    "assigned_analyst_id": null,
+    "investigation_id": null,
+    "analyst_notes_reference": null
+  },
+  "recommendations": {
+    "recommended_action": "Apply temporary rate-limiting or firewall block for source IP 198.51.100.45 at perimeter edge.",
+    "recommendation_reason": "High-velocity automated authentication probe detected against isolated decoy.",
+    "response_approval_required": true
+  }
+}

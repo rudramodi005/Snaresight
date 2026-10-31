@@ -1,0 +1,226 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://snaresight.local/schemas/raw_event.schema.json",
+  "title": "SnareSight Raw Event Contract",
+  "description": "Schema for privacy-safe original honeypot telemetry in SnareSight.",
+  "type": "object",
+  "required": [
+    "raw_event_id",
+    "schema_version",
+    "event_type",
+    "observed_at",
+    "decoy_id",
+    "session_id",
+    "source",
+    "request",
+    "interaction",
+    "provenance"
+  ],
+  "not": {
+    "anyOf": [
+      { "required": ["password"] },
+      { "required": ["plaintext_password"] },
+      { "required": ["password_hash"] }
+    ]
+  },
+  "properties": {
+    "raw_event_id": {
+      "type": "string",
+      "format": "uuid"
+    },
+    "schema_version": {
+      "type": "string",
+      "enum": ["1.0"]
+    },
+    "event_type": {
+      "type": "string",
+      "enum": [
+        "decoy_page_visited",
+        "login_attempt",
+        "simulated_decoy_access",
+        "invalid_request",
+        "session_terminated"
+      ]
+    },
+    "event_category": {
+      "type": "string",
+      "enum": ["connection", "request", "authentication", "session", "system"]
+    },
+    "decoy_id": {
+      "type": "string",
+      "maxLength": 64
+    },
+    "collector_id": {
+      "type": ["string", "null"],
+      "maxLength": 64
+    },
+    "observed_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "received_at": {
+      "type": ["string", "null"],
+      "format": "date-time"
+    },
+    "timestamp_precision": {
+      "type": "string",
+      "enum": ["millisecond", "microsecond", "second"]
+    },
+    "source_timezone": {
+      "type": "string"
+    },
+    "session_id": {
+      "type": "string",
+      "pattern": "^decoy_sess_[a-f0-9]{32}$"
+    },
+    "interaction_id": {
+      "type": ["string", "null"],
+      "maxLength": 64
+    },
+    "associated_request_id": {
+      "type": ["string", "null"],
+      "maxLength": 64
+    },
+    "source": {
+      "type": "object",
+      "required": ["ip_address", "user_agent_summary"],
+      "properties": {
+        "ip_address": {
+          "type": "string"
+        },
+        "port": {
+          "type": ["integer", "null"],
+          "minimum": 1,
+          "maximum": 65535
+        },
+        "protocol": {
+          "type": "string",
+          "enum": ["http", "https", "ssh", "tcp"]
+        },
+        "user_agent_summary": {
+          "type": "string",
+          "maxLength": 256
+        }
+      },
+      "additionalProperties": false
+    },
+    "request": {
+      "type": "object",
+      "required": ["method", "path"],
+      "properties": {
+        "method": {
+          "type": "string",
+          "enum": ["GET", "POST", "HEAD", "PUT", "DELETE", "PATCH", "OPTIONS"]
+        },
+        "path": {
+          "type": "string",
+          "maxLength": 1024
+        },
+        "content_type": {
+          "type": ["string", "null"],
+          "maxLength": 128
+        },
+        "headers_summary": {
+          "type": "object"
+        }
+      },
+      "additionalProperties": false
+    },
+    "interaction": {
+      "type": "object",
+      "required": ["status_code", "simulated_outcome", "password_present"],
+      "not": {
+        "anyOf": [
+          { "required": ["password"] },
+          { "required": ["password_hash"] }
+        ]
+      },
+      "properties": {
+        "username_fingerprint": {
+          "type": ["string", "null"],
+          "pattern": "^[0-9a-f]{64}$"
+        },
+        "username_length": {
+          "type": ["integer", "null"],
+          "minimum": 0,
+          "maximum": 1024
+        },
+        "password_present": {
+          "type": "boolean"
+        },
+        "password_length_category": {
+          "type": ["string", "null"],
+          "enum": ["none", "short (<8)", "medium (8-16)", "long (>16)", null]
+        },
+        "status_code": {
+          "type": "integer",
+          "minimum": 100,
+          "maximum": 599
+        },
+        "simulated_outcome": {
+          "type": "string",
+          "maxLength": 64
+        },
+        "notes": {
+          "type": ["string", "null"],
+          "maxLength": 512
+        },
+        "payload_markers": {
+          "type": "array",
+          "items": { "type": "string" }
+        }
+      },
+      "additionalProperties": false
+    },
+    "provenance": {
+      "type": "object",
+      "required": ["source_type", "environment"],
+      "properties": {
+        "source_type": {
+          "type": "string",
+          "enum": ["live_honeypot", "controlled_test", "synthetic_simulation", "imported_data"]
+        },
+        "source_id": {
+          "type": ["string", "null"],
+          "maxLength": 64
+        },
+        "environment": {
+          "type": "string",
+          "enum": ["isolated_lab", "demo_sandbox", "production"]
+        },
+        "collection_method": {
+          "type": ["string", "null"],
+          "enum": ["local_file_tail", "syslog", "http_push", "manual_import", null]
+        },
+        "simulation_run_id": {
+          "type": ["string", "null"],
+          "maxLength": 64
+        }
+      },
+      "additionalProperties": false
+    },
+    "processing": {
+      "type": "object",
+      "properties": {
+        "ingestion_status": {
+          "type": "string",
+          "enum": ["pending", "ingested", "failed"]
+        },
+        "validation_status": {
+          "type": "string",
+          "enum": ["valid", "invalid", "requires_review"]
+        },
+        "processing_timestamp": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "deduplication_hash": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        }
+      },
+      "additionalProperties": false
+    }
+  },
+  "additionalProperties": false
+}

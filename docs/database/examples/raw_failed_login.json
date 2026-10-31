@@ -1,0 +1,53 @@
+{
+  "raw_event_id": "c3d4e5f6-a1b2-4c3d-ae4f-5a6b7c8d9e0f",
+  "schema_version": "1.0",
+  "event_type": "login_attempt",
+  "event_category": "authentication",
+  "decoy_id": "WEB-001",
+  "collector_id": "collector-agent-01",
+  "observed_at": "2026-10-31T10:15:40.890123+00:00",
+  "received_at": "2026-10-31T10:15:40.910000+00:00",
+  "timestamp_precision": "microsecond",
+  "source_timezone": "UTC",
+  "session_id": "decoy_sess_3430c5e63810486c99cff33faad6a50d",
+  "interaction_id": "req_c3d4e5f6a1b20303",
+  "associated_request_id": null,
+  "source": {
+    "ip_address": "198.51.100.45",
+    "port": 54321,
+    "protocol": "https",
+    "user_agent_summary": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) Chrome/120.0.0.0"
+  },
+  "request": {
+    "method": "POST",
+    "path": "/login",
+    "content_type": "application/x-www-form-urlencoded",
+    "headers_summary": {
+      "accept": "text/html,application/xhtml+xml",
+      "host": "portal.apexcore.local"
+    }
+  },
+  "interaction": {
+    "username_fingerprint": "f1d2d2f924e986ac86fdf7b36c94bcdf32beec15fc9d9fcdc1f5e888494ab889",
+    "username_length": 24,
+    "password_present": true,
+    "password_length_category": "short (<8)",
+    "status_code": 401,
+    "simulated_outcome": "simulated_auth_failure",
+    "notes": "Markers: sqli",
+    "payload_markers": ["sqli"]
+  },
+  "provenance": {
+    "source_type": "controlled_test",
+    "source_id": "lab-vm-node-01",
+    "environment": "isolated_lab",
+    "collection_method": "local_file_tail",
+    "simulation_run_id": "sim_p11_test_run_01"
+  },
+  "processing": {
+    "ingestion_status": "ingested",
+    "validation_status": "valid",
+    "processing_timestamp": "2026-10-31T10:15:40.920000+00:00",
+    "deduplication_hash": "c2d3e4f5a6b7c8d9e0f1a2b3c4d5e6f7a8b9c0d1e2f3a4b5c6d7e8f9a0b1c2d3"
+  }
+}

@@ -1,0 +1,53 @@
+{
+  "raw_event_id": "d4e5f6a1-b2c3-4d4e-bf5a-6b7c8d9e0f1a",
+  "schema_version": "1.0",
+  "event_type": "simulated_decoy_access",
+  "event_category": "request",
+  "decoy_id": "WEB-001",
+  "collector_id": "collector-agent-01",
+  "observed_at": "2026-10-31T10:15:45.123789+00:00",
+  "received_at": "2026-10-31T10:15:45.140000+00:00",
+  "timestamp_precision": "microsecond",
+  "source_timezone": "UTC",
+  "session_id": "decoy_sess_3430c5e63810486c99cff33faad6a50d",
+  "interaction_id": "req_d4e5f6a1b2c30404",
+  "associated_request_id": null,
+  "source": {
+    "ip_address": "198.51.100.45",
+    "port": 54321,
+    "protocol": "https",
+    "user_agent_summary": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) Chrome/120.0.0.0"
+  },
+  "request": {
+    "method": "GET",
+    "path": "/portal/dispatch",
+    "content_type": null,
+    "headers_summary": {
+      "accept": "text/html,application/xhtml+xml",
+      "host": "portal.apexcore.local"
+    }
+  },
+  "interaction": {
+    "username_fingerprint": null,
+    "username_length": null,
+    "password_present": false,
+    "password_length_category": "none",
+    "status_code": 200,
+    "simulated_outcome": "simulated_portal_rendered",
+    "notes": "Adversary navigated to mock operational dispatch interface",
+    "payload_markers": []
+  },
+  "provenance": {
+    "source_type": "controlled_test",
+    "source_id": "lab-vm-node-01",
+    "environment": "isolated_lab",
+    "collection_method": "local_file_tail",
+    "simulation_run_id": "sim_p11_test_run_01"
+  },
+  "processing": {
+    "ingestion_status": "ingested",
+    "validation_status": "valid",
+    "processing_timestamp": "2026-10-31T10:15:45.150000+00:00",
+    "deduplication_hash": "d3e4f5a6b7c8d9e0f1a2b3c4d5e6f7a8b9c0d1e2f3a4b5c6d7e8f9a0b1c2d3e4"
+  }
+}

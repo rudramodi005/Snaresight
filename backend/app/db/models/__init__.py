@@ -1,0 +1,166 @@
+"""SnareSight SQLAlchemy models registry.
+
+Imports all declarative models to register their schemas with Base.metadata.
+"""
+
+from app.db.base import Base
+from app.db.models.honeypot import HoneypotModel, EventSourceModel
+from app.db.models.event import RawEventModel, SecurityEventModel, EventAuditLogModel
+from app.db.models.session import SessionModel
+from app.db.models.rule import DetectionRuleModel
+from app.db.models.alert import AlertModel, AlertEvidenceModel, AlertAuditLogModel, AlertNoteModel
+from app.db.models.correlation import (
+    ActivitySessionModel,
+    ActivitySessionEventModel,
+    SessionCorrelationHistoryModel,
+    CorrelationPolicyVersionModel,
+)
+from app.db.models.sequence import (
+    BehavioralSequenceModel,
+    BehavioralSequenceMemberModel,
+    BehavioralSequenceRelationshipModel,
+    SequenceEvidenceModel,
+    SequenceAssessmentHistoryModel,
+)
+from app.db.models.source_profile import (
+    SourceProfileModel,
+    SourceProfileSessionModel,
+    SourceProfileFeatureModel,
+    SourceProfileHistoryModel,
+    SourceProfileRecurrenceModel,
+)
+from app.db.models.campaign import (
+    InvestigationClusterModel,
+    ClusterMembershipModel,
+    ClusterEvidenceModel,
+    ClusterRelationshipModel,
+    ClusterAuditLogModel,
+)
+from app.db.models.report import SecurityReportModel
+from app.db.models.security import UserModel, RevokedTokenModel, SystemAuditLogModel
+from app.db.models.response import (
+    ResponseCaseModel,
+    CaseRelationshipModel,
+    CaseNoteModel,
+    ResponseRecommendationModel,
+    PlaybookDefinitionModel,
+    PlaybookExecutionModel,
+    ResponseApprovalModel,
+    ResponseActionModel,
+    EvidencePreservationHoldModel,
+)
+from app.db.models.sensor import (
+    SensorModel,
+    SensorCredentialModel,
+    SensorHeartbeatModel,
+    SensorConfigurationModel,
+    OperationalAlertModel,
+    SensorMaintenanceHistoryModel,
+    SensorTelemetryMetricModel,
+)
+from app.db.models.resilience import (
+    InternalSecurityEventModel,
+    InternalSecurityAlertModel,
+    ComponentHealthRecordModel,
+    DatabaseBackupModel,
+    RestoreTestRecordModel,
+    DisasterRecoveryConfigModel,
+    DisasterRecoveryChecklistModel,
+    InternalIncidentModel,
+    InternalIncidentNoteModel,
+)
+from app.db.models.intelligence import (
+    AttackDatasetVersionModel,
+    AttackTacticModel,
+    AttackTechniqueModel,
+    AttackSubtechniqueModel,
+    AttackRelationshipModel,
+    AttackImportRunModel,
+    TechniqueMappingModel,
+    ObservedSourceModel,
+    SimulationRunModel,
+    AttackMappingDefinitionModel,
+    AttackDetectionMappingModel,
+    AttackMappingEvidenceModel,
+    AttackMappingReviewModel,
+    AttackMappingHistoryModel,
+    AttackMappingPolicyVersionModel,
+)
+
+__all__ = [
+    "Base",
+    "HoneypotModel",
+    "EventSourceModel",
+    "RawEventModel",
+    "SecurityEventModel",
+    "EventAuditLogModel",
+    "SessionModel",
+    "DetectionRuleModel",
+    "AlertModel",
+    "AlertEvidenceModel",
+    "AlertAuditLogModel",
+    "AlertNoteModel",
+    "AttackDatasetVersionModel",
+    "AttackTacticModel",
+    "AttackTechniqueModel",
+    "AttackSubtechniqueModel",
+    "AttackRelationshipModel",
+    "AttackImportRunModel",
+    "TechniqueMappingModel",
+    "ObservedSourceModel",
+    "SimulationRunModel",
+    "AttackMappingDefinitionModel",
+    "AttackDetectionMappingModel",
+    "AttackMappingEvidenceModel",
+    "AttackMappingReviewModel",
+    "AttackMappingHistoryModel",
+    "AttackMappingPolicyVersionModel",
+    "ActivitySessionModel",
+    "ActivitySessionEventModel",
+    "SessionCorrelationHistoryModel",
+    "CorrelationPolicyVersionModel",
+    "BehavioralSequenceModel",
+    "BehavioralSequenceMemberModel",
+    "BehavioralSequenceRelationshipModel",
+    "SequenceEvidenceModel",
+    "SequenceAssessmentHistoryModel",
+    "SourceProfileModel",
+    "SourceProfileSessionModel",
+    "SourceProfileFeatureModel",
+    "SourceProfileHistoryModel",
+    "SourceProfileRecurrenceModel",
+    "InvestigationClusterModel",
+    "ClusterMembershipModel",
+    "ClusterEvidenceModel",
+    "ClusterRelationshipModel",
+    "ClusterAuditLogModel",
+    "SecurityReportModel",
+    "UserModel",
+    "RevokedTokenModel",
+    "SystemAuditLogModel",
+    "ResponseCaseModel",
+    "CaseRelationshipModel",
+    "CaseNoteModel",
+    "ResponseRecommendationModel",
+    "PlaybookDefinitionModel",
+    "PlaybookExecutionModel",
+    "ResponseApprovalModel",
+    "ResponseActionModel",
+    "EvidencePreservationHoldModel",
+    "SensorModel",
+    "SensorCredentialModel",
+    "SensorHeartbeatModel",
+    "SensorConfigurationModel",
+    "OperationalAlertModel",
+    "SensorMaintenanceHistoryModel",
+    "SensorTelemetryMetricModel",
+    "InternalSecurityEventModel",
+    "InternalSecurityAlertModel",
+    "ComponentHealthRecordModel",
+    "DatabaseBackupModel",
+    "RestoreTestRecordModel",
+    "DisasterRecoveryConfigModel",
+    "DisasterRecoveryChecklistModel",
+    "InternalIncidentModel",
+    "InternalIncidentNoteModel",
+]

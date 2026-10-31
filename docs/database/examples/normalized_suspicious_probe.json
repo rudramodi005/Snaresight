@@ -1,0 +1,48 @@
+{
+  "event_id": "a7b8c9d0-e1f2-4a7b-8c9d-0e1f2a3b4c5d",
+  "raw_event_id": "01234567-89ab-4cde-f012-3456789abcde",
+  "schema_version": "1.0",
+  "event_source_id": "collector-agent-01",
+  "decoy_id": "WEB-001",
+  "event_type": "PATH_PROBE",
+  "event_category": "REQUEST",
+  "event_subcategory": "VULNERABILITY_RECON",
+  "action": "HTTP_GET",
+  "outcome": "FAILURE",
+  "observed_at": "2026-10-31T10:16:00.100200+00:00",
+  "received_at": "2026-10-31T10:16:00.120000+00:00",
+  "normalized_at": "2026-10-31T10:16:00.140000+00:00",
+  "source_address": "198.51.100.45",
+  "source_port": 54321,
+  "source_protocol": "https",
+  "source_identity_type": "DIRECT_IP",
+  "observed_source_id": "src_profile_9876543210ab",
+  "target_service": "WEB_PORTAL",
+  "target_protocol": "HTTPS",
+  "target_port": 8080,
+  "session_id": "decoy_sess_3430c5e63810486c99cff33faad6a50d",
+  "interaction_id": "req_0123456789ab0505",
+  "sequence_number": 3,
+  "previous_event_id": "f6a1b2c3-d4e5-4f6a-bf7b-8c9d0e1f2a3b",
+  "details": {
+    "http": {
+      "method": "GET",
+      "path": "/.env",
+      "status_code": 404,
+      "user_agent": "Nikto/2.1.6"
+    }
+  },
+  "provenance": {
+    "source_type": "CONTROLLED_TEST",
+    "environment": "ISOLATED_LAB",
+    "source_system": "lab-vm-node-01",
+    "collection_method": "FILE_WATCHER",
+    "simulation_run_id": "sim_p11_test_run_01"
+  },
+  "processing": {
+    "validation_status": "VALID",
+    "normalization_status": "SUCCESS",
+    "processing_version": "1.0.0",
+    "deduplication_reference": "0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef"
+  }
+}

@@ -1,0 +1,61 @@
+{
+  "alert_id": "d2e3f4a5-b6c7-4d8e-9f0a-1b2c3d4e5f6a",
+  "alert_schema_version": "1.0",
+  "alert_type": "SUSPICIOUS_PATH_SCAN",
+  "title": "Automated Web Vulnerability Scanning Observed",
+  "summary": "Source IP initiated sequential probing of common administrative and configuration URIs (.env, wp-admin).",
+  "detection_rule_id": "RULE-RECON-002",
+  "detection_rule_version": "1.1.0",
+  "detection_category": "RECONNAISSANCE",
+  "detection_explanation": "Client requested sensitive configuration paths with recognized scanner user-agent Nikto.",
+  "severity": "LOW",
+  "confidence": 85,
+  "assessment_status": "NEW",
+  "evidence_strength": "CORROBORATED",
+  "observed_source_id": "src_profile_9876543210ab",
+  "source_address": "198.51.100.45",
+  "decoy_id": "WEB-001",
+  "target_service": "WEB_PORTAL",
+  "first_observed_at": "2026-10-31T10:16:00.100200+00:00",
+  "last_observed_at": "2026-10-31T10:16:05.800000+00:00",
+  "generated_at": "2026-10-31T10:16:06.000000+00:00",
+  "updated_at": null,
+  "session_ids": [
+    "decoy_sess_3430c5e63810486c99cff33faad6a50d"
+  ],
+  "related_event_ids": [
+    "a7b8c9d0-e1f2-4a7b-8c9d-0e1f2a3b4c5d"
+  ],
+  "related_alert_ids": [],
+  "attack_chain_id": null,
+  "evidence": {
+    "summary": "Probe sequence targeted sensitive file extensions (.env, .git) with Nikto scanner fingerprint",
+    "supporting_count": 4,
+    "triggering_conditions": {
+      "scanner_signatures_detected": ["Nikto"],
+      "sensitive_paths_probed": ["/.env", "/admin.php"]
+    },
+    "evidence_references": [
+      "a7b8c9d0-e1f2-4a7b-8c9d-0e1f2a3b4c5d"
+    ]
+  },
+  "mitre_attack": {
+    "framework_version": "v14.1",
+    "tactic_id": "TA0007",
+    "tactic_name": "Discovery",
+    "technique_id": "T1595.002",
+    "technique_name": "Active Scanning: Vulnerability Scanning",
+    "mapping_confidence": 90,
+    "mapping_evidence": "Automated URI probing matching common web discovery wordlists."
+  },
+  "analyst_workflow": {
+    "assigned_analyst_id": null,
+    "investigation_id": null,
+    "analyst_notes_reference": null
+  },
+  "recommendations": {
+    "recommended_action": "Monitor source IP for subsequent credential stuffing or exploit escalation.",
+    "recommendation_reason": "Low-severity scanning activity commonly precedes targeted credential attacks.",
+    "response_approval_required": false
+  }
+}

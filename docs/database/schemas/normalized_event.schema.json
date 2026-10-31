@@ -1,0 +1,258 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://snaresight.local/schemas/normalized_event.schema.json",
+  "title": "SnareSight Normalized Security Event Contract",
+  "description": "Universal normalized schema representing validated honeypot security events.",
+  "type": "object",
+  "required": [
+    "event_id",
+    "raw_event_id",
+    "schema_version",
+    "event_source_id",
+    "decoy_id",
+    "event_type",
+    "event_category",
+    "action",
+    "outcome",
+    "observed_at",
+    "received_at",
+    "normalized_at",
+    "source_address",
+    "source_protocol",
+    "source_identity_type",
+    "target_service",
+    "target_protocol",
+    "target_port",
+    "session_id",
+    "details",
+    "provenance",
+    "processing"
+  ],
+  "not": {
+    "anyOf": [
+      { "required": ["password"] },
+      { "required": ["plaintext_password"] },
+      { "required": ["password_hash"] }
+    ]
+  },
+  "properties": {
+    "event_id": {
+      "type": "string",
+      "format": "uuid"
+    },
+    "raw_event_id": {
+      "type": "string",
+      "format": "uuid"
+    },
+    "schema_version": {
+      "type": "string",
+      "enum": ["1.0"]
+    },
+    "event_source_id": {
+      "type": "string",
+      "maxLength": 64
+    },
+    "decoy_id": {
+      "type": "string",
+      "maxLength": 64
+    },
+    "event_type": {
+      "type": "string",
+      "enum": [
+        "PAGE_VISIT",
+        "AUTH_ATTEMPT",
+        "AUTH_FAILURE",
+        "AUTH_SUCCESS_MOCK",
+        "PATH_PROBE",
+        "COMMAND_EXEC",
+        "FILE_DOWNLOAD",
+        "SESSION_START",
+        "SESSION_END",
+        "ANOMALOUS_REQUEST",
+        "DECOY_HEALTH_CHANGED"
+      ]
+    },
+    "event_category": {
+      "type": "string",
+      "enum": [
+        "CONNECTION",
+        "REQUEST",
+        "AUTHENTICATION",
+        "SESSION",
+        "COMMAND_INTERACTION",
+        "FILE_INTERACTION",
+        "SERVICE_HEALTH",
+        "SECURITY_OBSERVATION",
+        "SIMULATION"
+      ]
+    },
+    "event_subcategory": {
+      "type": ["string", "null"],
+      "maxLength": 64
+    },
+    "action": {
+      "type": "string",
+      "maxLength": 64
+    },
+    "outcome": {
+      "type": "string",
+      "enum": ["SUCCESS", "FAILURE", "BLOCKED", "ERROR", "UNKNOWN"]
+    },
+    "observed_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "received_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "normalized_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "source_address": {
+      "type": "string"
+    },
+    "source_port": {
+      "type": ["integer", "null"],
+      "minimum": 1,
+      "maximum": 65535
+    },
+    "source_protocol": {
+      "type": "string",
+      "enum": ["http", "https", "ssh", "telnet", "smb", "tcp"]
+    },
+    "source_identity_type": {
+      "type": "string",
+      "enum": ["DIRECT_IP", "PROXY_IP", "TOR_NODE", "INTERNAL_TEST", "UNKNOWN"]
+    },
+    "observed_source_id": {
+      "type": ["string", "null"],
+      "maxLength": 64
+    },
+    "target_service": {
+      "type": "string",
+      "enum": ["WEB_PORTAL", "SSH_DAEMON", "REST_API", "SMB_SHARE"]
+    },
+    "target_protocol": {
+      "type": "string",
+      "enum": ["HTTP", "HTTPS", "SSH", "TCP"]
+    },
+    "target_port": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 65535
+    },
+    "session_id": {
+      "type": "string",
+      "pattern": "^decoy_sess_[a-f0-9]{32}$"
+    },
+    "interaction_id": {
+      "type": ["string", "null"],
+      "maxLength": 64
+    },
+    "sequence_number": {
+      "type": ["integer", "null"],
+      "minimum": 1
+    },
+    "previous_event_id": {
+      "type": ["string", "null"],
+      "format": "uuid"
+    },
+    "details": {
+      "type": "object",
+      "not": {
+        "anyOf": [
+          { "required": ["password"] },
+          { "required": ["password_hash"] }
+        ]
+      },
+      "properties": {
+        "auth": {
+          "type": "object",
+          "properties": {
+            "username_fingerprint": { "type": ["string", "null"], "pattern": "^[0-9a-f]{64}$" },
+            "username_length": { "type": ["integer", "null"] },
+            "password_present": { "type": "boolean" },
+            "password_length_category": { "type": ["string", "null"] },
+            "simulated_outcome": { "type": "string" }
+          }
+        },
+        "http": {
+          "type": "object",
+          "properties": {
+            "method": { "type": "string" },
+            "path": { "type": "string" },
+            "status_code": { "type": "integer" },
+            "user_agent": { "type": "string" }
+          }
+        },
+        "command": {
+          "type": "object",
+          "properties": {
+            "command_raw": { "type": "string" },
+            "command_category": { "type": "string" }
+          }
+        },
+        "file": {
+          "type": "object",
+          "properties": {
+            "file_name": { "type": "string" },
+            "file_sha256": { "type": "string" },
+            "transfer_direction": { "type": "string" }
+          }
+        }
+      }
+    },
+    "provenance": {
+      "type": "object",
+      "required": ["source_type", "environment"],
+      "properties": {
+        "source_type": {
+          "type": "string",
+          "enum": ["LIVE_HONEYPOT", "CONTROLLED_TEST", "SYNTHETIC_SIMULATION", "IMPORTED_DATA"]
+        },
+        "environment": {
+          "type": "string",
+          "enum": ["ISOLATED_LAB", "DEMO_SANDBOX", "PRODUCTION"]
+        },
+        "source_system": {
+          "type": ["string", "null"],
+          "maxLength": 64
+        },
+        "collection_method": {
+          "type": ["string", "null"],
+          "enum": ["FILE_WATCHER", "HTTP_INGESTION", "BATCH_IMPORT", null]
+        },
+        "simulation_run_id": {
+          "type": ["string", "null"],
+          "maxLength": 64
+        }
+      },
+      "additionalProperties": false
+    },
+    "processing": {
+      "type": "object",
+      "required": ["validation_status", "normalization_status", "processing_version", "deduplication_reference"],
+      "properties": {
+        "validation_status": {
+          "type": "string",
+          "enum": ["VALID", "INVALID", "REQUIRES_REVIEW", "DUPLICATE", "UNSUPPORTED_VERSION"]
+        },
+        "normalization_status": {
+          "type": "string",
+          "enum": ["SUCCESS", "PARTIAL", "FAILED"]
+        },
+        "processing_version": {
+          "type": "string"
+        },
+        "deduplication_reference": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        }
+      },
+      "additionalProperties": false
+    }
+  },
+  "additionalProperties": false
+}

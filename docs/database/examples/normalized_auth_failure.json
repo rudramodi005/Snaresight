@@ -1,0 +1,55 @@
+{
+  "event_id": "f6a1b2c3-d4e5-4f6a-bf7b-8c9d0e1f2a3b",
+  "raw_event_id": "b2c3d4e5-f6a1-4b2c-9d3e-4f5a6b7c8d9e",
+  "schema_version": "1.0",
+  "event_source_id": "collector-agent-01",
+  "decoy_id": "WEB-001",
+  "event_type": "AUTH_FAILURE",
+  "event_category": "AUTHENTICATION",
+  "event_subcategory": "CREDENTIAL_PROBE",
+  "action": "SUBMIT_CREDENTIALS",
+  "outcome": "FAILURE",
+  "observed_at": "2026-10-31T10:15:35.654321+00:00",
+  "received_at": "2026-10-31T10:15:35.670000+00:00",
+  "normalized_at": "2026-10-31T10:15:35.700000+00:00",
+  "source_address": "198.51.100.45",
+  "source_port": 54321,
+  "source_protocol": "https",
+  "source_identity_type": "DIRECT_IP",
+  "observed_source_id": "src_profile_9876543210ab",
+  "target_service": "WEB_PORTAL",
+  "target_protocol": "HTTPS",
+  "target_port": 8080,
+  "session_id": "decoy_sess_3430c5e63810486c99cff33faad6a50d",
+  "interaction_id": "req_b2c3d4e5f6a10202",
+  "sequence_number": 2,
+  "previous_event_id": "e5f6a1b2-c3d4-4e5f-af6a-7b8c9d0e1f2a",
+  "details": {
+    "auth": {
+      "username_fingerprint": "7c4852c2863cb6ff7bb84f50684f00db1e075c35399587ccf618a8efaa6734ee",
+      "username_length": 18,
+      "password_present": true,
+      "password_length_category": "medium (8-16)",
+      "simulated_outcome": "simulated_auth_failure"
+    },
+    "http": {
+      "method": "POST",
+      "path": "/login",
+      "status_code": 401,
+      "user_agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) Chrome/120.0.0.0"
+    }
+  },
+  "provenance": {
+    "source_type": "CONTROLLED_TEST",
+    "environment": "ISOLATED_LAB",
+    "source_system": "lab-vm-node-01",
+    "collection_method": "FILE_WATCHER",
+    "simulation_run_id": "sim_p11_test_run_01"
+  },
+  "processing": {
+    "validation_status": "VALID",
+    "normalization_status": "SUCCESS",
+    "processing_version": "1.0.0",
+    "deduplication_reference": "a1c2e3f4b5d6a7b8c9d0e1f2a3b4c5d6e7f8a9b0c1d2e3f4a5b6c7d8e9f0a1b2"
+  }
+}
