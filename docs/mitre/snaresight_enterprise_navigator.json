@@ -1,0 +1,117 @@
+{
+  "name": "SnareSight Threat Detection Coverage Matrix",
+  "versions": {
+    "attack": "15",
+    "navigator": "4.5",
+    "layer": "4.5"
+  },
+  "domain": "enterprise-attack",
+  "description": "Comprehensive deception-driven detection coverage mapped to MITRE ATT&CK Enterprise Matrix techniques across emulated web honeypots, credential access, lateral movement, and command & control.",
+  "filters": {
+    "platforms": [
+      "Linux",
+      "Windows",
+      "Network",
+      "Containers"
+    ]
+  },
+  "sorting": 3,
+  "layout": {
+    "layout": "side",
+    "aggregateFunction": "max",
+    "showID": true,
+    "showName": true,
+    "showAggregateScores": true,
+    "countUnscored": false
+  },
+  "hideDisabled": false,
+  "techniques": [
+    {
+      "techniqueID": "T1110.001",
+      "tactic": "credential-access",
+      "score": 85,
+      "color": "#ef4444",
+      "comment": "Rule AUTH-001 / AUTH-002: Password Guessing & Emulated Honeypot Decoy Authentication Probing",
+      "enabled": true
+    },
+    {
+      "techniqueID": "T1110.003",
+      "tactic": "credential-access",
+      "score": 90,
+      "color": "#dc2626",
+      "comment": "Rule AUTH-003: Distributed Multi-Source Password Spraying across decoys",
+      "enabled": true
+    },
+    {
+      "techniqueID": "T1190",
+      "tactic": "initial-access",
+      "score": 95,
+      "color": "#991b1b",
+      "comment": "Rule EXP-001: Exploit Public-Facing Application & Injection payload detection",
+      "enabled": true
+    },
+    {
+      "techniqueID": "T1595.002",
+      "tactic": "reconnaissance",
+      "score": 75,
+      "color": "#f97316",
+      "comment": "Rule RECON-001: Active Vulnerability and Endpoint Directory Scanning",
+      "enabled": true
+    },
+    {
+      "techniqueID": "T1071.001",
+      "tactic": "command-and-control",
+      "score": 80,
+      "color": "#eab308",
+      "comment": "Rule C2-001: Web Protocols Beaconing and High-Frequency Decoy Interaction",
+      "enabled": true
+    },
+    {
+      "techniqueID": "T1059.004",
+      "tactic": "execution",
+      "score": 85,
+      "color": "#ef4444",
+      "comment": "Rule EXEC-001: Unix Shell Command & Scripting Interpreter Execution on Honeytokens",
+      "enabled": true
+    },
+    {
+      "techniqueID": "T1046",
+      "tactic": "discovery",
+      "score": 70,
+      "color": "#f59e0b",
+      "comment": "Rule NET-001: Network Service Discovery and Honeynet Segment Probing",
+      "enabled": true
+    },
+    {
+      "techniqueID": "T1078.001",
+      "tactic": "defense-evasion",
+      "score": 90,
+      "color": "#dc2626",
+      "comment": "Rule SEC-001: Valid Accounts / Default Account Credential Abuse on Fake Administrative Portals",
+      "enabled": true
+    }
+  ],
+  "gradient": {
+    "colors": [
+      "#22c55e",
+      "#eab308",
+      "#ef4444"
+    ],
+    "minValue": 0,
+    "maxValue": 100
+  },
+  "legendItems": [
+    {
+      "label": "Low / Informational Probe",
+      "color": "#22c55e"
+    },
+    {
+      "label": "Medium Severity Reconnaissance",
+      "color": "#eab308"
+    },
+    {
+      "label": "High / Critical Deception Trigger",
+      "color": "#ef4444"
+    }
+  ]
+}
