@@ -58,7 +58,7 @@ COPY --from=builder /app/dist /usr/share/nginx/html
 EXPOSE 5173
 
 HEALTHCHECK --interval=15s --timeout=3s --retries=3 \
-  CMD wget --quiet --tries=1 --spider http://localhost:5173/ || exit 1
+  CMD wget --quiet --tries=1 --spider http://127.0.0.1:5173/ || exit 1
 
 CMD ["nginx", "-g", "daemon off;"]
 
