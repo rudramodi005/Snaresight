@@ -1,0 +1,40 @@
+# ==============================================================================
+# SNARESIGHT — GIT ATTRIBUTES CONFIGURATION
+# Ensures consistent line endings (LF) and prevents binary corruption
+# ==============================================================================
+
+# Default behavior: normalize all text files to LF on checkout
+* text=auto eol=lf
+
+# Explicit text files
+*.py text eol=lf
+*.ts text eol=lf
+*.tsx text eol=lf
+*.js text eol=lf
+*.jsx text eol=lf
+*.json text eol=lf
+*.md text eol=lf
+*.toml text eol=lf
+*.yml text eol=lf
+*.yaml text eol=lf
+*.html text eol=lf
+*.css text eol=lf
+*.sh text eol=lf
+*.env.example text eol=lf
+
+# Windows PowerShell scripts require CRLF for safe execution
+*.ps1 text eol=crlf
+*.bat text eol=crlf
+*.cmd text eol=crlf
+
+# Binary files (prevent Git from modifying line endings)
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.gif binary
+*.ico binary
+*.pdf binary
+*.woff binary
+*.woff2 binary
+*.ttf binary
+

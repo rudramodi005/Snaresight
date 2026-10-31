@@ -1,0 +1,115 @@
+# ==============================================================================
+# SNARESIGHT — COMPREHENSIVE .GITIGNORE
+# Configured for Windows 11, Python 3.14, Node.js 22, React, and Honeypot Lab
+# ==============================================================================
+
+# --- Environment & Sensitive Secret Files ---
+# NEVER commit credentials, private keys, or API tokens
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+*.pkcs12
+*.pfx
+secrets/
+credentials.json
+
+# --- Python & Virtual Environments ---
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+.venv/
+venv/
+ENV/
+env/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+nosetests.xml
+coverage.xml
+
+# --- Node.js, Frontend & Build Outputs ---
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.pnpm-debug.log*
+frontend/dist/
+frontend/dist-ssr/
+frontend/coverage/
+.vite/
+*.local
+
+# --- Operating System Caches (Windows / macOS / Linux) ---
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+*.cab
+*.msi
+*.msm
+*.msp
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# --- IDE & Editor Configuration ---
+.idea/
+.vscode/*
+!.vscode/settings.json
+!.vscode/extensions.json
+*.swp
+*.swo
+*~
+*.sublime-project
+*.sublime-workspace
+
+# --- Database & Persistent Storage ---
+*.sqlite3
+*.db
+*.dump
+*.sql.gz
+postgres-data/
+db_backups/
+
+# --- Honeypot Telemetry, Captured Evidence & Malware Protection ---
+# Strict Invariant: Captured payloads and raw attack traffic must NEVER be committed
+honeypot-lab/captures/
+honeypot-lab/evidence/
+honeypot-lab/samples/
+honeypot-lab/logs/
+honeypot-lab/web-decoy/data/
+*.jsonl
+*.jsonl.*
+simulation/output/
+reports/generated/
+*.pcap
+*.pcapng
+*.rawlog
+
+# --- General Logs & Temporary Files ---
+*.log
+logs/
+temp/
+tmp/
+
