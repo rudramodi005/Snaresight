@@ -1,62 +1,84 @@
 /**
- * SnareSight Strict Brand Theme System.
+ * SnareSight Sophisticated Security Palette Theme System.
  * 
- * Primary Background: #000F08 (Obsidian Void)
- * Primary Accent:     #FB3640 (Snare Crimson)
- * 
- * Strict Constraint: Zero third color across all UI, typography, charts, and visualizations.
+ * Palette:
+ * - #181A2F: Deep Midnight Slate (Primary Viewport / App Background)
+ * - #242E49: Dark Slate Navy (Elevated Surfaces, Cards, Navigation, Panels)
+ * - #37415C: Muted Slate Blue-Grey (Borders, Dividers, Inactive Controls)
+ * - #FDA481: Peach Coral (High-Contrast Accent, Highlights, Active States, Warnings)
+ * - #B4182D: Crimson Red (Primary Threat Accent, Hero Elements, Critical CTAs)
+ * - #54162B: Deep Maroon / Wine (Dark Threat Backdrops, Critical Badges)
  */
 
 export const BRAND_COLORS = {
-  bg: '#000F08',
-  crimson: '#FB3640',
+  bg: '#181A2F',            // Deep Midnight Slate
+  surface: '#242E49',       // Dark Slate Navy
+  border: '#37415C',        // Slate Blue-Grey
+  peach: '#FDA481',         // Peach Coral
+  crimson: '#B4182D',       // Crimson Red
+  wine: '#54162B',          // Deep Maroon
 } as const;
 
-/**
- * Returns a hex/rgba tonal string derived exclusively from #FB3640 with the given opacity.
- */
 export function crimson(alpha: number = 1.0): string {
   const clamped = Math.max(0, Math.min(1, alpha));
-  return `rgba(251, 54, 64, ${clamped})`;
+  return `rgba(180, 24, 45, ${clamped})`;
 }
 
-/**
- * Returns a hex/rgba tonal string derived exclusively from #000F08 with the given opacity.
- */
-export function obsidian(alpha: number = 1.0): string {
+export function peach(alpha: number = 1.0): string {
   const clamped = Math.max(0, Math.min(1, alpha));
-  return `rgba(0, 15, 8, ${clamped})`;
+  return `rgba(253, 164, 129, ${clamped})`;
 }
 
-/**
- * Recharts Color & Styling Configuration for SnareSight.
- * Guaranteed 100% compliant with the two-color brand constraint.
- */
+export function surface(alpha: number = 1.0): string {
+  const clamped = Math.max(0, Math.min(1, alpha));
+  return `rgba(36, 46, 73, ${clamped})`;
+}
+
+export function border(alpha: number = 1.0): string {
+  const clamped = Math.max(0, Math.min(1, alpha));
+  return `rgba(55, 65, 92, ${clamped})`;
+}
+
+export function wine(alpha: number = 1.0): string {
+  const clamped = Math.max(0, Math.min(1, alpha));
+  return `rgba(84, 22, 43, ${clamped})`;
+}
+
+export function midnight(alpha: number = 1.0): string {
+  const clamped = Math.max(0, Math.min(1, alpha));
+  return `rgba(24, 26, 47, ${clamped})`;
+}
+
+// Backward-compatibility aliases
+export const obsidian = midnight;
+
 export const CHART_THEME = {
   stroke: BRAND_COLORS.crimson,
-  strokeMuted: crimson(0.4),
-  strokeDim: crimson(0.18),
-  fill: crimson(0.12),
-  fillHover: crimson(0.25),
-  grid: crimson(0.08),
-  tick: crimson(0.6),
+  strokeSecondary: BRAND_COLORS.peach,
+  strokeMuted: BRAND_COLORS.border,
+  strokeDim: border(0.4),
+  fill: crimson(0.15),
+  fillHover: crimson(0.3),
+  fillCrimson: crimson(0.2),
+  fillPeach: peach(0.2),
+  grid: border(0.4),
+  tick: BRAND_COLORS.border,
   tooltip: {
     contentStyle: {
-      backgroundColor: BRAND_COLORS.bg,
-      borderColor: crimson(0.3),
+      backgroundColor: BRAND_COLORS.surface,
+      borderColor: BRAND_COLORS.border,
       borderRadius: '8px',
-      color: BRAND_COLORS.crimson,
+      color: '#FFFFFF',
       fontSize: '11px',
       fontFamily: 'ui-monospace, monospace',
-      boxShadow: '0 4px 20px rgba(251, 54, 64, 0.25)',
+      boxShadow: '0 4px 20px rgba(24, 26, 47, 0.6)',
     },
     itemStyle: {
-      color: BRAND_COLORS.crimson,
+      color: BRAND_COLORS.peach,
     },
     labelStyle: {
-      color: crimson(0.75),
+      color: '#FFFFFF',
       fontWeight: 600,
     },
   },
 };
-

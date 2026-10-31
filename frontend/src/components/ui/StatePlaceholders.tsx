@@ -9,7 +9,7 @@ export const LoadingSkeleton: React.FC<{ rows?: number; className?: string }> = 
       {Array.from({ length: rows }).map((_, i) => (
         <div
           key={i}
-          className="h-9 bg-[#FB3640]/5 rounded-lg border border-[#FB3640]/10"
+          className="h-9 bg-[#242E49] rounded-lg border border-[#37415C]"
           style={{ opacity: 1 - i * 0.15 }}
         />
       ))}
@@ -24,17 +24,17 @@ export const EmptyState: React.FC<{
   icon?: React.ReactNode;
 }> = ({ title, description, action, icon }) => {
   return (
-    <div className="py-16 px-4 text-center border border-dashed border-[#FB3640]/20 rounded-xl bg-[#000F08]">
+    <div className="py-16 px-4 text-center border border-dashed border-[#37415C] rounded-xl bg-[#242E49]/50">
       {icon ? (
-        <div className="text-3xl mb-3 text-[#FB3640]/70 flex justify-center">{icon}</div>
+        <div className="text-3xl mb-3 text-[#FDA481] flex justify-center">{icon}</div>
       ) : (
-        <div className="w-10 h-10 mx-auto mb-3 rounded-full border border-[#FB3640]/30 flex items-center justify-center text-[#FB3640]/50 font-mono">
+        <div className="w-10 h-10 mx-auto mb-3 rounded-full border border-[#37415C] flex items-center justify-center text-[#94A3B8] font-mono">
           ∅
         </div>
       )}
-      <h3 className="text-sm font-semibold text-[#FB3640] tracking-wide">{title}</h3>
+      <h3 className="text-sm font-semibold text-[#FDA481] tracking-wide">{title}</h3>
       {description && (
-        <p className="mt-1.5 text-xs text-[#FB3640]/60 max-w-sm mx-auto leading-relaxed font-mono">
+        <p className="mt-1.5 text-xs text-[#94A3B8] max-w-sm mx-auto leading-relaxed font-mono">
           {description}
         </p>
       )}
@@ -42,4 +42,3 @@ export const EmptyState: React.FC<{
     </div>
   );
 };
-

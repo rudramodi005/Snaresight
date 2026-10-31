@@ -24,18 +24,18 @@ export const Button: React.FC<ButtonProps> = ({
   }[size];
 
   const variantClasses = {
-    // Solid Crimson with dark obsidian text for maximum contrast & crisp readability
+    // Solid Crimson with white text and crimson shadow
     primary:
-      'bg-[#FB3640] text-[#000F08] hover:bg-[#FB3640]/90 active:bg-[#FB3640]/80 shadow-[0_0_15px_rgba(251,54,64,0.35)] font-bold',
-    // Transparent with Crimson border and Crimson text
+      'bg-[#B4182D] text-white hover:bg-[#B4182D]/90 active:bg-[#B4182D]/80 shadow-[0_0_15px_rgba(180,24,45,0.35)] font-bold',
+    // Transparent with Muted Slate border and Peach Coral text
     outline:
-      'bg-transparent border border-[#FB3640]/40 text-[#FB3640] hover:border-[#FB3640] hover:bg-[#FB3640]/10',
+      'bg-transparent border border-[#37415C] text-[#FDA481] hover:border-[#FDA481] hover:bg-[#FDA481]/10',
     // Ghost with hover background
     ghost:
-      'bg-transparent text-[#FB3640]/80 hover:text-[#FB3640] hover:bg-[#FB3640]/10',
-    // Muted surface
+      'bg-transparent text-[#CBD5E1] hover:text-[#FDA481] hover:bg-[#242E49]',
+    // Muted surface with Slate border
     dim:
-      'bg-[#FB3640]/10 border border-[#FB3640]/20 text-[#FB3640] hover:bg-[#FB3640]/20',
+      'bg-[#242E49] border border-[#37415C] text-[#FDA481] hover:bg-[#37415C]/50',
   }[variant];
 
   return (
@@ -55,4 +55,3 @@ export const Button: React.FC<ButtonProps> = ({
 };
 
 export default Button;
-

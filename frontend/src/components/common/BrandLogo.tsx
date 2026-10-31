@@ -20,7 +20,7 @@ export const BrandLogo: React.FC<BrandLogoProps> = ({
 
   return (
     <div className={`inline-flex items-center gap-3 select-none ${className}`}>
-      {/* Precision Geometric Deception Node Mark in #FB3640 */}
+      {/* Precision Geometric Deception Node Mark in New Palette */}
       <svg
         width={pixelSizes}
         height={pixelSizes}
@@ -32,39 +32,39 @@ export const BrandLogo: React.FC<BrandLogoProps> = ({
         {/* Outer Hexagonal Radar Shell */}
         <polygon
           points="50,6 90,28 90,72 50,94 10,72 10,28"
-          stroke="#FB3640"
+          stroke="#B4182D"
           strokeWidth="4"
-          fill="#000F08"
+          fill="#181A2F"
         />
-        {/* Concentric Snare Mesh Grid */}
+        {/* Concentric Snare Mesh Grid in Peach Coral */}
         <polygon
           points="50,22 76,36 76,64 50,78 24,64 24,36"
-          stroke="#FB3640"
+          stroke="#FDA481"
           strokeWidth="2"
-          strokeOpacity="0.45"
+          strokeOpacity="0.65"
           fill="none"
         />
         {/* Coordinate Intersections */}
-        <line x1="50" y1="6" x2="50" y2="94" stroke="#FB3640" strokeWidth="1.5" strokeOpacity="0.3" strokeDasharray="3 3" />
-        <line x1="10" y1="50" x2="90" y2="50" stroke="#FB3640" strokeWidth="1.5" strokeOpacity="0.3" strokeDasharray="3 3" />
+        <line x1="50" y1="6" x2="50" y2="94" stroke="#37415C" strokeWidth="1.5" strokeOpacity="0.8" strokeDasharray="3 3" />
+        <line x1="10" y1="50" x2="90" y2="50" stroke="#37415C" strokeWidth="1.5" strokeOpacity="0.8" strokeDasharray="3 3" />
         {/* Core Deception Focal Singularity */}
-        <circle cx="50" cy="50" r="10" fill="#FB3640" />
-        <circle cx="50" cy="50" r="16" stroke="#FB3640" strokeWidth="2" strokeOpacity="0.75" />
+        <circle cx="50" cy="50" r="10" fill="#B4182D" />
+        <circle cx="50" cy="50" r="16" stroke="#FDA481" strokeWidth="2" strokeOpacity="0.85" />
         {/* Satellite Honeypot Nodes */}
-        <circle cx="50" cy="22" r="3.5" fill="#FB3640" />
-        <circle cx="76" cy="36" r="3.5" fill="#FB3640" />
-        <circle cx="76" cy="64" r="3.5" fill="#FB3640" />
-        <circle cx="50" cy="78" r="3.5" fill="#FB3640" />
-        <circle cx="24" cy="64" r="3.5" fill="#FB3640" />
-        <circle cx="24" cy="36" r="3.5" fill="#FB3640" />
+        <circle cx="50" cy="22" r="3.5" fill="#FDA481" />
+        <circle cx="76" cy="36" r="3.5" fill="#FDA481" />
+        <circle cx="76" cy="64" r="3.5" fill="#FDA481" />
+        <circle cx="50" cy="78" r="3.5" fill="#FDA481" />
+        <circle cx="24" cy="64" r="3.5" fill="#FDA481" />
+        <circle cx="24" cy="36" r="3.5" fill="#FDA481" />
       </svg>
 
       {showWordmark && (
         <div className="flex flex-col justify-center leading-none">
-          <div className="font-mono font-black tracking-widest text-[#FB3640] text-sm md:text-base uppercase flex items-center gap-1.5">
+          <div className="font-mono font-black tracking-widest text-[#FDA481] text-sm md:text-base uppercase flex items-center gap-1.5">
             <span>SNARESIGHT</span>
           </div>
-          <div className="text-[9px] font-mono uppercase tracking-[0.25em] text-[#FB3640]/60 mt-0.5">
+          <div className="text-[9px] font-mono uppercase tracking-[0.25em] text-[#94A3B8] mt-0.5">
             Deception Platform
           </div>
         </div>

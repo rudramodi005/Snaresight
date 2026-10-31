@@ -121,29 +121,29 @@ const AppShell: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   ];
 
   return (
-    <div className="flex h-screen bg-[#000F08] text-[#FB3640] overflow-hidden font-sans selection:bg-[#FB3640] selection:text-[#000F08]">
+    <div className="flex h-screen bg-[#181A2F] text-[#E2E8F0] overflow-hidden font-sans selection:bg-[#B4182D] selection:text-white">
       {/* Mobile Drawer Backdrop */}
       {mobileMenuOpen && (
         <div
-          className="fixed inset-0 bg-[#000F08]/80 backdrop-blur-sm z-30 md:hidden"
+          className="fixed inset-0 bg-[#181A2F]/80 backdrop-blur-sm z-30 md:hidden"
           onClick={() => setMobileMenuOpen(false)}
         />
       )}
 
       {/* 1. Left Sidebar (responsive drawer on mobile, static on desktop) */}
       <aside
-        className={`fixed md:static inset-y-0 left-0 w-64 bg-[#000F08] border-r border-[#FB3640]/20 flex flex-col justify-between shrink-0 z-40 transition-transform duration-300 ease-in-out ${
+        className={`fixed md:static inset-y-0 left-0 w-64 bg-[#242E49] border-r border-[#37415C] flex flex-col justify-between shrink-0 z-40 transition-transform duration-300 ease-in-out ${
           mobileMenuOpen ? 'translate-x-0 shadow-crimson-lg' : '-translate-x-full md:translate-x-0'
         }`}
       >
         <div className="flex flex-col h-[calc(100vh-140px)]">
           {/* Logo / Brand Header */}
-          <div className="h-16 flex items-center justify-between px-4 border-b border-[#FB3640]/20 shrink-0">
+          <div className="h-16 flex items-center justify-between px-4 border-b border-[#37415C] shrink-0 bg-[#181A2F]/30">
             <div className="flex items-center gap-2.5">
               <BrandLogo size={26} showWordmark={false} />
               <div>
-                <div className="font-black text-sm tracking-widest text-[#FB3640]">SNARESIGHT</div>
-                <div className="text-[9px] uppercase font-mono text-[#FB3640]/70 font-bold tracking-wider">
+                <div className="font-black text-sm tracking-widest text-[#FDA481]">SNARESIGHT</div>
+                <div className="text-[9px] uppercase font-mono text-[#94A3B8] font-bold tracking-wider">
                   DECEPTION SOAR
                 </div>
               </div>
@@ -152,14 +152,14 @@ const AppShell: React.FC<{ children: React.ReactNode }> = ({ children }) => {
               <a
                 href="/"
                 title="Public Site"
-                className="text-[10px] font-mono px-2 py-0.5 rounded bg-[#FB3640]/10 hover:bg-[#FB3640]/20 text-[#FB3640] border border-[#FB3640]/30 transition-colors"
+                className="text-[10px] font-mono px-2 py-0.5 rounded bg-[#181A2F] hover:bg-[#37415C]/50 text-[#FDA481] border border-[#37415C] hover:border-[#FDA481] transition-colors"
               >
                 Public ↗
               </a>
               <button
                 type="button"
                 onClick={() => setMobileMenuOpen(false)}
-                className="md:hidden w-6 h-6 rounded flex items-center justify-center text-xs text-[#FB3640]/70 hover:text-[#FB3640]"
+                className="md:hidden w-6 h-6 rounded flex items-center justify-center text-xs text-[#94A3B8] hover:text-[#FDA481]"
                 aria-label="Close menu"
               >
                 ✕
@@ -171,7 +171,7 @@ const AppShell: React.FC<{ children: React.ReactNode }> = ({ children }) => {
           <nav className="p-3 space-y-4 overflow-y-auto flex-1">
             {navSections.map((sec) => (
               <div key={sec.title} className="space-y-1">
-                <div className="text-[9px] font-mono font-bold uppercase tracking-wider text-[#FB3640]/40 px-2.5 py-0.5">
+                <div className="text-[9px] font-mono font-bold uppercase tracking-wider text-[#94A3B8] px-2.5 py-0.5">
                   {sec.title}
                 </div>
                 {sec.items.map((item) => {
@@ -183,8 +183,8 @@ const AppShell: React.FC<{ children: React.ReactNode }> = ({ children }) => {
                       onClick={() => setMobileMenuOpen(false)}
                       className={`flex items-center gap-2.5 px-3 py-1.5 rounded-xl text-xs font-semibold transition-all ${
                         isActive
-                          ? 'bg-[#FB3640] text-[#000F08] font-black shadow-crimson-sm'
-                          : 'text-[#FB3640]/75 hover:text-[#FB3640] hover:bg-[#FB3640]/10'
+                          ? 'bg-[#B4182D] text-white font-bold shadow-md'
+                          : 'text-[#CBD5E1] hover:text-[#FDA481] hover:bg-[#37415C]/40'
                       }`}
                     >
                       <span className="text-sm">{item.icon}</span>
@@ -198,22 +198,22 @@ const AppShell: React.FC<{ children: React.ReactNode }> = ({ children }) => {
         </div>
 
         {/* User Info / Profile footer */}
-        <div className="p-3 border-t border-[#FB3640]/20 bg-[#000F08] shrink-0">
+        <div className="p-3 border-t border-[#37415C] bg-[#181A2F]/50 shrink-0">
           <div className="flex items-center justify-between mb-2">
             <div className="flex items-center gap-2.5 overflow-hidden">
-              <div className="w-7 h-7 rounded-lg bg-[#FB3640] flex items-center justify-center font-black text-xs text-[#000F08] shrink-0">
+              <div className="w-7 h-7 rounded-lg bg-[#B4182D] flex items-center justify-center font-black text-xs text-white shrink-0">
                 {user?.username ? user.username.substring(0, 2).toUpperCase() : 'SO'}
               </div>
               <div className="overflow-hidden">
-                <div className="text-xs font-bold text-[#FB3640] truncate">
+                <div className="text-xs font-bold text-[#FFFFFF] truncate">
                   {user?.username || 'soc_lead'}
                 </div>
-                <div className="text-[10px] text-[#FB3640]/60 truncate font-mono">
+                <div className="text-[10px] text-[#94A3B8] truncate font-mono">
                   {user?.full_name || 'SOC Analyst'}
                 </div>
               </div>
             </div>
-            <span className="text-[9px] font-mono font-bold px-2 py-0.5 rounded border border-[#FB3640]/40 text-[#FB3640] bg-[#FB3640]/10 uppercase shrink-0">
+            <span className="text-[9px] font-mono font-bold px-2 py-0.5 rounded border border-[#B4182D] text-[#FDA481] bg-[#54162B] uppercase shrink-0">
               {role}
             </span>
           </div>
@@ -224,7 +224,7 @@ const AppShell: React.FC<{ children: React.ReactNode }> = ({ children }) => {
                 setMobileMenuOpen(false);
                 setChangePasswordOpen(true);
               }}
-              className="flex-1 py-1 px-2 rounded-lg bg-[#000F08] hover:bg-[#FB3640]/10 text-[10px] font-semibold text-[#FB3640] border border-[#FB3640]/30 transition-colors text-center"
+              className="flex-1 py-1 px-2 rounded-lg bg-[#181A2F] hover:bg-[#37415C]/50 text-[10px] font-semibold text-[#CBD5E1] hover:text-[#FDA481] border border-[#37415C] transition-colors text-center"
               title="Change Password"
             >
               🔒 Password
@@ -234,7 +234,7 @@ const AppShell: React.FC<{ children: React.ReactNode }> = ({ children }) => {
                 logout();
                 navigate('/login');
               }}
-              className="py-1 px-3 rounded-lg bg-[#000F08] hover:bg-[#FB3640]/20 text-[10px] font-semibold text-[#FB3640] border border-[#FB3640]/30 hover:border-[#FB3640] transition-colors"
+              className="py-1 px-3 rounded-lg bg-[#181A2F] hover:bg-[#B4182D]/20 text-[10px] font-semibold text-[#FDA481] border border-[#37415C] hover:border-[#B4182D] transition-colors"
               title="Sign Out"
             >
               Sign Out
@@ -252,13 +252,13 @@ const AppShell: React.FC<{ children: React.ReactNode }> = ({ children }) => {
       {/* 2. Main Content Area */}
       <div className="flex-1 flex flex-col min-w-0 overflow-hidden">
         {/* Top Navigation Bar */}
-        <header className="h-16 bg-[#000F08] border-b border-[#FB3640]/20 flex items-center justify-between px-4 md:px-6 shrink-0 z-20 gap-3">
+        <header className="h-16 bg-[#242E49] border-b border-[#37415C] flex items-center justify-between px-4 md:px-6 shrink-0 z-20 gap-3">
           <div className="flex items-center gap-3 flex-1 max-w-xl">
             {/* Mobile Hamburger Toggle Button */}
             <button
               type="button"
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              className="md:hidden w-9 h-9 rounded-xl bg-[#000F08] border border-[#FB3640]/30 hover:border-[#FB3640] flex items-center justify-center text-sm text-[#FB3640] shrink-0 transition-colors"
+              className="md:hidden w-9 h-9 rounded-xl bg-[#181A2F] border border-[#37415C] hover:border-[#FDA481] flex items-center justify-center text-sm text-[#FDA481] shrink-0 transition-colors"
               aria-label="Toggle navigation drawer"
             >
               ☰
@@ -268,12 +268,12 @@ const AppShell: React.FC<{ children: React.ReactNode }> = ({ children }) => {
             <div className="w-full">
               <button
                 onClick={() => setGlobalSearchOpen(true)}
-                className="w-full bg-[#000F08] border border-[#FB3640]/30 hover:border-[#FB3640] rounded-xl px-3.5 py-2 text-xs text-[#FB3640]/70 flex items-center justify-between transition-colors font-mono"
+                className="w-full bg-[#181A2F] border border-[#37415C] hover:border-[#FDA481] rounded-xl px-3.5 py-2 text-xs text-[#94A3B8] flex items-center justify-between transition-colors font-mono"
               >
                 <span className="flex items-center gap-2 truncate">
-                  <span>🔍</span> <span className="truncate">Search events, sessions, IPs, alerts...</span>
+                  <span className="text-[#FDA481]">🔍</span> <span className="truncate">Search events, sessions, IPs, alerts...</span>
                 </span>
-                <kbd className="hidden sm:inline-block px-1.5 py-0.5 bg-[#FB3640]/10 border border-[#FB3640]/30 rounded text-[10px] font-mono text-[#FB3640] shrink-0">
+                <kbd className="hidden sm:inline-block px-1.5 py-0.5 bg-[#242E49] border border-[#37415C] rounded text-[10px] font-mono text-[#FDA481] shrink-0">
                   Ctrl+K
                 </kbd>
               </button>
@@ -283,10 +283,10 @@ const AppShell: React.FC<{ children: React.ReactNode }> = ({ children }) => {
           {/* Right Header Status Controls */}
           <div className="flex items-center gap-2 sm:gap-4 shrink-0">
             {/* Live SSE Connection Indicator */}
-            <div className="flex items-center gap-1.5 sm:gap-2 px-2.5 sm:px-3 py-1 rounded-full bg-[#000F08] border border-[#FB3640]/30 text-xs">
-              <span className="w-2 h-2 rounded-full bg-[#FB3640] animate-pulse shrink-0" />
-              <span className="text-[10px] sm:text-[11px] font-mono font-bold text-[#FB3640] whitespace-nowrap">
-                <span className="hidden sm:inline">SSE: </span>CONNECTED
+            <div className="flex items-center gap-1.5 sm:gap-2 px-2.5 sm:px-3 py-1 rounded-full bg-[#181A2F] border border-[#37415C] text-xs">
+              <span className="w-2 h-2 rounded-full bg-[#10B981] animate-pulse shrink-0 shadow-[0_0_6px_#10B981]" />
+              <span className="text-[10px] sm:text-[11px] font-mono font-bold text-[#E2E8F0] whitespace-nowrap">
+                <span className="hidden sm:inline text-[#94A3B8]">SSE: </span>CONNECTED
               </span>
             </div>
 
@@ -294,38 +294,38 @@ const AppShell: React.FC<{ children: React.ReactNode }> = ({ children }) => {
             <div className="relative">
               <button
                 onClick={() => setNotificationsOpen(!notificationsOpen)}
-                className="w-9 h-9 rounded-xl bg-[#000F08] border border-[#FB3640]/30 hover:border-[#FB3640] flex items-center justify-center text-sm text-[#FB3640] transition-colors"
+                className="w-9 h-9 rounded-xl bg-[#181A2F] border border-[#37415C] hover:border-[#FDA481] flex items-center justify-center text-sm text-[#FDA481] transition-colors"
               >
                 🔔
               </button>
 
               {notificationsOpen && (
-                <div className="absolute right-0 mt-2 w-80 bg-[#000F08] border border-[#FB3640]/30 rounded-2xl shadow-crimson-lg p-4 text-xs z-50 glass-panel">
-                  <div className="flex justify-between items-center mb-3 pb-2 border-b border-[#FB3640]/20">
-                    <span className="font-bold text-[#FB3640]">System Notifications</span>
+                <div className="absolute right-0 mt-2 w-80 bg-[#242E49] border border-[#37415C] rounded-2xl shadow-crimson-lg p-4 text-xs z-50 glass-panel">
+                  <div className="flex justify-between items-center mb-3 pb-2 border-b border-[#37415C]">
+                    <span className="font-bold text-[#FDA481]">System Notifications</span>
                     <button
                       onClick={() => setNotificationsOpen(false)}
-                      className="text-[#FB3640]/70 hover:text-[#FB3640]"
+                      className="text-[#94A3B8] hover:text-[#FDA481]"
                     >
                       ✕
                     </button>
                   </div>
-                  <div className="space-y-2 text-[#FB3640]/80 py-1">
-                    <div className="p-2.5 bg-[#000F08] rounded-xl border border-[#FB3640]/20">
-                      <div className="text-[#FB3640] font-bold text-[11px] flex items-center gap-1.5">
-                        <span className="w-1.5 h-1.5 rounded-full bg-[#FB3640]" />
+                  <div className="space-y-2 text-[#CBD5E1] py-1">
+                    <div className="p-2.5 bg-[#181A2F] rounded-xl border border-[#37415C]">
+                      <div className="text-[#FDA481] font-bold text-[11px] flex items-center gap-1.5">
+                        <span className="w-1.5 h-1.5 rounded-full bg-[#10B981]" />
                         Pipeline Operational
                       </div>
-                      <div className="text-[10px] text-[#FB3640]/70 mt-1">
+                      <div className="text-[10px] text-[#94A3B8] mt-1">
                         Ingestion, normalization, and ATT&CK mapping running normally.
                       </div>
                     </div>
-                    <div className="p-2.5 bg-[#000F08] rounded-xl border border-[#FB3640]/20">
-                      <div className="text-[#FB3640] font-bold text-[11px] flex items-center gap-1.5">
-                        <span className="w-1.5 h-1.5 rounded-full bg-[#FB3640]" />
+                    <div className="p-2.5 bg-[#181A2F] rounded-xl border border-[#37415C]">
+                      <div className="text-[#FDA481] font-bold text-[11px] flex items-center gap-1.5">
+                        <span className="w-1.5 h-1.5 rounded-full bg-[#10B981]" />
                         Decoy Telemetry Live
                       </div>
-                      <div className="text-[10px] text-[#FB3640]/70 mt-1">
+                      <div className="text-[10px] text-[#94A3B8] mt-1">
                         Sensors WEB-001 and SSH-001 actively receiving interaction events.
                       </div>
                     </div>
@@ -338,17 +338,17 @@ const AppShell: React.FC<{ children: React.ReactNode }> = ({ children }) => {
 
         {/* Global Search Modal */}
         {globalSearchOpen && (
-          <div className="fixed inset-0 z-50 flex items-start justify-center pt-20 bg-[#000F08]/80 backdrop-blur-md p-4">
-            <div className="bg-[#000F08] border border-[#FB3640]/30 rounded-2xl w-full max-w-2xl shadow-crimson-lg overflow-hidden glass-panel">
-              <div className="p-3.5 border-b border-[#FB3640]/20 flex items-center gap-3">
-                <span className="text-[#FB3640]">🔍</span>
+          <div className="fixed inset-0 z-50 flex items-start justify-center pt-20 bg-[#181A2F]/80 backdrop-blur-md p-4">
+            <div className="bg-[#242E49] border border-[#37415C] rounded-2xl w-full max-w-2xl shadow-crimson-lg overflow-hidden glass-panel">
+              <div className="p-3.5 border-b border-[#37415C] flex items-center gap-3">
+                <span className="text-[#FDA481]">🔍</span>
                 <input
                   type="text"
                   autoFocus
                   placeholder="Type to search events, sessions, source IPs, alerts, or investigations..."
                   value={searchQuery}
                   onChange={(e) => handleSearch(e.target.value)}
-                  className="w-full bg-transparent text-sm text-[#FB3640] placeholder-[#FB3640]/40 focus:outline-none font-mono"
+                  className="w-full bg-transparent text-sm text-[#FFFFFF] placeholder-[#94A3B8]/60 focus:outline-none font-mono"
                 />
                 <button
                   onClick={() => {
@@ -356,7 +356,7 @@ const AppShell: React.FC<{ children: React.ReactNode }> = ({ children }) => {
                     setSearchQuery('');
                     setSearchResults([]);
                   }}
-                  className="text-xs font-mono text-[#FB3640]/60 hover:text-[#FB3640] px-2 py-1 rounded border border-[#FB3640]/20"
+                  className="text-xs font-mono text-[#94A3B8] hover:text-[#FDA481] px-2 py-1 rounded border border-[#37415C]"
                 >
                   ESC
                 </button>
@@ -364,9 +364,9 @@ const AppShell: React.FC<{ children: React.ReactNode }> = ({ children }) => {
 
               <div className="max-h-96 overflow-y-auto p-3 text-xs">
                 {searching ? (
-                  <div className="py-8 text-center text-[#FB3640]/60 font-mono">Searching platform index...</div>
+                  <div className="py-8 text-center text-[#94A3B8] font-mono">Searching platform index...</div>
                 ) : searchResults.length === 0 ? (
-                  <div className="py-8 text-center text-[#FB3640]/60 font-mono">
+                  <div className="py-8 text-center text-[#94A3B8] font-mono">
                     {searchQuery.trim().length < 2
                       ? 'Type at least 2 characters to search across platform entities.'
                       : 'No matching records found in platform index.'}
@@ -378,15 +378,15 @@ const AppShell: React.FC<{ children: React.ReactNode }> = ({ children }) => {
                         key={idx}
                         href={item.navigation_url}
                         onClick={() => setGlobalSearchOpen(false)}
-                        className="block p-3 rounded-xl bg-[#000F08] hover:bg-[#FB3640]/10 border border-[#FB3640]/20 hover:border-[#FB3640]/40 transition-colors"
+                        className="block p-3 rounded-xl bg-[#181A2F] hover:bg-[#37415C]/40 border border-[#37415C] hover:border-[#FDA481]/50 transition-colors"
                       >
                         <div className="flex items-center justify-between">
-                          <span className="font-bold text-[#FB3640]">{item.title}</span>
-                          <span className="text-[10px] uppercase font-mono font-bold text-[#FB3640] bg-[#FB3640]/15 px-2 py-0.5 rounded border border-[#FB3640]/30">
+                          <span className="font-bold text-[#FFFFFF]">{item.title}</span>
+                          <span className="text-[10px] uppercase font-mono font-bold text-[#FDA481] bg-[#54162B] px-2 py-0.5 rounded border border-[#B4182D]">
                             {item.categoryName}
                           </span>
                         </div>
-                        <div className="text-[#FB3640]/70 mt-1 text-[11px] font-mono">{item.subtitle}</div>
+                        <div className="text-[#94A3B8] mt-1 text-[11px] font-mono">{item.subtitle}</div>
                       </a>
                     ))}
                   </div>
@@ -397,7 +397,7 @@ const AppShell: React.FC<{ children: React.ReactNode }> = ({ children }) => {
         )}
 
         {/* Page Content View */}
-        <main className="flex-1 overflow-y-auto">
+        <main className="flex-1 overflow-y-auto bg-[#181A2F]">
           <ErrorBoundary>
             {children}
           </ErrorBoundary>

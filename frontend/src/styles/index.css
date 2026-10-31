@@ -4,14 +4,18 @@
 
 :root {
   color-scheme: dark;
-  --bg-primary: #000F08;
-  --accent-crimson: #FB3640;
+  --bg-primary: #181A2F;
+  --bg-surface: #242E49;
+  --border-muted: #37415C;
+  --accent-peach: #FDA481;
+  --accent-crimson: #B4182D;
+  --accent-wine: #54162B;
 }
 
 body {
   margin: 0;
-  background-color: #000F08;
-  color: #FB3640;
+  background-color: #181A2F;
+  color: #E2E8F0;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -20,48 +24,52 @@ body {
 
 /* Text Selection */
 ::selection {
-  background-color: #FB3640;
-  color: #000F08;
+  background-color: #B4182D;
+  color: #FFFFFF;
 }
 
-/* Custom Scrollbar for SnareSight Obsidian + Crimson Theme */
+/* Custom Scrollbar for SnareSight */
 ::-webkit-scrollbar {
   width: 6px;
   height: 6px;
 }
 
 ::-webkit-scrollbar-track {
-  background: #000F08;
+  background: #181A2F;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: rgba(251, 54, 64, 0.25);
+  background: #37415C;
   border-radius: 3px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: rgba(251, 54, 64, 0.5);
+  background: #FDA481;
 }
 
 /* Glass and Glow Utilities */
 .glass-panel {
-  background: rgba(251, 54, 64, 0.03);
+  background: rgba(36, 46, 73, 0.75);
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
-  border: 1px solid rgba(251, 54, 64, 0.16);
+  border: 1px solid #37415C;
 }
 
 .glass-panel-hover:hover {
-  background: rgba(251, 54, 64, 0.07);
-  border-color: rgba(251, 54, 64, 0.35);
+  background: rgba(36, 46, 73, 0.95);
+  border-color: #FDA481;
 }
 
 .crimson-glow {
-  box-shadow: 0 0 25px rgba(251, 54, 64, 0.25);
+  box-shadow: 0 0 25px rgba(180, 24, 45, 0.35);
+}
+
+.peach-glow {
+  box-shadow: 0 0 20px rgba(253, 164, 129, 0.3);
 }
 
 .crimson-glow-sm {
-  box-shadow: 0 0 10px rgba(251, 54, 64, 0.2);
+  box-shadow: 0 0 10px rgba(180, 24, 45, 0.25);
 }
 
 /* Radar Sweep Animation */

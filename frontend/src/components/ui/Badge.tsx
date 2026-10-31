@@ -20,15 +20,15 @@ export const Badge: React.FC<BadgeProps> = ({
   }[size];
 
   const variantClasses = {
-    crimson: 'bg-[#FB3640]/15 text-[#FB3640] border border-[#FB3640]/30',
-    muted: 'bg-[#FB3640]/5 text-[#FB3640]/60 border border-[#FB3640]/10',
-    outline: 'bg-transparent text-[#FB3640] border border-[#FB3640]/40',
-    solid: 'bg-[#FB3640] text-[#000F08] font-bold border border-[#FB3640]',
-    // Threat Severities (strictly using #FB3640 with distinct opacities and visual weights)
-    critical: 'bg-[#FB3640] text-[#000F08] font-bold border border-[#FB3640] shadow-[0_0_8px_rgba(251,54,64,0.4)]',
-    high: 'bg-[#FB3640]/25 text-[#FB3640] font-bold border border-[#FB3640]/50',
-    medium: 'bg-[#FB3640]/15 text-[#FB3640]/90 border border-[#FB3640]/30',
-    low: 'bg-[#FB3640]/5 text-[#FB3640]/65 border border-[#FB3640]/15',
+    crimson: 'bg-[#54162B] text-[#FDA481] border border-[#B4182D]',
+    muted: 'bg-[#242E49] text-[#94A3B8] border border-[#37415C]',
+    outline: 'bg-transparent text-[#FDA481] border border-[#37415C]',
+    solid: 'bg-[#B4182D] text-white font-bold border border-[#B4182D]',
+    // Threat Severities
+    critical: 'bg-[#54162B] text-[#FDA481] font-bold border border-[#B4182D] shadow-[0_0_8px_rgba(180,24,45,0.4)]',
+    high: 'bg-[#B4182D]/20 text-[#FDA481] font-bold border border-[#B4182D]/60',
+    medium: 'bg-[#FDA481]/15 text-[#FDA481] border border-[#FDA481]/40',
+    low: 'bg-[#242E49] text-[#94A3B8] border border-[#37415C]',
   }[variant];
 
   return (
@@ -43,4 +43,3 @@ export const Badge: React.FC<BadgeProps> = ({
 };
 
 export default Badge;
-

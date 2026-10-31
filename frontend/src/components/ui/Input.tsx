@@ -11,26 +11,26 @@ export const Input = React.forwardRef<HTMLInputElement, InputProps>(
     return (
       <div className="w-full space-y-1">
         {label && (
-          <label className="block text-xs font-mono uppercase tracking-wider text-[#FB3640]/70">
+          <label className="block text-xs font-mono uppercase tracking-wider text-[#FDA481]/90">
             {label}
           </label>
         )}
         <div className="relative flex items-center">
           {icon && (
-            <span className="absolute left-3 text-[#FB3640]/50 pointer-events-none">
+            <span className="absolute left-3 text-[#94A3B8] pointer-events-none">
               {icon}
             </span>
           )}
           <input
             ref={ref}
-            className={`w-full bg-[#000F08] border border-[#FB3640]/20 rounded-lg px-3.5 py-2 text-xs font-mono text-[#FB3640] placeholder-[#FB3640]/30 focus:outline-none focus:border-[#FB3640] focus:ring-1 focus:ring-[#FB3640]/30 transition-all ${
+            className={`w-full bg-[#181A2F] border border-[#37415C] rounded-lg px-3.5 py-2 text-xs font-mono text-[#FFFFFF] placeholder-[#94A3B8]/50 focus:outline-none focus:border-[#FDA481] focus:ring-1 focus:ring-[#FDA481]/30 transition-all ${
               icon ? 'pl-9' : ''
-            } ${error ? 'border-[#FB3640] ring-1 ring-[#FB3640]/50' : ''} ${className}`}
+            } ${error ? 'border-[#B4182D] ring-1 ring-[#B4182D]/50' : ''} ${className}`}
             {...props}
           />
         </div>
         {error && (
-          <p className="text-[10px] font-mono text-[#FB3640] mt-1">{error}</p>
+          <p className="text-[10px] font-mono text-[#FDA481] mt-1">{error}</p>
         )}
       </div>
     );
@@ -39,4 +39,3 @@ export const Input = React.forwardRef<HTMLInputElement, InputProps>(
 
 Input.displayName = 'Input';
 export default Input;
-

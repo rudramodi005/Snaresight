@@ -117,3 +117,9 @@ export async function fetchInAppNotifications() {
   return response.json();
 }
 
+export const dashboardApi = {
+  getOverview: fetchDashboardOverview,
+  fetchGlobalSearch,
+  fetchInAppNotifications,
+};
+

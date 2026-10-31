@@ -16,28 +16,28 @@ export const Card: React.FC<CardProps> = ({
 }) => {
   const variantClasses = {
     default:
-      'bg-[#000F08] border border-[#FB3640]/15 shadow-sm',
+      'bg-[#242E49] border border-[#37415C] shadow-sm',
     glow:
-      'bg-[#000F08] border border-[#FB3640]/30 shadow-[0_0_20px_rgba(251,54,64,0.15)]',
+      'bg-[#242E49] border border-[#FDA481]/40 shadow-[0_0_20px_rgba(253,164,129,0.15)]',
     interactive:
-      'bg-[#000F08] border border-[#FB3640]/15 hover:border-[#FB3640]/40 hover:bg-[#FB3640]/[0.02] transition-all cursor-pointer shadow-sm hover:shadow-[0_0_15px_rgba(251,54,64,0.2)]',
+      'bg-[#242E49] border border-[#37415C] hover:border-[#FDA481]/50 hover:bg-[#2d3a5a] transition-all cursor-pointer shadow-sm hover:shadow-[0_0_15px_rgba(253,164,129,0.15)]',
     flat:
-      'bg-[#FB3640]/[0.03] border border-[#FB3640]/10',
+      'bg-[#181A2F] border border-[#37415C]',
   }[variant];
 
   return (
     <div
-      className={`rounded-xl overflow-hidden text-[#FB3640] ${variantClasses} ${className}`}
+      className={`rounded-xl overflow-hidden text-[#E2E8F0] ${variantClasses} ${className}`}
       {...props}
     >
       {header && (
-        <div className="px-5 py-3.5 border-b border-[#FB3640]/10 flex items-center justify-between bg-[#FB3640]/[0.02]">
+        <div className="px-5 py-3.5 border-b border-[#37415C] flex items-center justify-between bg-[#181A2F]/40">
           {header}
         </div>
       )}
       <div className="p-5">{children}</div>
       {footer && (
-        <div className="px-5 py-3 border-t border-[#FB3640]/10 bg-[#FB3640]/[0.02]">
+        <div className="px-5 py-3 border-t border-[#37415C] bg-[#181A2F]/40">
           {footer}
         </div>
       )}
@@ -46,4 +46,3 @@ export const Card: React.FC<CardProps> = ({
 };
 
 export default Card;
-
