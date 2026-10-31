@@ -1,0 +1,78 @@
+# ==============================================================================
+# SNARESIGHT RELEASE CANDIDATE — DOCKER COMPOSE ORCHESTRATION
+# Reproducible isolated local environment for verification and evaluation
+# ==============================================================================
+
+services:
+  # 1. PostgreSQL Database
+  postgres:
+    image: postgres:16-alpine
+    container_name: snaresight-postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: snaresight_app
+      POSTGRES_PASSWORD: local_dev_password
+      POSTGRES_DB: snaresight
+    ports:
+      - "127.0.0.1:5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U snaresight_app -d snaresight"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - snaresight-internal
+
+  # 2. SnareSight Backend Gateway & Engine
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: snaresight-backend
+    restart: unless-stopped
+    depends_on:
+      postgres:
+        condition: service_healthy
+    environment:
+      ENVIRONMENT: release_candidate
+      DATABASE_URL: postgresql+psycopg://snaresight_app:local_dev_password@postgres:5432/snaresight
+      MIGRATION_DATABASE_URL: postgresql+psycopg://snaresight_app:local_dev_password@postgres:5432/snaresight
+      SECRET_KEY: change_this_to_a_random_32_byte_secret_key_in_production
+      JWT_SECRET_KEY: change_this_to_a_random_32_byte_secret_key_in_production
+      INGESTION_API_KEY: snare-collector-key-dev-2026
+      AUTH_ENFORCEMENT_MODE: STRICT
+    ports:
+      - "127.0.0.1:8000:8000"
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:8000/api/v1/health')"]
+      interval: 15s
+      timeout: 5s
+      retries: 3
+    networks:
+      - snaresight-internal
+
+  # 3. SnareSight Web Operations Dashboard
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: snaresight-frontend
+    restart: unless-stopped
+    depends_on:
+      backend:
+        condition: service_healthy
+    ports:
+      - "127.0.0.1:5173:5173"
+    networks:
+      - snaresight-internal
+
+volumes:
+  pgdata:
+    driver: local
+
+networks:
+  snaresight-internal:
+    driver: bridge
+

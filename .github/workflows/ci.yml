@@ -1,0 +1,73 @@
+name: SnareSight CI Pipeline
+
+on:
+  push:
+    branches: [ main, master, develop ]
+  pull_request:
+    branches: [ main, master, develop ]
+
+jobs:
+  backend-qa:
+    name: Backend Test Suite & Linting
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Source Code
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: 'pip'
+
+      - name: Install Backend Dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -e backend/
+
+      - name: Validate Relational Models & Constraints
+        run: |
+          cd backend
+          python -m unittest tests/test_models.py
+
+      - name: Execute Full Backend Test Suite
+        env:
+          PYTHONPATH: ${{ github.workspace }}/backend
+        run: |
+          cd backend
+          python -m unittest discover -s tests -p "test_*.py"
+
+  frontend-qa:
+    name: Frontend Quality & Build Verification
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Source Code
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+          cache-dependency-path: frontend/package-lock.json
+
+      - name: Install Frontend Dependencies
+        run: |
+          cd frontend
+          npm ci
+
+      - name: Run TypeScript Compiler Check
+        run: |
+          cd frontend
+          npx tsc --noEmit
+
+      - name: Run Vitest Unit Tests
+        run: |
+          cd frontend
+          npx vitest run
+
+      - name: Build Production Frontend Assets
+        run: |
+          cd frontend
+          npm run build
+
