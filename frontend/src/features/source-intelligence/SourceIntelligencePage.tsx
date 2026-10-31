@@ -16,6 +16,7 @@ import {
   updateProfileAssociation,
   triggerAggregation,
 } from '../../services/sourceProfileApi';
+import { formatPercent } from '../../utils/format';
 
 export const SourceIntelligencePage: React.FC = () => {
   const [profiles, setProfiles] = useState<SourceProfile[]>([]);
@@ -609,7 +610,7 @@ export const SourceIntelligencePage: React.FC = () => {
                               {sim.contributing_factors.map((f, i) => (
                                 <div key={i} className="flex justify-between">
                                   <span>{f.dimension}: <span className="text-slate-300">{f.rationale}</span></span>
-                                  <span className="font-mono text-cyan-400">{(f.similarity * 100).toFixed(0)}%</span>
+                                  <span className="font-mono text-cyan-400">{formatPercent(f.similarity, 0, 'N/A', 100)}</span>
                                 </div>
                               ))}
                             </div>

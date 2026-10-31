@@ -38,6 +38,7 @@ import {
   AuditVerification,
 } from '../../types/resilience';
 import { resilienceApi } from '../../services/resilienceApi';
+import { formatNumber } from '../../utils/format';
 
 export const PlatformSecurityHealthPage: React.FC = () => {
   // Navigation tabs
@@ -373,7 +374,7 @@ export const PlatformSecurityHealthPage: React.FC = () => {
             </span>
           </div>
           <p className="text-xs text-slate-400 mt-2 font-mono">
-            {diagnostics?.uptime_seconds ? `Uptime: ${(diagnostics.uptime_seconds / 3600).toFixed(1)} hrs` : 'Active'}
+            {diagnostics?.uptime_seconds ? `Uptime: ${formatNumber(diagnostics.uptime_seconds / 3600, 1)} hrs` : 'Active'}
           </p>
         </div>
 
@@ -409,7 +410,7 @@ export const PlatformSecurityHealthPage: React.FC = () => {
             </span>
           </div>
           <p className="text-xs text-slate-400 mt-2 font-mono">
-            Actual: {drConfig?.actual_rpo_minutes ? `${drConfig.actual_rpo_minutes.toFixed(0)}m` : '< 10m'}
+            Actual: {drConfig?.actual_rpo_minutes ? `${formatNumber(drConfig.actual_rpo_minutes, 0)}m` : '< 10m'}
           </p>
         </div>
 
@@ -768,7 +769,9 @@ export const PlatformSecurityHealthPage: React.FC = () => {
                         {bck.status}
                       </span>
                     </td>
-                    <td className="p-3.5 text-slate-400">{(bck.size_bytes / (1024 * 1024)).toFixed(2)} MB</td>
+                    <td className="p-3.5 text-slate-400">
+                      {typeof bck.size_bytes === 'number' ? `${formatNumber(bck.size_bytes / (1024 * 1024), 2)} MB` : 'N/A'}
+                    </td>
                     <td className="p-3.5 text-slate-400 font-mono text-[11px]" title={bck.checksum_sha256 || ''}>
                       {bck.checksum_sha256 ? `${bck.checksum_sha256.substring(0, 12)}...` : 'N/A'}
                     </td>

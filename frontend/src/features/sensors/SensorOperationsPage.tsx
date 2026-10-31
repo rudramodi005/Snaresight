@@ -34,6 +34,7 @@ import {
   OperationalAlertSeverity,
 } from '../../types/sensors';
 import { sensorsApi } from '../../services/sensorsApi';
+import { formatNumber } from '../../utils/format';
 
 export const SensorOperationsPage: React.FC = () => {
   // Summary & inventory state
@@ -708,7 +709,9 @@ export const SensorOperationsPage: React.FC = () => {
                                     {hb.status}
                                   </span>
                                 </td>
-                                <td className="px-4 py-2.5 font-mono text-slate-300">{hb.latency_ms.toFixed(1)} ms</td>
+                                <td className="px-4 py-2.5 font-mono text-slate-300">
+                                  {typeof hb.latency_ms === 'number' ? `${formatNumber(hb.latency_ms, 1)} ms` : 'N/A'}
+                                </td>
                                 <td className="px-4 py-2.5 text-slate-300">
                                   CPU: {hb.metrics_payload?.cpu_percent ?? 0}% | RAM: {hb.metrics_payload?.memory_mb ?? 0}MB
                                 </td>

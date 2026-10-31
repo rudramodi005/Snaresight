@@ -16,6 +16,7 @@ import {
   AttackVisualState,
 } from '../../types/mitre';
 import { mitreApi } from '../../services/mitreApi';
+import { formatNumber, formatPercent, safeDivide } from '../../utils/format';
 
 export const MitreAttackDashboardPage: React.FC = () => {
   const [searchParams, setSearchParams] = useSearchParams();
@@ -148,7 +149,7 @@ export const MitreAttackDashboardPage: React.FC = () => {
     setLoadingTactics(true);
     try {
       const data = await mitreApi.getTacticsOverview();
-      setTacticsOverview(data);
+      setTacticsOverview(Array.isArray(data) ? data : (data as any)?.tactics || []);
     } catch (err: any) {
       setErrorMessage(err?.message || 'Failed to load tactics overview.');
     } finally {
@@ -401,7 +402,7 @@ export const MitreAttackDashboardPage: React.FC = () => {
         <div className="p-3.5 rounded-xl bg-slate-900 border border-slate-800 flex flex-col justify-between">
           <div className="text-[11px] font-medium uppercase tracking-wider text-slate-400">Rule-Mapped Techniques</div>
           <div className="mt-2 text-2xl font-bold font-mono text-blue-400">
-            {summary?.mapped_techniques_count ?? '...'}
+            {summary ? (summary.techniques_mapped_to_detections ?? summary.mapped_techniques_count ?? 0) : '...'}
           </div>
           <div className="text-[10px] text-slate-500 mt-1">
             Configured in detection registry
@@ -411,7 +412,7 @@ export const MitreAttackDashboardPage: React.FC = () => {
         <div className="p-3.5 rounded-xl bg-slate-900 border border-slate-800 flex flex-col justify-between">
           <div className="text-[11px] font-medium uppercase tracking-wider text-slate-400">Alert Evidence Supported</div>
           <div className="mt-2 text-2xl font-bold font-mono text-emerald-400">
-            {summary?.supported_by_alerts_count ?? '...'}
+            {summary ? (summary.techniques_with_alert_evidence ?? summary.supported_by_alerts_count ?? 0) : '...'}
           </div>
           <div className="text-[10px] text-slate-500 mt-1">
             Live observed honeypot alerts
@@ -421,7 +422,7 @@ export const MitreAttackDashboardPage: React.FC = () => {
         <div className="p-3.5 rounded-xl bg-slate-900 border border-slate-800 flex flex-col justify-between">
           <div className="text-[11px] font-medium uppercase tracking-wider text-slate-400">Pending Analyst Review</div>
           <div className="mt-2 text-2xl font-bold font-mono text-amber-400">
-            {summary?.pending_analyst_review_count ?? '0'}
+            {summary ? (summary.techniques_pending_review ?? summary.pending_analyst_review_count ?? 0) : '...'}
           </div>
           <div className="text-[10px] text-slate-500 mt-1">
             Requires analyst triage
@@ -431,20 +432,31 @@ export const MitreAttackDashboardPage: React.FC = () => {
         <div className="p-3.5 rounded-xl bg-slate-900 border border-slate-800 flex flex-col justify-between">
           <div className="text-[11px] font-medium uppercase tracking-wider text-slate-400">Detection Rules Mapped</div>
           <div className="mt-2 text-2xl font-bold font-mono text-indigo-400">
-            {summary?.active_detection_rules_mapped ?? '...'}
+            {summary ? (summary.detection_rules_mapped ?? summary.active_detection_rules_mapped ?? 0) : '...'}
             <span className="text-sm font-normal text-slate-500 ml-1">
-              / {summary?.total_active_detection_rules ?? '...'}
+              / {summary ? ((summary.detection_rules_mapped ?? 0) + (summary.detection_rules_unmapped ?? 0) || summary.total_active_detection_rules || '...') : '...'}
             </span>
           </div>
           <div className="text-[10px] text-slate-500 mt-1">
-            {summary?.unmapped_detection_rules_count ?? 0} unmapped rules
+            {summary ? (summary.detection_rules_unmapped ?? summary.unmapped_detection_rules_count ?? 0) : 0} unmapped rules
           </div>
         </div>
 
         <div className="p-3.5 rounded-xl bg-slate-900 border border-slate-800 flex flex-col justify-between">
           <div className="text-[11px] font-medium uppercase tracking-wider text-slate-400">Catalogue Coverage</div>
           <div className="mt-2 text-2xl font-bold font-mono text-teal-400">
-            {summary ? `${summary.coverage_percentage.toFixed(1)}%` : '...'}
+            {summary
+              ? summary.coverage_percentage !== undefined && summary.coverage_percentage !== null
+                ? formatPercent(summary.coverage_percentage, 1)
+                : summary.total_catalogue_techniques > 0
+                ? formatPercent(
+                    ((summary.techniques_mapped_to_detections ?? summary.mapped_techniques_count ?? 0) /
+                      summary.total_catalogue_techniques) *
+                      100,
+                    1
+                  )
+                : 'N/A'
+              : '...'}
           </div>
           <div className="text-[10px] text-slate-500 mt-1">
             Enterprise techniques covered
@@ -701,8 +713,8 @@ export const MitreAttackDashboardPage: React.FC = () => {
                       )}
                     </td>
                     <td className="py-3 px-4 text-right font-mono">
-                      <span className={tac.coverage_percentage > 0 ? 'text-teal-400 font-semibold' : 'text-slate-600'}>
-                        {tac.coverage_percentage.toFixed(1)}%
+                      <span className={((tac.coverage_percentage ?? 0) > 0) ? 'text-teal-400 font-semibold' : 'text-slate-600'}>
+                        {formatPercent(tac.coverage_percentage, 1, 'N/A')}
                       </span>
                     </td>
                   </tr>
@@ -891,16 +903,20 @@ export const MitreAttackDashboardPage: React.FC = () => {
               </h3>
               <div className="flex items-baseline justify-between">
                 <span className="text-3xl font-bold font-mono text-blue-400">
-                  {coverageData?.overall_rule_coverage_pct.toFixed(2) ?? '...'}%
+                  {formatPercent(
+                    coverageData?.overall_mapping_coverage_pct ?? coverageData?.overall_rule_coverage_pct,
+                    2,
+                    '...'
+                  )}
                 </span>
                 <span className="text-xs text-slate-400 font-mono">
-                  {coverageData?.techniques_with_rule_coverage ?? 0} / {coverageData?.total_catalogue_techniques ?? 0} techniques
+                  {coverageData?.total_mapped_techniques ?? coverageData?.techniques_with_rule_coverage ?? 0} / {coverageData?.total_catalogue_techniques ?? 0} techniques
                 </span>
               </div>
               <div className="w-full h-2 rounded-full bg-slate-800 overflow-hidden">
                 <div
                   className="h-full bg-blue-500 rounded-full"
-                  style={{ width: `${coverageData?.overall_rule_coverage_pct ?? 0}%` }}
+                  style={{ width: `${coverageData?.overall_mapping_coverage_pct ?? coverageData?.overall_rule_coverage_pct ?? 0}%` }}
                 />
               </div>
               <p className="text-[11px] text-slate-500">
@@ -914,16 +930,20 @@ export const MitreAttackDashboardPage: React.FC = () => {
               </h3>
               <div className="flex items-baseline justify-between">
                 <span className="text-3xl font-bold font-mono text-emerald-400">
-                  {coverageData?.overall_alert_coverage_pct.toFixed(2) ?? '...'}%
+                  {formatPercent(
+                    coverageData?.overall_evidence_coverage_pct ?? coverageData?.overall_alert_coverage_pct,
+                    2,
+                    '...'
+                  )}
                 </span>
                 <span className="text-xs text-slate-400 font-mono">
-                  {coverageData?.techniques_with_alert_evidence ?? 0} / {coverageData?.total_catalogue_techniques ?? 0} techniques
+                  {coverageData?.total_evidence_backed_techniques ?? coverageData?.techniques_with_alert_evidence ?? 0} / {coverageData?.total_catalogue_techniques ?? 0} techniques
                 </span>
               </div>
               <div className="w-full h-2 rounded-full bg-slate-800 overflow-hidden">
                 <div
                   className="h-full bg-emerald-500 rounded-full"
-                  style={{ width: `${coverageData?.overall_alert_coverage_pct ?? 0}%` }}
+                  style={{ width: `${coverageData?.overall_evidence_coverage_pct ?? coverageData?.overall_alert_coverage_pct ?? 0}%` }}
                 />
               </div>
               <p className="text-[11px] text-slate-500">
@@ -950,25 +970,25 @@ export const MitreAttackDashboardPage: React.FC = () => {
                 </tr>
               </thead>
               <tbody className="divide-y divide-slate-800 text-slate-300">
-                {coverageData?.tactic_coverage.map((tac) => (
+                {(coverageData?.tactic_breakdown || coverageData?.tactic_coverage || []).map((tac) => (
                   <tr key={tac.tactic_id} className="hover:bg-slate-800/40 transition-colors">
                     <td className="py-3 px-4 font-mono font-semibold text-emerald-400">{tac.tactic_id}</td>
                     <td className="py-3 px-4 font-medium text-slate-100">{tac.tactic_name}</td>
                     <td className="py-3 px-4 text-right font-mono text-slate-400">{tac.total_techniques}</td>
                     <td className="py-3 px-4 text-right font-mono text-blue-400 font-semibold">
-                      {tac.rule_mapped_techniques}
+                      {tac.mapped_techniques ?? tac.rule_mapped_techniques ?? 0}
                     </td>
                     <td className="py-3 px-4 text-right font-mono text-emerald-400 font-semibold">
-                      {tac.alert_supported_techniques}
+                      {tac.evidence_backed_techniques ?? tac.alert_supported_techniques ?? 0}
                     </td>
                     <td className="py-3 px-4 text-right font-mono">
-                      <span className={tac.rule_coverage_pct > 0 ? 'text-blue-400 font-bold' : 'text-slate-600'}>
-                        {tac.rule_coverage_pct.toFixed(1)}%
+                      <span className={((tac.coverage_percentage ?? tac.rule_coverage_pct ?? 0) > 0) ? 'text-blue-400 font-bold' : 'text-slate-600'}>
+                        {formatPercent(tac.coverage_percentage ?? tac.rule_coverage_pct, 1, 'N/A')}
                       </span>
                     </td>
                     <td className="py-3 px-4 text-right font-mono">
-                      <span className={tac.alert_coverage_pct > 0 ? 'text-emerald-400 font-bold' : 'text-slate-600'}>
-                        {tac.alert_coverage_pct.toFixed(1)}%
+                      <span className={((tac.evidence_percentage ?? tac.alert_coverage_pct ?? 0) > 0) ? 'text-emerald-400 font-bold' : 'text-slate-600'}>
+                        {formatPercent(tac.evidence_percentage ?? tac.alert_coverage_pct, 1, 'N/A')}
                       </span>
                     </td>
                   </tr>

@@ -9,6 +9,7 @@ import {
   DemoCleanupResponse,
 } from '../../types/demo';
 import { demoApi } from '../../services/demoApi';
+import { formatPercent } from '../../utils/format';
 
 export const DemonstrationControlPage: React.FC = () => {
   const [scenarios, setScenarios] = useState<ScenarioMeta[]>([]);
@@ -425,13 +426,13 @@ export const DemonstrationControlPage: React.FC = () => {
               <div className="flex justify-between text-xs font-medium">
                 <span className="text-slate-400">Precision</span>
                 <span className="text-emerald-400 font-bold font-mono">
-                  {(evaluation.overall_precision * 100).toFixed(1)}%
+                  {formatPercent(evaluation.overall_precision, 1, 'N/A', 100)}
                 </span>
               </div>
               <div className="w-full bg-slate-800 h-2 rounded-full mt-2 overflow-hidden">
                 <div
                   className="bg-emerald-500 h-2 rounded-full transition-all"
-                  style={{ width: `${evaluation.overall_precision * 100}%` }}
+                  style={{ width: `${(evaluation.overall_precision ?? 0) * 100}%` }}
                 />
               </div>
               <span className="text-[10px] text-slate-500 mt-1 block">TP / (TP + FP)</span>
@@ -441,13 +442,13 @@ export const DemonstrationControlPage: React.FC = () => {
               <div className="flex justify-between text-xs font-medium">
                 <span className="text-slate-400">Recall</span>
                 <span className="text-blue-400 font-bold font-mono">
-                  {(evaluation.overall_recall * 100).toFixed(1)}%
+                  {formatPercent(evaluation.overall_recall, 1, 'N/A', 100)}
                 </span>
               </div>
               <div className="w-full bg-slate-800 h-2 rounded-full mt-2 overflow-hidden">
                 <div
                   className="bg-blue-500 h-2 rounded-full transition-all"
-                  style={{ width: `${evaluation.overall_recall * 100}%` }}
+                  style={{ width: `${(evaluation.overall_recall ?? 0) * 100}%` }}
                 />
               </div>
               <span className="text-[10px] text-slate-500 mt-1 block">TP / (TP + FN)</span>
@@ -457,13 +458,13 @@ export const DemonstrationControlPage: React.FC = () => {
               <div className="flex justify-between text-xs font-medium">
                 <span className="text-slate-400">F1 Score</span>
                 <span className="text-purple-400 font-bold font-mono">
-                  {(evaluation.overall_f1_score * 100).toFixed(1)}%
+                  {formatPercent(evaluation.overall_f1_score, 1, 'N/A', 100)}
                 </span>
               </div>
               <div className="w-full bg-slate-800 h-2 rounded-full mt-2 overflow-hidden">
                 <div
                   className="bg-purple-500 h-2 rounded-full transition-all"
-                  style={{ width: `${evaluation.overall_f1_score * 100}%` }}
+                  style={{ width: `${(evaluation.overall_f1_score ?? 0) * 100}%` }}
                 />
               </div>
               <span className="text-[10px] text-slate-500 mt-1 block">Harmonic Mean</span>
@@ -511,13 +512,13 @@ export const DemonstrationControlPage: React.FC = () => {
                       <td className="p-2.5 text-center text-rose-400 font-mono">{r.false_positives}</td>
                       <td className="p-2.5 text-center text-slate-400 font-mono">{r.false_negatives}</td>
                       <td className="p-2.5 text-right font-mono text-emerald-400">
-                        {(r.precision * 100).toFixed(1)}%
+                        {formatPercent(r.precision, 1, 'N/A', 100)}
                       </td>
                       <td className="p-2.5 text-right font-mono text-blue-400">
-                        {(r.recall * 100).toFixed(1)}%
+                        {formatPercent(r.recall, 1, 'N/A', 100)}
                       </td>
                       <td className="p-2.5 text-right font-mono text-purple-400 font-semibold">
-                        {(r.f1_score * 100).toFixed(1)}%
+                        {formatPercent(r.f1_score, 1, 'N/A', 100)}
                       </td>
                     </tr>
                   ))}

@@ -477,25 +477,32 @@ export const SecurityAnalyticsPage: React.FC = () => {
                 </span>
               </div>
               <div className="h-56 flex items-end gap-1.5 pt-4 pb-2 border-b border-slate-800">
-                {eventTimeline?.buckets.map((b, idx) => {
-                  const maxCount = Math.max(...(eventTimeline.buckets.map((x) => x.total_count) || [1]), 1);
-                  const heightPct = Math.max(8, (b.total_count / maxCount) * 100);
-                  return (
-                    <div key={idx} className="flex-1 flex flex-col items-center gap-1.5 h-full justify-end group">
-                      <div className="text-[9px] font-mono text-slate-400 opacity-0 group-hover:opacity-100 transition-opacity">
-                        {b.total_count}
+                {!eventTimeline?.buckets || eventTimeline.buckets.length === 0 ? (
+                  <div className="w-full h-full flex items-center justify-center text-xs text-slate-500">
+                    No event telemetry captured in selected time window.
+                  </div>
+                ) : (
+                  eventTimeline.buckets.map((b, idx) => {
+                    const counts = eventTimeline.buckets.map((x) => x.total_count);
+                    const maxCount = Math.max(...(counts.length ? counts : [1]), 1);
+                    const heightPct = Math.max(8, (b.total_count / maxCount) * 100);
+                    return (
+                      <div key={idx} className="flex-1 flex flex-col items-center gap-1.5 h-full justify-end group">
+                        <div className="text-[9px] font-mono text-slate-400 opacity-0 group-hover:opacity-100 transition-opacity">
+                          {b.total_count}
+                        </div>
+                        <div
+                          className="w-full bg-blue-500/80 hover:bg-blue-400 rounded-t transition-all"
+                          style={{ height: `${heightPct}%` }}
+                          title={`${b.timestamp}: ${b.total_count} events`}
+                        />
+                        <span className="text-[9px] font-mono text-slate-500 truncate w-full text-center">
+                          {b.timestamp}
+                        </span>
                       </div>
-                      <div
-                        className="w-full bg-blue-500/80 hover:bg-blue-400 rounded-t transition-all"
-                        style={{ height: `${heightPct}%` }}
-                        title={`${b.timestamp}: ${b.total_count} events`}
-                      />
-                      <span className="text-[9px] font-mono text-slate-500 truncate w-full text-center">
-                        {b.timestamp}
-                      </span>
-                    </div>
-                  );
-                })}
+                    );
+                  })
+                )}
               </div>
             </div>
 
@@ -511,25 +518,32 @@ export const SecurityAnalyticsPage: React.FC = () => {
                 </span>
               </div>
               <div className="h-56 flex items-end gap-1.5 pt-4 pb-2 border-b border-slate-800">
-                {alertTimeline?.buckets.map((b, idx) => {
-                  const maxCount = Math.max(...(alertTimeline.buckets.map((x) => x.total_count) || [1]), 1);
-                  const heightPct = Math.max(8, (b.total_count / maxCount) * 100);
-                  return (
-                    <div key={idx} className="flex-1 flex flex-col items-center gap-1.5 h-full justify-end group">
-                      <div className="text-[9px] font-mono text-slate-400 opacity-0 group-hover:opacity-100 transition-opacity">
-                        {b.total_count}
+                {!alertTimeline?.buckets || alertTimeline.buckets.length === 0 ? (
+                  <div className="w-full h-full flex items-center justify-center text-xs text-slate-500">
+                    No security alerts recorded in selected time window.
+                  </div>
+                ) : (
+                  alertTimeline.buckets.map((b, idx) => {
+                    const counts = alertTimeline.buckets.map((x) => x.total_count);
+                    const maxCount = Math.max(...(counts.length ? counts : [1]), 1);
+                    const heightPct = Math.max(8, (b.total_count / maxCount) * 100);
+                    return (
+                      <div key={idx} className="flex-1 flex flex-col items-center gap-1.5 h-full justify-end group">
+                        <div className="text-[9px] font-mono text-slate-400 opacity-0 group-hover:opacity-100 transition-opacity">
+                          {b.total_count}
+                        </div>
+                        <div
+                          className="w-full bg-amber-500/80 hover:bg-amber-400 rounded-t transition-all"
+                          style={{ height: `${heightPct}%` }}
+                          title={`${b.timestamp}: ${b.total_count} alerts`}
+                        />
+                        <span className="text-[9px] font-mono text-slate-500 truncate w-full text-center">
+                          {b.timestamp}
+                        </span>
                       </div>
-                      <div
-                        className="w-full bg-amber-500/80 hover:bg-amber-400 rounded-t transition-all"
-                        style={{ height: `${heightPct}%` }}
-                        title={`${b.timestamp}: ${b.total_count} alerts`}
-                      />
-                      <span className="text-[9px] font-mono text-slate-500 truncate w-full text-center">
-                        {b.timestamp}
-                      </span>
-                    </div>
-                  );
-                })}
+                    );
+                  })
+                )}
               </div>
             </div>
           </div>

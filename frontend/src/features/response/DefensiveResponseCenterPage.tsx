@@ -39,6 +39,7 @@ import {
   CaseNote,
 } from '../../types/response';
 import { responseApi } from '../../services/responseApi';
+import { formatPercent } from '../../utils/format';
 
 export const DefensiveResponseCenterPage: React.FC = () => {
   // Summary & list state
@@ -769,7 +770,7 @@ export const DefensiveResponseCenterPage: React.FC = () => {
                               </div>
                               <div className="text-right">
                                 <span className="text-[11px] text-slate-400">
-                                  Confidence: {(rel.confidence_score * 100).toFixed(0)}%
+                                  Confidence: {formatPercent(rel.confidence_score, 0, 'N/A', 100)}
                                 </span>
                                 <div className="text-[10px] text-slate-500 mt-0.5">By {rel.created_by}</div>
                               </div>

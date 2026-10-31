@@ -242,32 +242,42 @@ export interface AttackCatalogueMetadata {
 }
 
 export interface AttackSummaryResponse {
-  catalogue_version: string;
-  mapping_registry_version: string;
+  catalogue_version?: string;
+  mapping_registry_version?: string;
   last_refreshed_at: string;
   total_catalogue_techniques: number;
   total_catalogue_subtechniques: number;
   total_catalogue_tactics: number;
-  mapped_techniques_count: number;
-  supported_by_alerts_count: number;
-  pending_analyst_review_count: number;
-  active_detection_rules_mapped: number;
-  unmapped_detection_rules_count: number;
-  total_active_detection_rules: number;
-  coverage_percentage: number;
+  // Backend schema properties:
+  techniques_mapped_to_detections?: number;
+  techniques_with_alert_evidence?: number;
+  techniques_pending_review?: number;
+  detection_rules_mapped?: number;
+  detection_rules_unmapped?: number;
+  catalogue_metadata?: AttackCatalogueMetadata;
+  // Frontend compatibility aliases:
+  mapped_techniques_count?: number;
+  supported_by_alerts_count?: number;
+  pending_analyst_review_count?: number;
+  active_detection_rules_mapped?: number;
+  unmapped_detection_rules_count?: number;
+  total_active_detection_rules?: number;
+  coverage_percentage?: number;
 }
 
 export interface AttackTacticOverviewItem {
   tactic_id: string;
   tactic_name: string;
   short_name: string;
-  display_order: number;
-  total_techniques: number;
-  mapped_techniques_count: number;
-  supporting_rules_count: number;
-  active_alerts_count: number;
-  investigations_referencing_count: number;
-  coverage_percentage: number;
+  display_order?: number;
+  description?: string | null;
+  total_techniques?: number;
+  mapped_techniques_count?: number;
+  supporting_rules_count?: number;
+  active_alerts_count?: number;
+  related_alerts_count?: number;
+  investigations_referencing_count?: number;
+  coverage_percentage?: number;
 }
 
 export type AttackVisualState = 'UNMAPPED' | 'RULE_MAPPED' | 'ALERT_EVIDENCE' | 'REVIEW_REQUIRED';
@@ -373,21 +383,33 @@ export interface AttackTacticCoverageMetric {
   tactic_id: string;
   tactic_name: string;
   total_techniques: number;
-  rule_mapped_techniques: number;
-  alert_supported_techniques: number;
-  rule_coverage_pct: number;
-  alert_coverage_pct: number;
+  mapped_techniques?: number;
+  evidence_backed_techniques?: number;
+  coverage_percentage?: number;
+  evidence_percentage?: number;
+  rule_mapped_techniques?: number;
+  alert_supported_techniques?: number;
+  rule_coverage_pct?: number;
+  alert_coverage_pct?: number;
 }
 
 export interface AttackCoverageAnalyticsResponse {
   catalogue_version: string;
   total_catalogue_techniques: number;
-  techniques_with_rule_coverage: number;
-  techniques_with_alert_evidence: number;
-  techniques_with_multiple_rules: number;
-  overall_rule_coverage_pct: number;
-  overall_alert_coverage_pct: number;
-  tactic_coverage: AttackTacticCoverageMetric[];
+  total_mapped_techniques?: number;
+  total_evidence_backed_techniques?: number;
+  techniques_with_rule_coverage?: number;
+  techniques_with_alert_evidence?: number;
+  techniques_with_multiple_rules?: number;
+  detection_rules_total?: number;
+  detection_rules_mapped?: number;
+  detection_rules_coverage_pct?: number;
+  overall_mapping_coverage_pct?: number;
+  overall_evidence_coverage_pct?: number;
+  overall_rule_coverage_pct?: number;
+  overall_alert_coverage_pct?: number;
+  tactic_breakdown?: AttackTacticCoverageMetric[];
+  tactic_coverage?: AttackTacticCoverageMetric[];
 }
 
 export interface AttackTraceabilityItem {

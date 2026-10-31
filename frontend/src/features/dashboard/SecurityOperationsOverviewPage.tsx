@@ -155,32 +155,38 @@ export const SecurityOperationsOverviewPage: React.FC = () => {
                 <span className="text-xs font-normal text-slate-500">Past {timeRange}</span>
               </h2>
               <div className="space-y-3">
-                {data.severity_distribution.map((item) => (
-                  <div key={item.severity}>
-                    <div className="flex justify-between text-xs mb-1">
-                      <span className="font-semibold text-slate-300">{item.severity}</span>
-                      <span className="text-slate-400 font-mono">
-                        {item.count} ({item.percentage}%)
-                      </span>
-                    </div>
-                    <div className="w-full bg-slate-950 rounded-full h-2 overflow-hidden border border-slate-800">
-                      <div
-                        className={`h-full rounded-full transition-all duration-500 ${
-                          item.severity === 'CRITICAL'
-                            ? 'bg-rose-500'
-                            : item.severity === 'HIGH'
-                            ? 'bg-orange-500'
-                            : item.severity === 'MEDIUM'
-                            ? 'bg-amber-500'
-                            : item.severity === 'LOW'
-                            ? 'bg-blue-500'
-                            : 'bg-slate-500'
-                        }`}
-                        style={{ width: `${Math.max(item.percentage, item.count > 0 ? 3 : 0)}%` }}
-                      />
-                    </div>
+                {(data.severity_distribution || []).length === 0 ? (
+                  <div className="py-8 text-center text-xs text-slate-500">
+                    No alert severity activity recorded in selected time window.
                   </div>
-                ))}
+                ) : (
+                  data.severity_distribution.map((item) => (
+                    <div key={item.severity}>
+                      <div className="flex justify-between text-xs mb-1">
+                        <span className="font-semibold text-slate-300">{item.severity}</span>
+                        <span className="text-slate-400 font-mono">
+                          {item.count} ({item.percentage}%)
+                        </span>
+                      </div>
+                      <div className="w-full bg-slate-950 rounded-full h-2 overflow-hidden border border-slate-800">
+                        <div
+                          className={`h-full rounded-full transition-all duration-500 ${
+                            item.severity === 'CRITICAL'
+                              ? 'bg-rose-500'
+                              : item.severity === 'HIGH'
+                              ? 'bg-orange-500'
+                              : item.severity === 'MEDIUM'
+                              ? 'bg-amber-500'
+                              : item.severity === 'LOW'
+                              ? 'bg-blue-500'
+                              : 'bg-slate-500'
+                          }`}
+                          style={{ width: `${Math.max(item.percentage ?? 0, item.count > 0 ? 3 : 0)}%` }}
+                        />
+                      </div>
+                    </div>
+                  ))
+                )}
               </div>
             </div>
 

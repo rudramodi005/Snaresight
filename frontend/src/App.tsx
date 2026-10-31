@@ -14,6 +14,8 @@ import { DefensiveResponseCenterPage } from './features/response/DefensiveRespon
 import { SensorOperationsPage } from './features/sensors/SensorOperationsPage';
 import { PlatformSecurityHealthPage } from './features/resilience/PlatformSecurityHealthPage';
 import { DemonstrationControlPage } from './features/demo/DemonstrationControlPage';
+import { SettingsPage } from './features/settings/SettingsPage';
+import { ErrorBoundary } from './components/common/ErrorBoundary';
 import { AuthProvider, useAuth } from './features/auth/AuthContext';
 import { LoginPage } from './features/auth/LoginPage';
 import { ChangePasswordModal } from './features/auth/ChangePasswordModal';
@@ -70,8 +72,8 @@ const AppShell: React.FC<{ children: React.ReactNode }> = ({ children }) => {
     { path: '/sensors', label: 'Honeypot Sensors', icon: '🪤', enabled: true },
     { path: '/health', label: 'Platform Health', icon: '🩺', enabled: true },
     { path: '/demo', label: 'Demonstration Lab', icon: '🧪', enabled: true },
+    { path: '/settings', label: 'Settings', icon: '⚙️', enabled: true },
     { path: '/live-monitoring', label: 'Live Monitoring', icon: '📡', enabled: false },
-    { path: '/settings', label: 'Settings', icon: '⚙️', enabled: false },
   ];
 
   return (
@@ -312,7 +314,9 @@ const AppShell: React.FC<{ children: React.ReactNode }> = ({ children }) => {
 
         {/* Page Content View */}
         <main className="flex-1 overflow-y-auto">
-          {children}
+          <ErrorBoundary>
+            {children}
+          </ErrorBoundary>
         </main>
       </div>
     </div>
@@ -340,6 +344,7 @@ export const App: React.FC = () => {
             <Route path="/sensors" element={<SensorOperationsPage />} />
             <Route path="/health" element={<PlatformSecurityHealthPage />} />
             <Route path="/demo" element={<DemonstrationControlPage />} />
+            <Route path="/settings" element={<SettingsPage />} />
             {/* Fallback to Overview */}
             <Route path="*" element={<SecurityOperationsOverviewPage />} />
           </Routes>
