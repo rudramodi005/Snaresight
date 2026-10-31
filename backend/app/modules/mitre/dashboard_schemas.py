@@ -110,12 +110,17 @@ class AttackTechniqueExplorerItem(BaseModel):
     technique_name: str
     tactic_id: str
     tactic_name: str
+    primary_tactic_id: Optional[str] = None
+    primary_tactic_name: Optional[str] = None
     is_subtechnique: bool
     parent_technique_id: Optional[str] = None
     mapping_status: str
+    visual_state: Optional[str] = None
     mapped_rules_count: int
-    mapped_rules: List[str]
-    alert_evidence_count: int
+    mapped_rules: List[str] = Field(default_factory=list)
+    alert_evidence_count: int = 0
+    supporting_alerts_count: int = 0
+    platforms: List[str] = Field(default_factory=list)
     review_status: str
     confidence: Optional[int] = None
 
@@ -126,6 +131,7 @@ class AttackTechniqueExplorerResponse(BaseModel):
     page: int
     page_size: int
     total_pages: int
+    pages: int = 1
     items: List[AttackTechniqueExplorerItem]
 
 
@@ -165,17 +171,25 @@ class AttackTechniqueDetailResponse(BaseModel):
     description: Optional[str] = None
     tactic_id: str
     tactic_name: str
+    primary_tactic_id: Optional[str] = None
+    primary_tactic_name: Optional[str] = None
     framework_version: str
     is_subtechnique: bool
     parent_technique_id: Optional[str] = None
     parent_technique_name: Optional[str] = None
     subtechniques: List[Dict[str, str]] = Field(default_factory=list)
     official_reference_url: Optional[str] = None
+    tactics: List[Dict[str, str]] = Field(default_factory=list)
     platforms: List[str] = Field(default_factory=list)
+    data_sources: List[str] = Field(default_factory=list)
     mapping_status: str
+    visual_state: Optional[str] = None
     mappings: List[AttackTechniqueMappingItem] = Field(default_factory=list)
+    configured_mappings: List[AttackTechniqueMappingItem] = Field(default_factory=list)
     supporting_evidence: List[AttackTechniqueEvidenceItem] = Field(default_factory=list)
+    live_evidence: List[Dict[str, Any]] = Field(default_factory=list)
     recent_reviews: List[Dict[str, Any]] = Field(default_factory=list)
+    non_attribution_caveat: Optional[str] = None
     limitations: List[str] = Field(
         default_factory=lambda: [
             "Observed activity occurred within an isolated deception honeypot environment.",

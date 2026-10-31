@@ -808,61 +808,70 @@ export const MitreAttackDashboardPage: React.FC = () => {
                     </td>
                   </tr>
                 ) : (
-                  explorerData.items.map((tech) => (
-                    <tr key={tech.technique_id} className="hover:bg-slate-800/40 transition-colors">
-                      <td className="py-3 px-4 font-mono font-semibold text-emerald-400">
-                        {tech.technique_id}
-                        {tech.is_subtechnique && (
-                          <span className="ml-1 text-[9px] uppercase px-1 py-0.2 rounded bg-slate-800 text-slate-400">
-                            sub
-                          </span>
-                        )}
-                      </td>
-                      <td className="py-3 px-4 font-medium text-slate-200 max-w-xs truncate" title={tech.technique_name}>
-                        {tech.technique_name}
-                      </td>
-                      <td className="py-3 px-4 text-slate-400">
-                        <span className="font-mono text-[11px] text-slate-500 mr-1">{tech.primary_tactic_id}</span>
-                        {tech.primary_tactic_name}
-                      </td>
-                      <td className="py-3 px-4 text-slate-400 text-[11px]">
-                        {tech.platforms.slice(0, 3).join(', ')}
-                        {tech.platforms.length > 3 ? ` +${tech.platforms.length - 3}` : ''}
-                      </td>
-                      <td className="py-3 px-4">{renderVisualStateBadge(tech.visual_state)}</td>
-                      <td className="py-3 px-4 text-right font-mono text-blue-400">
-                        {tech.mapped_rules_count}
-                      </td>
-                      <td className="py-3 px-4 text-right font-mono">
-                        {tech.supporting_alerts_count > 0 ? (
-                          <span className="px-2 py-0.5 rounded bg-emerald-950 text-emerald-400 border border-emerald-500/40 font-bold">
-                            {tech.supporting_alerts_count}
-                          </span>
-                        ) : (
-                          <span className="text-slate-600">0</span>
-                        )}
-                      </td>
-                      <td className="py-3 px-4 text-center">
-                        <button
-                          onClick={() => openTechnique(tech.technique_id)}
-                          className="px-2.5 py-1 rounded bg-slate-800 hover:bg-slate-700 text-slate-200 text-[11px] font-medium"
-                        >
-                          View Details
-                        </button>
-                      </td>
-                    </tr>
-                  ))
+                  explorerData.items.map((tech) => {
+                    const platforms = Array.isArray(tech.platforms) ? tech.platforms : [];
+                    const tacticId = tech.primary_tactic_id || (tech as any).tactic_id || '';
+                    const tacticName = tech.primary_tactic_name || (tech as any).tactic_name || '';
+                    const visualState = tech.visual_state || (tech as any).mapping_status || 'UNMAPPED';
+                    const alertCount = tech.supporting_alerts_count ?? (tech as any).alert_evidence_count ?? 0;
+                    const ruleCount = tech.mapped_rules_count ?? (Array.isArray((tech as any).mapped_rules) ? (tech as any).mapped_rules.length : 0);
+
+                    return (
+                      <tr key={tech.technique_id} className="hover:bg-slate-800/40 transition-colors">
+                        <td className="py-3 px-4 font-mono font-semibold text-emerald-400">
+                          {tech.technique_id}
+                          {tech.is_subtechnique && (
+                            <span className="ml-1 text-[9px] uppercase px-1 py-0.2 rounded bg-slate-800 text-slate-400">
+                              sub
+                            </span>
+                          )}
+                        </td>
+                        <td className="py-3 px-4 font-medium text-slate-200 max-w-xs truncate" title={tech.technique_name}>
+                          {tech.technique_name}
+                        </td>
+                        <td className="py-3 px-4 text-slate-400">
+                          {tacticId && <span className="font-mono text-[11px] text-slate-500 mr-1">{tacticId}</span>}
+                          {tacticName}
+                        </td>
+                        <td className="py-3 px-4 text-slate-400 text-[11px]">
+                          {platforms.length > 0 ? platforms.slice(0, 3).join(', ') : 'N/A'}
+                          {platforms.length > 3 ? ` +${platforms.length - 3}` : ''}
+                        </td>
+                        <td className="py-3 px-4">{renderVisualStateBadge(visualState)}</td>
+                        <td className="py-3 px-4 text-right font-mono text-blue-400">
+                          {ruleCount}
+                        </td>
+                        <td className="py-3 px-4 text-right font-mono">
+                          {alertCount > 0 ? (
+                            <span className="px-2 py-0.5 rounded bg-emerald-950 text-emerald-400 border border-emerald-500/40 font-bold">
+                              {alertCount}
+                            </span>
+                          ) : (
+                            <span className="text-slate-600">0</span>
+                          )}
+                        </td>
+                        <td className="py-3 px-4 text-center">
+                          <button
+                            onClick={() => openTechnique(tech.technique_id)}
+                            className="px-2.5 py-1 rounded bg-slate-800 hover:bg-slate-700 text-slate-200 text-[11px] font-medium"
+                          >
+                            View Details
+                          </button>
+                        </td>
+                      </tr>
+                    );
+                  })
                 )}
               </tbody>
             </table>
           </div>
 
           {/* Pagination Controls */}
-          {explorerData && explorerData.pages > 1 && (
+          {explorerData && ((explorerData.pages ?? (explorerData as any).total_pages ?? 1) > 1) && (
             <div className="flex items-center justify-between px-4 py-3 bg-slate-900 border border-slate-800 rounded-xl text-xs">
               <span className="text-slate-400">
                 Page <strong className="text-slate-200">{explorerData.page}</strong> of{' '}
-                <strong className="text-slate-200">{explorerData.pages}</strong>
+                <strong className="text-slate-200">{explorerData.pages ?? (explorerData as any).total_pages}</strong>
               </span>
               <div className="flex items-center gap-2">
                 <button
@@ -876,7 +885,7 @@ export const MitreAttackDashboardPage: React.FC = () => {
                   Previous
                 </button>
                 <button
-                  disabled={explorerPage >= explorerData.pages}
+                  disabled={explorerPage >= (explorerData.pages ?? (explorerData as any).total_pages ?? 1)}
                   onClick={() => {
                     setExplorerPage((p) => p + 1);
                     setTimeout(loadExplorerData, 10);
@@ -1156,170 +1165,199 @@ export const MitreAttackDashboardPage: React.FC = () => {
             <div className="p-6 space-y-6 overflow-y-auto">
               {loadingDetail ? (
                 <div className="py-12 text-center text-slate-500 text-xs">Loading detail records...</div>
-              ) : techniqueDetail ? (
-                <>
-                  {/* ATT&CK Taxonomy Attributes */}
-                  <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
-                    <div className="p-3 rounded-lg bg-slate-950/60 border border-slate-800">
-                      <div className="text-[10px] font-mono uppercase text-slate-500">Tactics</div>
-                      <div className="mt-1 flex flex-wrap gap-1">
-                        {techniqueDetail.tactics.map((t) => (
-                          <span
-                            key={t.tactic_id}
-                            className="px-2 py-0.5 rounded bg-slate-800 text-slate-300 text-xs font-mono"
-                          >
-                            {t.tactic_id}: {t.tactic_name}
-                          </span>
-                        ))}
+              ) : techniqueDetail ? (() => {
+                const detailTactics: Array<{ tactic_id: string; tactic_name: string }> = Array.isArray(techniqueDetail.tactics)
+                  ? techniqueDetail.tactics.map((t: any) => typeof t === 'string' ? { tactic_id: t, tactic_name: t } : { tactic_id: t.tactic_id || '', tactic_name: t.tactic_name || '' })
+                  : (techniqueDetail as any).tactic_name || (techniqueDetail as any).tactic_id
+                    ? [{ tactic_id: (techniqueDetail as any).tactic_id || '', tactic_name: (techniqueDetail as any).tactic_name || '' }]
+                    : [];
+                const detailPlatforms: string[] = Array.isArray(techniqueDetail.platforms) ? techniqueDetail.platforms : [];
+                const detailDataSources: string[] = Array.isArray(techniqueDetail.data_sources) ? techniqueDetail.data_sources : [];
+                const detailSubtechniques: any[] = Array.isArray(techniqueDetail.subtechniques) ? techniqueDetail.subtechniques : [];
+                const detailMappings: any[] = Array.isArray(techniqueDetail.configured_mappings)
+                  ? techniqueDetail.configured_mappings
+                  : (Array.isArray((techniqueDetail as any).mappings) ? (techniqueDetail as any).mappings : []);
+                const detailEvidence: any[] = Array.isArray(techniqueDetail.live_evidence)
+                  ? techniqueDetail.live_evidence
+                  : (Array.isArray((techniqueDetail as any).supporting_evidence) ? (techniqueDetail as any).supporting_evidence : []);
+                const detailCaveat: string = techniqueDetail.non_attribution_caveat
+                  || (Array.isArray((techniqueDetail as any).limitations) ? (techniqueDetail as any).limitations.join(' ') : 'Observed activity occurred strictly within isolated deception honeypot environments.');
+
+                return (
+                  <>
+                    {/* ATT&CK Taxonomy Attributes */}
+                    <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
+                      <div className="p-3 rounded-lg bg-slate-950/60 border border-slate-800">
+                        <div className="text-[10px] font-mono uppercase text-slate-500">Tactics</div>
+                        <div className="mt-1 flex flex-wrap gap-1">
+                          {detailTactics.length > 0 ? detailTactics.map((t, idx) => (
+                            <span
+                              key={t.tactic_id || idx}
+                              className="px-2 py-0.5 rounded bg-slate-800 text-slate-300 text-xs font-mono"
+                            >
+                              {t.tactic_id ? `${t.tactic_id}: ` : ''}{t.tactic_name}
+                            </span>
+                          )) : (
+                            <span className="text-slate-500 text-xs">N/A</span>
+                          )}
+                        </div>
+                      </div>
+
+                      <div className="p-3 rounded-lg bg-slate-950/60 border border-slate-800">
+                        <div className="text-[10px] font-mono uppercase text-slate-500">Platforms</div>
+                        <div className="mt-1 text-xs text-slate-300 font-mono">
+                          {detailPlatforms.length > 0 ? detailPlatforms.join(', ') : 'N/A'}
+                        </div>
+                      </div>
+
+                      <div className="p-3 rounded-lg bg-slate-950/60 border border-slate-800">
+                        <div className="text-[10px] font-mono uppercase text-slate-500">Data Sources</div>
+                        <div className="mt-1 text-xs text-slate-300 font-mono truncate">
+                          {detailDataSources.length > 0 ? detailDataSources.slice(0, 3).join(', ') : 'N/A'}
+                        </div>
                       </div>
                     </div>
 
-                    <div className="p-3 rounded-lg bg-slate-950/60 border border-slate-800">
-                      <div className="text-[10px] font-mono uppercase text-slate-500">Platforms</div>
-                      <div className="mt-1 text-xs text-slate-300 font-mono">
-                        {techniqueDetail.platforms.join(', ') || 'N/A'}
-                      </div>
-                    </div>
-
-                    <div className="p-3 rounded-lg bg-slate-950/60 border border-slate-800">
-                      <div className="text-[10px] font-mono uppercase text-slate-500">Data Sources</div>
-                      <div className="mt-1 text-xs text-slate-300 font-mono truncate">
-                        {techniqueDetail.data_sources.slice(0, 3).join(', ') || 'N/A'}
-                      </div>
-                    </div>
-                  </div>
-
-                  {/* Description */}
-                  <div>
-                    <h4 className="text-xs font-semibold uppercase tracking-wider text-slate-400">Description</h4>
-                    <p className="mt-1.5 text-xs text-slate-300 leading-relaxed max-h-36 overflow-y-auto p-3 bg-slate-950/40 rounded-lg border border-slate-800">
-                      {techniqueDetail.description || 'No description provided in catalogue.'}
-                    </p>
-                  </div>
-
-                  {/* Subtechniques */}
-                  {techniqueDetail.subtechniques.length > 0 && (
+                    {/* Description */}
                     <div>
-                      <h4 className="text-xs font-semibold uppercase tracking-wider text-slate-400">
-                        Sub-techniques ({techniqueDetail.subtechniques.length})
-                      </h4>
-                      <div className="mt-2 flex flex-wrap gap-2">
-                        {techniqueDetail.subtechniques.map((sub) => (
-                          <button
-                            key={sub.subtechnique_id}
-                            onClick={() => openTechnique(sub.subtechnique_id)}
-                            className="px-2.5 py-1 rounded bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs font-mono flex items-center gap-1.5"
-                          >
-                            <span className="text-emerald-400">{sub.subtechnique_id}</span>
-                            <span>{sub.subtechnique_name}</span>
-                          </button>
-                        ))}
-                      </div>
+                      <h4 className="text-xs font-semibold uppercase tracking-wider text-slate-400">Description</h4>
+                      <p className="mt-1.5 text-xs text-slate-300 leading-relaxed max-h-36 overflow-y-auto p-3 bg-slate-950/40 rounded-lg border border-slate-800">
+                        {techniqueDetail.description || 'No description provided in catalogue.'}
+                      </p>
                     </div>
-                  )}
 
-                  {/* SnareSight Configured Detection Mappings */}
-                  <div>
-                    <h4 className="text-xs font-semibold uppercase tracking-wider text-blue-400 flex items-center justify-between">
-                      <span>SnareSight Detection Mappings ({techniqueDetail.configured_mappings.length})</span>
-                      <span className="text-[10px] font-mono text-slate-500">Detection Registry v1.0</span>
-                    </h4>
-                    {techniqueDetail.configured_mappings.length === 0 ? (
-                      <p className="mt-2 text-xs text-slate-500 italic p-3 bg-slate-950/30 rounded-lg border border-slate-800">
-                        No SnareSight detection rules are currently configured for this technique.
-                      </p>
-                    ) : (
-                      <div className="mt-2 space-y-2">
-                        {techniqueDetail.configured_mappings.map((m) => (
-                          <div
-                            key={m.mapping_definition_id}
-                            className="p-3 rounded-lg bg-slate-950 border border-slate-800 flex items-center justify-between"
-                          >
-                            <div>
-                              <div className="flex items-center gap-2">
-                                <span className="font-mono text-xs font-bold text-blue-300">{m.rule_id}</span>
-                                <span className="text-xs text-slate-200 font-semibold">{m.rule_name}</span>
-                                <span className="text-[10px] font-mono text-slate-500">({m.rule_version})</span>
-                              </div>
-                              <p className="text-xs text-slate-400 mt-1">{m.mapping_rationale}</p>
-                            </div>
-                            <div className="flex items-center gap-3 shrink-0 ml-4">
-                              <span className="px-2 py-0.5 rounded text-[10px] font-mono uppercase bg-slate-800 text-slate-300">
-                                {m.mapping_category}
-                              </span>
-                              <span className="font-mono text-xs font-bold text-emerald-400">
-                                {m.default_confidence}% Conf
-                              </span>
-                            </div>
-                          </div>
-                        ))}
+                    {/* Subtechniques */}
+                    {detailSubtechniques.length > 0 && (
+                      <div>
+                        <h4 className="text-xs font-semibold uppercase tracking-wider text-slate-400">
+                          Sub-techniques ({detailSubtechniques.length})
+                        </h4>
+                        <div className="mt-2 flex flex-wrap gap-2">
+                          {detailSubtechniques.map((sub: any) => (
+                            <button
+                              key={sub.subtechnique_id}
+                              onClick={() => openTechnique(sub.subtechnique_id)}
+                              className="px-2.5 py-1 rounded bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs font-mono flex items-center gap-1.5"
+                            >
+                              <span className="text-emerald-400">{sub.subtechnique_id}</span>
+                              <span>{sub.subtechnique_name}</span>
+                            </button>
+                          ))}
+                        </div>
                       </div>
                     )}
-                  </div>
 
-                  {/* Live Supporting Alert Evidence */}
-                  <div>
-                    <h4 className="text-xs font-semibold uppercase tracking-wider text-emerald-400">
-                      Live Supporting Alert & Event Evidence ({techniqueDetail.live_evidence.length})
-                    </h4>
-                    {techniqueDetail.live_evidence.length === 0 ? (
-                      <p className="mt-2 text-xs text-slate-500 italic p-3 bg-slate-950/30 rounded-lg border border-slate-800">
-                        No live honeypot alerts have currently mapped to this technique.
-                      </p>
-                    ) : (
-                      <div className="mt-2 space-y-2">
-                        {techniqueDetail.live_evidence.map((ev) => (
-                          <div
-                            key={ev.mapping_id}
-                            className="p-3.5 rounded-lg bg-slate-950 border border-slate-800 flex flex-col md:flex-row md:items-center justify-between gap-3"
-                          >
-                            <div className="space-y-1">
-                              <div className="flex items-center gap-2">
-                                <span className="font-mono text-xs font-bold text-amber-400">
-                                  {ev.alert_id ? `Alert: ${ev.alert_id.slice(0, 8)}...` : 'Alert Evidence'}
-                                </span>
-                                <span className="font-mono text-xs text-blue-400">{ev.detection_rule_id}</span>
-                                <span className="px-1.5 py-0.2 rounded text-[10px] uppercase font-mono bg-slate-800 text-slate-300">
-                                  {ev.review_status}
-                                </span>
+                    {/* SnareSight Configured Detection Mappings */}
+                    <div>
+                      <h4 className="text-xs font-semibold uppercase tracking-wider text-blue-400 flex items-center justify-between">
+                        <span>SnareSight Detection Mappings ({detailMappings.length})</span>
+                        <span className="text-[10px] font-mono text-slate-500">Detection Registry v1.0</span>
+                      </h4>
+                      {detailMappings.length === 0 ? (
+                        <p className="mt-2 text-xs text-slate-500 italic p-3 bg-slate-950/30 rounded-lg border border-slate-800">
+                          No SnareSight detection rules are currently configured for this technique.
+                        </p>
+                      ) : (
+                        <div className="mt-2 space-y-2">
+                          {detailMappings.map((m: any) => (
+                            <div
+                              key={m.mapping_definition_id || m.rule_id}
+                              className="p-3 rounded-lg bg-slate-950 border border-slate-800 flex items-center justify-between"
+                            >
+                              <div>
+                                <div className="flex items-center gap-2">
+                                  <span className="font-mono text-xs font-bold text-blue-300">{m.rule_id}</span>
+                                  <span className="text-xs text-slate-200 font-semibold">{m.rule_name}</span>
+                                  {m.rule_version && <span className="text-[10px] font-mono text-slate-500">({m.rule_version})</span>}
+                                </div>
+                                {m.mapping_rationale && <p className="text-xs text-slate-400 mt-1">{m.mapping_rationale}</p>}
                               </div>
-                              <p className="text-xs text-slate-300">{ev.evidence_summary}</p>
-                              <div className="flex items-center gap-3 text-[11px] font-mono text-slate-500">
-                                {ev.session_id && <span>Session: {ev.session_id.slice(0, 8)}...</span>}
-                                {ev.event_id && <span>Event: {ev.event_id.slice(0, 8)}...</span>}
-                                <span>{new Date(ev.recorded_at).toLocaleString()}</span>
+                              <div className="flex items-center gap-3 shrink-0 ml-4">
+                                {m.mapping_category && (
+                                  <span className="px-2 py-0.5 rounded text-[10px] font-mono uppercase bg-slate-800 text-slate-300">
+                                    {m.mapping_category}
+                                  </span>
+                                )}
+                                {m.default_confidence != null && (
+                                  <span className="font-mono text-xs font-bold text-emerald-400">
+                                    {m.default_confidence}% Conf
+                                  </span>
+                                )}
                               </div>
                             </div>
+                          ))}
+                        </div>
+                      )}
+                    </div>
 
-                            <div className="flex items-center gap-2 shrink-0">
-                              {ev.alert_navigation_url && (
-                                <button
-                                  onClick={() => navigate(ev.alert_navigation_url!)}
-                                  className="px-2.5 py-1 rounded bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-medium"
-                                >
-                                  View Alert ↗
-                                </button>
-                              )}
-                              <button
-                                onClick={() => openReviewModal(ev.mapping_id, 'APPROVE')}
-                                className="px-2.5 py-1 rounded bg-emerald-600/30 hover:bg-emerald-600/40 text-emerald-300 border border-emerald-500/30 text-xs font-medium"
-                              >
-                                Triage Review
-                              </button>
+                    {/* Live Supporting Alert Evidence */}
+                    <div>
+                      <h4 className="text-xs font-semibold uppercase tracking-wider text-emerald-400">
+                        Live Supporting Alert & Event Evidence ({detailEvidence.length})
+                      </h4>
+                      {detailEvidence.length === 0 ? (
+                        <p className="mt-2 text-xs text-slate-500 italic p-3 bg-slate-950/30 rounded-lg border border-slate-800">
+                          No live honeypot alerts have currently mapped to this technique.
+                        </p>
+                      ) : (
+                        <div className="mt-2 space-y-2">
+                          {detailEvidence.map((ev: any) => (
+                            <div
+                              key={ev.mapping_id || ev.evidence_id || ev.alert_id}
+                              className="p-3.5 rounded-lg bg-slate-950 border border-slate-800 flex flex-col md:flex-row md:items-center justify-between gap-3"
+                            >
+                              <div className="space-y-1">
+                                <div className="flex items-center gap-2">
+                                  <span className="font-mono text-xs font-bold text-amber-400">
+                                    {ev.alert_id || ev.record_id ? `Alert: ${(ev.alert_id || ev.record_id).slice(0, 8)}...` : 'Alert Evidence'}
+                                  </span>
+                                  <span className="font-mono text-xs text-blue-400">{ev.detection_rule_id || ev.supporting_rule_id}</span>
+                                  {ev.review_status && (
+                                    <span className="px-1.5 py-0.2 rounded text-[10px] uppercase font-mono bg-slate-800 text-slate-300">
+                                      {ev.review_status}
+                                    </span>
+                                  )}
+                                </div>
+                                <p className="text-xs text-slate-300">{ev.evidence_summary || `Observed alert evidence from ${ev.source_ip || 'decoy'}`}</p>
+                                <div className="flex items-center gap-3 text-[11px] font-mono text-slate-500">
+                                  {ev.session_id && <span>Session: {ev.session_id.slice(0, 8)}...</span>}
+                                  {(ev.event_id || ev.record_id) && <span>Event: {(ev.event_id || ev.record_id).slice(0, 8)}...</span>}
+                                  {(ev.recorded_at || ev.observed_at) && <span>{new Date(ev.recorded_at || ev.observed_at).toLocaleString()}</span>}
+                                </div>
+                              </div>
+
+                              <div className="flex items-center gap-2 shrink-0">
+                                {(ev.alert_navigation_url || ev.navigation_url) && (
+                                  <button
+                                    onClick={() => navigate(ev.alert_navigation_url || ev.navigation_url)}
+                                    className="px-2.5 py-1 rounded bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-medium"
+                                  >
+                                    View Alert ↗
+                                  </button>
+                                )}
+                                {ev.mapping_id && (
+                                  <button
+                                    onClick={() => openReviewModal(ev.mapping_id, 'APPROVE')}
+                                    className="px-2.5 py-1 rounded bg-emerald-600/30 hover:bg-emerald-600/40 text-emerald-300 border border-emerald-500/30 text-xs font-medium"
+                                  >
+                                    Triage Review
+                                  </button>
+                                )}
+                              </div>
                             </div>
-                          </div>
-                        ))}
-                      </div>
-                    )}
-                  </div>
+                          ))}
+                        </div>
+                      )}
+                    </div>
 
-                  {/* Caveat Footer */}
-                  <div className="p-3 rounded-lg bg-slate-950 text-[11px] text-slate-400 border border-slate-800 leading-relaxed">
-                    <strong className="text-slate-300">Analysis Caveat: </strong>
-                    {techniqueDetail.non_attribution_caveat}
-                  </div>
-                </>
-              ) : null}
+                    {/* Caveat Footer */}
+                    <div className="p-3 rounded-lg bg-slate-950 text-[11px] text-slate-400 border border-slate-800 leading-relaxed">
+                      <strong className="text-slate-300">Analysis Caveat: </strong>
+                      {detailCaveat}
+                    </div>
+                  </>
+                );
+              })() : null}
             </div>
 
             {/* Modal Footer */}

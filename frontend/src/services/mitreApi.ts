@@ -301,9 +301,15 @@ export const mitreApi = {
     if (params.search) query.set('search', params.search);
     if (params.tactic) query.set('tactic', params.tactic);
     if (params.platform) query.set('platform', params.platform);
-    if (params.statusFilter) query.set('status_filter', params.statusFilter);
+    if (params.statusFilter) {
+      query.set('status_filter', params.statusFilter);
+      query.set('status', params.statusFilter);
+    }
     if (params.page) query.set('page', params.page.toString());
-    if (params.pageSize) query.set('page_size', params.pageSize.toString());
+    if (params.pageSize) {
+      query.set('page_size', params.pageSize.toString());
+      query.set('limit', params.pageSize.toString());
+    }
     if (params.sortBy) query.set('sort_by', params.sortBy);
     if (params.sortDir) query.set('sort_dir', params.sortDir);
 

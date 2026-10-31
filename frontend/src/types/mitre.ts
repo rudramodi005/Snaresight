@@ -317,22 +317,29 @@ export interface AttackTechniqueExplorerItem {
   technique_name: string;
   is_subtechnique: boolean;
   parent_technique_id?: string | null;
-  primary_tactic_id: string;
-  primary_tactic_name: string;
-  tactics: string[];
-  platforms: string[];
-  visual_state: AttackVisualState;
-  mapped_rules_count: number;
-  supporting_alerts_count: number;
-  pending_reviews_count: number;
+  tactic_id?: string;
+  tactic_name?: string;
+  primary_tactic_id?: string;
+  primary_tactic_name?: string;
+  tactics?: string[];
+  platforms?: string[];
+  visual_state?: AttackVisualState;
+  mapping_status?: string;
+  mapped_rules_count?: number;
+  mapped_rules?: string[];
+  alert_evidence_count?: number;
+  supporting_alerts_count?: number;
+  pending_reviews_count?: number;
   mapping_confidence?: number | null;
+  confidence?: number | null;
 }
 
 export interface AttackTechniqueExplorerResponse {
   total: number;
   page: number;
   page_size: number;
-  pages: number;
+  pages?: number;
+  total_pages?: number;
   items: AttackTechniqueExplorerItem[];
 }
 
@@ -352,14 +359,14 @@ export interface AttackTechniqueEvidenceItem {
   mapping_id: string;
   alert_id?: string | null;
   detection_rule_id: string;
-  detection_rule_name: string;
+  detection_rule_name?: string;
   session_id?: string | null;
   event_id?: string | null;
-  evidence_type: string;
-  evidence_summary: string;
-  confidence_score: number;
-  review_status: string;
-  recorded_at: string;
+  evidence_type?: string;
+  evidence_summary?: string;
+  confidence_score?: number;
+  review_status?: string;
+  recorded_at?: string;
   alert_navigation_url?: string | null;
   event_navigation_url?: string | null;
 }
@@ -369,14 +376,21 @@ export interface AttackTechniqueDetailResponse {
   technique_name: string;
   is_subtechnique: boolean;
   parent_technique_id?: string | null;
-  tactics: Array<{ tactic_id: string; tactic_name: string }>;
-  platforms: string[];
-  data_sources: string[];
+  tactic_id?: string;
+  tactic_name?: string;
+  primary_tactic_id?: string;
+  primary_tactic_name?: string;
+  tactics?: Array<{ tactic_id?: string; tactic_name?: string }>;
+  platforms?: string[];
+  data_sources?: string[];
   description?: string | null;
-  subtechniques: Array<{ subtechnique_id: string; subtechnique_name: string }>;
-  configured_mappings: AttackTechniqueMappingItem[];
-  live_evidence: AttackTechniqueEvidenceItem[];
-  non_attribution_caveat: string;
+  subtechniques?: Array<{ subtechnique_id: string; subtechnique_name: string }>;
+  mappings?: AttackTechniqueMappingItem[];
+  configured_mappings?: AttackTechniqueMappingItem[];
+  supporting_evidence?: any[];
+  live_evidence?: AttackTechniqueEvidenceItem[];
+  limitations?: string[];
+  non_attribution_caveat?: string;
 }
 
 export interface AttackTacticCoverageMetric {

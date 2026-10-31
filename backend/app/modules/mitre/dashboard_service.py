@@ -503,18 +503,25 @@ class AttackDashboardService:
             else:
                 m_status = "UNMAPPED"
 
+            plat_list = tech.platforms if isinstance(tech.platforms, list) else ["Linux", "Windows", "macOS"]
+
             result_items.append(
                 AttackTechniqueExplorerItem(
                     technique_id=tech.technique_id,
                     technique_name=tech.technique_name,
                     tactic_id=tech.tactic_id,
                     tactic_name=tech.tactic_name,
+                    primary_tactic_id=tech.tactic_id,
+                    primary_tactic_name=tech.tactic_name,
                     is_subtechnique=tech.is_subtechnique,
                     parent_technique_id=None,
                     mapping_status=m_status,
+                    visual_state=m_status,
                     mapped_rules_count=len(mapped_rules),
                     mapped_rules=mapped_rules,
                     alert_evidence_count=alerts_cnt,
+                    supporting_alerts_count=alerts_cnt,
+                    platforms=plat_list,
                     review_status=rev_st,
                     confidence=85 if alerts_cnt > 0 else (70 if mapped_rules else None),
                 )
@@ -525,6 +532,7 @@ class AttackDashboardService:
             page=page,
             page_size=page_size,
             total_pages=total_pages,
+            pages=total_pages,
             items=result_items,
         )
 
@@ -619,8 +627,30 @@ class AttackDashboardService:
         else:
             m_status = "UNMAPPED"
 
-        # 5. Platforms
+        # 5. Platforms & Tactics
         plat_list = tech.platforms if isinstance(tech.platforms, list) else ["Linux", "Windows", "Network"]
+        tactic_entry = [{"tactic_id": tech.tactic_id, "tactic_name": tech.tactic_name}]
+        data_sources_list = tech.data_sources if isinstance(tech.data_sources, list) else []
+
+        live_evidence_list = [
+            {
+                "mapping_id": ev.evidence_id,
+                "alert_id": ev.record_id,
+                "detection_rule_id": ev.supporting_rule_id,
+                "review_status": "PENDING",
+                "evidence_summary": f"Observed alert evidence from {ev.source_ip or 'decoy'} ({ev.severity or 'MEDIUM'}).",
+                "session_id": ev.decoy_id,
+                "event_id": ev.record_id,
+                "recorded_at": ev.observed_at or "2026-11-01T00:00:00Z",
+                "alert_navigation_url": ev.navigation_url,
+            }
+            for ev in evidence_items
+        ]
+
+        caveat_text = (
+            "Observed activity occurred strictly within isolated deception honeypot environments "
+            "and demonstrates threat interaction patterns, not confirmed infrastructure breach or nation-state attribution."
+        )
 
         return AttackTechniqueDetailResponse(
             technique_id=tech.technique_id,
@@ -628,20 +658,28 @@ class AttackDashboardService:
             description=tech.description or "Official Enterprise ATT&CK technique description.",
             tactic_id=tech.tactic_id,
             tactic_name=tech.tactic_name,
+            primary_tactic_id=tech.tactic_id,
+            primary_tactic_name=tech.tactic_name,
             framework_version=tech.framework_version,
             is_subtechnique=tech.is_subtechnique,
             parent_technique_id=None,
             parent_technique_name=None,
             subtechniques=subtech_list,
             official_reference_url=f"https://attack.mitre.org/techniques/{tech.technique_id}/",
+            tactics=tactic_entry,
             platforms=plat_list,
+            data_sources=data_sources_list,
             mapping_status=m_status,
+            visual_state=m_status,
             mappings=mapping_items,
+            configured_mappings=mapping_items,
             supporting_evidence=evidence_items,
+            live_evidence=live_evidence_list,
             recent_reviews=[
                 {"review_status": lm.review_status, "comment": lm.review_comment, "reviewed_by": lm.reviewed_by}
                 for lm in live_mappings if lm.review_status
             ],
+            non_attribution_caveat=caveat_text,
         )
 
     @classmethod
