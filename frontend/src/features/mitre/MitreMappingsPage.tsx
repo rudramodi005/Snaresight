@@ -152,11 +152,11 @@ export const MitreMappingsPage: React.FC = () => {
 
           {loading ? (
             <div className="p-8 text-center text-xs text-slate-500">Loading mappings...</div>
-          ) : paginated?.items.length === 0 ? (
+          ) : (!paginated?.items || paginated.items.length === 0) ? (
             <div className="p-8 text-center text-xs text-slate-500">No matching mappings found.</div>
           ) : (
             <div className="divide-y divide-slate-800 max-h-[600px] overflow-y-auto">
-              {paginated?.items.map((m) => (
+              {(paginated?.items || []).map((m) => (
                 <div
                   key={m.mapping_id}
                   onClick={() => setSelectedMapping(m)}

@@ -4,6 +4,8 @@ import {
   formatNumber,
   formatPercent,
   safeDivide,
+  formatInteger,
+  formatDateTime,
 } from '../../src/utils/format';
 
 describe('Numeric Safety & Formatting Utilities', () => {
@@ -92,6 +94,36 @@ describe('Numeric Safety & Formatting Utilities', () => {
       expect(safeDivide(null, 10)).toBe(0);
       expect(safeDivide(10, undefined)).toBe(0);
       expect(safeDivide(undefined, null, 0)).toBe(0);
+    });
+  });
+
+  describe('formatInteger', () => {
+    it('formats valid integer numbers correctly', () => {
+      expect(formatInteger(1000)).toBe('1,000');
+      expect(formatInteger(0)).toBe('0');
+      expect(formatInteger(1234567)).toBe('1,234,567');
+    });
+
+    it('returns fallback for null, undefined, or NaN without throwing', () => {
+      expect(formatInteger(null)).toBe('0');
+      expect(formatInteger(undefined)).toBe('0');
+      expect(formatInteger(undefined, '...')).toBe('...');
+      expect(formatInteger(NaN, 'N/A')).toBe('N/A');
+    });
+  });
+
+  describe('formatDateTime', () => {
+    it('formats valid dates without crashing', () => {
+      const dt = new Date('2026-11-01T00:00:00Z');
+      expect(formatDateTime(dt)).not.toBe('N/A');
+      expect(formatDateTime('2026-11-01T00:00:00Z')).not.toBe('N/A');
+    });
+
+    it('returns fallback for null, undefined, and invalid date strings', () => {
+      expect(formatDateTime(null)).toBe('N/A');
+      expect(formatDateTime(undefined)).toBe('N/A');
+      expect(formatDateTime('invalid-date-string')).toBe('N/A');
+      expect(formatDateTime(undefined, 'Unknown')).toBe('Unknown');
     });
   });
 });

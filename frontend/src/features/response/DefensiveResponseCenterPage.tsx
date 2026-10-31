@@ -39,7 +39,7 @@ import {
   CaseNote,
 } from '../../types/response';
 import { responseApi } from '../../services/responseApi';
-import { formatPercent } from '../../utils/format';
+import { formatPercent, formatDateTime } from '../../utils/format';
 
 export const DefensiveResponseCenterPage: React.FC = () => {
   // Summary & list state
@@ -1067,7 +1067,7 @@ export const DefensiveResponseCenterPage: React.FC = () => {
                               </span>
                             </div>
                             <div className="text-slate-400">
-                              Executed by: <strong className="text-slate-300">{act.executed_by}</strong> on {new Date(act.executed_at).toLocaleString()}
+                              Executed by: <strong className="text-slate-300">{act.executed_by}</strong> on {formatDateTime(act.executed_at)}
                             </div>
                             <pre className="p-2 bg-slate-950 rounded border border-slate-800 text-[11px] text-slate-300 overflow-x-auto">
                               {JSON.stringify(act.result_details, null, 2)}
@@ -1139,7 +1139,7 @@ export const DefensiveResponseCenterPage: React.FC = () => {
                             )}
 
                             <div className="flex items-center justify-between pt-1 text-[11px] text-slate-500">
-                              <span>Applied by: {hold.applied_by} on {new Date(hold.applied_at).toLocaleString()}</span>
+                              <span>Applied by: {hold.applied_by} on {formatDateTime(hold.applied_at)}</span>
                               {hold.retention_hold_status === 'ACTIVE' && (
                                 <button
                                   onClick={() => handleReleaseHold(hold.hold_id)}
@@ -1215,7 +1215,7 @@ export const DefensiveResponseCenterPage: React.FC = () => {
                                 </span>
                               </div>
                               <span className="text-[11px] text-slate-500">
-                                {new Date(note.created_at).toLocaleString()}
+                                {formatDateTime(note.created_at)}
                               </span>
                             </div>
                             <p className="text-xs text-slate-300 leading-relaxed whitespace-pre-wrap">

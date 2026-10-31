@@ -16,7 +16,7 @@ import {
   updateProfileAssociation,
   triggerAggregation,
 } from '../../services/sourceProfileApi';
-import { formatPercent } from '../../utils/format';
+import { formatPercent, formatDateTime } from '../../utils/format';
 
 export const SourceIntelligencePage: React.FC = () => {
   const [profiles, setProfiles] = useState<SourceProfile[]>([]);
@@ -364,7 +364,7 @@ export const SourceIntelligencePage: React.FC = () => {
                             </div>
                           </td>
                           <td className="py-3 px-4 text-xs text-slate-400 font-mono">
-                            {new Date(p.last_observed_at).toLocaleString()}
+                            {formatDateTime(p.last_observed_at)}
                           </td>
                           <td className="py-3 px-4 text-right">
                             <button
@@ -575,7 +575,7 @@ export const SourceIntelligencePage: React.FC = () => {
                             Target Decoy: <strong className="text-slate-100">{s.decoy_id}</strong> ({s.protocol})
                           </div>
                           <div className="text-slate-400">
-                            {s.event_count} events • Observed: {new Date(s.start_time).toLocaleString()}
+                            {s.event_count} events • Observed: {formatDateTime(s.start_time)}
                           </div>
                         </div>
                       ))}
@@ -631,14 +631,14 @@ export const SourceIntelligencePage: React.FC = () => {
                           No dormancy reactivations detected for this profile.
                         </div>
                       ) : (
-                        behaviorData?.recurrences.map((r) => (
+                        (behaviorData?.recurrences || []).map((r) => (
                           <div key={r.id} className="p-3 bg-slate-950/60 border border-slate-800 rounded-lg text-xs space-y-1">
                             <div className="flex justify-between items-center">
                               <span className="font-semibold text-amber-400">
                                 Reactivated after {r.dormant_interval_display}
                               </span>
                               <span className="font-mono text-slate-400">
-                                {new Date(r.reactivation_at).toLocaleString()}
+                                {formatDateTime(r.reactivation_at)}
                               </span>
                             </div>
                             <p className="text-slate-300">{r.summary}</p>
@@ -758,7 +758,7 @@ export const SourceIntelligencePage: React.FC = () => {
                             <div key={h.id} className="p-2.5 bg-slate-950/40 border border-slate-800 rounded text-xs space-y-1">
                               <div className="flex justify-between items-center text-slate-400 font-mono text-[11px]">
                                 <span>{h.action} by {h.analyst_id || 'System'}</span>
-                                <span>{new Date(h.created_at).toLocaleString()}</span>
+                                <span>{formatDateTime(h.created_at)}</span>
                               </div>
                               {h.notes && <div className="text-slate-300 italic">"{h.notes}"</div>}
                             </div>

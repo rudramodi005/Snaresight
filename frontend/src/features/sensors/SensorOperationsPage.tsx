@@ -34,7 +34,7 @@ import {
   OperationalAlertSeverity,
 } from '../../types/sensors';
 import { sensorsApi } from '../../services/sensorsApi';
-import { formatNumber } from '../../utils/format';
+import { formatNumber, formatDateTime } from '../../utils/format';
 
 export const SensorOperationsPage: React.FC = () => {
   // Summary & inventory state
@@ -655,13 +655,13 @@ export const SensorOperationsPage: React.FC = () => {
                         <div>
                           <span className="text-slate-500">Last Successful Heartbeat:</span>
                           <div className="font-medium text-slate-200 mt-0.5">
-                            {selectedSensor.last_heartbeat_at ? new Date(selectedSensor.last_heartbeat_at).toLocaleString() : 'Never'}
+                            {formatDateTime(selectedSensor.last_heartbeat_at, 'Never')}
                           </div>
                         </div>
                         <div>
                           <span className="text-slate-500">Last Telemetry Ingested:</span>
                           <div className="font-medium text-slate-200 mt-0.5">
-                            {selectedSensor.last_telemetry_at ? new Date(selectedSensor.last_telemetry_at).toLocaleString() : 'Never'}
+                            {formatDateTime(selectedSensor.last_telemetry_at, 'Never')}
                           </div>
                         </div>
                       </div>
@@ -703,7 +703,7 @@ export const SensorOperationsPage: React.FC = () => {
                           <tbody className="divide-y divide-slate-800/60">
                             {selectedSensor.recent_heartbeats.map((hb) => (
                               <tr key={hb.id} className="hover:bg-slate-800/30">
-                                <td className="px-4 py-2.5 font-mono text-slate-300">{new Date(hb.timestamp).toLocaleString()}</td>
+                                <td className="px-4 py-2.5 font-mono text-slate-300">{formatDateTime(hb.timestamp)}</td>
                                 <td className="px-4 py-2.5">
                                   <span className={`px-2 py-0.5 text-[10px] font-semibold rounded ${hb.status === 'HEALTHY' ? 'bg-emerald-500/10 text-emerald-300' : 'bg-rose-500/10 text-rose-300'}`}>
                                     {hb.status}
@@ -760,9 +760,9 @@ export const SensorOperationsPage: React.FC = () => {
                               Key Prefix: <strong className="text-slate-300">{cred.key_prefix}</strong>
                             </div>
                             <div className="text-[11px] text-slate-500 mt-1">
-                              Created: {new Date(cred.created_at).toLocaleString()}
-                              {cred.last_used_at && ` | Last Used: ${new Date(cred.last_used_at).toLocaleString()}`}
-                              {cred.revoked_at && ` | Revoked: ${new Date(cred.revoked_at).toLocaleString()} (${cred.revocation_reason})`}
+                              Created: {formatDateTime(cred.created_at)}
+                              {cred.last_used_at && ` | Last Used: ${formatDateTime(cred.last_used_at)}`}
+                              {cred.revoked_at && ` | Revoked: ${formatDateTime(cred.revoked_at)} (${cred.revocation_reason})`}
                             </div>
                           </div>
 
@@ -804,7 +804,7 @@ export const SensorOperationsPage: React.FC = () => {
                             Current Active: v{selectedSensor.current_configuration.version}
                           </span>
                           <span className="text-[11px] text-slate-400">
-                            By {selectedSensor.current_configuration.updated_by} on {new Date(selectedSensor.current_configuration.created_at).toLocaleString()}
+                            By {selectedSensor.current_configuration.updated_by} on {formatDateTime(selectedSensor.current_configuration.created_at)}
                           </span>
                         </div>
                         <p className="text-xs text-slate-300">{selectedSensor.current_configuration.change_reason}</p>
@@ -847,7 +847,7 @@ export const SensorOperationsPage: React.FC = () => {
                             </pre>
 
                             <div className="flex items-center justify-between pt-2 border-t border-slate-800/80 text-[11px] text-slate-500">
-                              <span>Observed: {new Date(alert.last_observed_at).toLocaleString()}</span>
+                              <span>Observed: {formatDateTime(alert.last_observed_at)}</span>
                               <div className="flex items-center gap-2">
                                 {alert.status === 'OPEN' && (
                                   <button

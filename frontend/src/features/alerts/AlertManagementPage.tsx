@@ -13,6 +13,7 @@ import {
   TriageDecisionType,
 } from '../../types/alerts';
 import * as alertsApi from '../../services/alertsApi';
+import { formatDateTime } from '../../utils/format';
 
 export const AlertManagementPage: React.FC = () => {
   // State: Data
@@ -781,7 +782,7 @@ export const AlertManagementPage: React.FC = () => {
                           Source: {ev.source_ip} | Protocol: {ev.protocol || 'TCP'} | Outcome: {ev.outcome}
                         </div>
                         <div className="text-[10px] text-slate-500">
-                          Observed: {ev.observed_at ? new Date(ev.observed_at).toLocaleString() : 'N/A'}
+                          Observed: {formatDateTime(ev.observed_at)}
                         </div>
                         <div className="pt-1">
                           <a
@@ -1089,7 +1090,7 @@ export const AlertManagementPage: React.FC = () => {
                         <div key={n.id} className="p-2.5 rounded bg-slate-950 border border-slate-800">
                           <div className="flex justify-between text-[10px] text-slate-500">
                             <span className="font-semibold text-slate-300">👤 {n.author_id} ({n.author_role})</span>
-                            <span>{new Date(n.created_at).toLocaleString()}</span>
+                            <span>{formatDateTime(n.created_at)}</span>
                           </div>
                           <p className="text-slate-300 text-[11px] mt-1 leading-relaxed whitespace-pre-wrap">{n.content}</p>
                         </div>
@@ -1108,7 +1109,7 @@ export const AlertManagementPage: React.FC = () => {
                       <div key={h.id} className="p-2.5 rounded bg-slate-950 border border-slate-800 text-[11px]">
                         <div className="flex justify-between items-center text-[10px] text-slate-500 mb-1">
                           <span className="font-bold text-blue-400">{h.action_type}</span>
-                          <span>{new Date(h.created_at).toLocaleString()}</span>
+                          <span>{formatDateTime(h.created_at)}</span>
                         </div>
                         <div className="text-slate-300">
                           Actor: <span className="font-semibold">{h.analyst_id}</span>

@@ -19,6 +19,7 @@ import {
   triggerClustering,
 } from '../../services/campaignApi';
 import { CampaignRelationshipGraph } from '../../components/CampaignRelationshipGraph';
+import { formatDateTime } from '../../utils/format';
 
 export const CampaignInvestigationsPage: React.FC = () => {
   const [clusters, setClusters] = useState<InvestigationCluster[]>([]);
@@ -499,7 +500,7 @@ export const CampaignInvestigationsPage: React.FC = () => {
                             <div>{c.source_profile_count} profile(s)</div>
                           </td>
                           <td className="py-3 px-4 text-xs text-slate-400 font-mono">
-                            {new Date(c.last_observed_at).toLocaleString()}
+                            {formatDateTime(c.last_observed_at)}
                           </td>
                           <td className="py-3 px-4 text-right">
                             <button
@@ -716,7 +717,7 @@ export const CampaignInvestigationsPage: React.FC = () => {
                         <div key={item.item_id} className="p-3 bg-slate-950/60 border border-slate-800 rounded-lg text-xs space-y-1">
                           <div className="flex justify-between items-center">
                             <span className="font-semibold text-slate-200">{item.title}</span>
-                            <span className="font-mono text-slate-400">{new Date(item.timestamp).toLocaleString()}</span>
+                            <span className="font-mono text-slate-400">{formatDateTime(item.timestamp)}</span>
                           </div>
                           <p className="text-slate-300">{item.summary}</p>
                           <div className="text-[11px] text-slate-500 font-mono">Ref: {item.reference_id}</div>
@@ -833,7 +834,7 @@ export const CampaignInvestigationsPage: React.FC = () => {
                           <div key={log.id} className="p-2.5 bg-slate-950/40 border border-slate-800 rounded text-xs space-y-1">
                             <div className="flex justify-between items-center font-mono text-[11px] text-slate-400">
                               <span>{log.action} by {log.actor}</span>
-                              <span>{new Date(log.timestamp).toLocaleString()}</span>
+                              <span>{formatDateTime(log.timestamp)}</span>
                             </div>
                             {log.reason && <div className="text-slate-300 italic">"{log.reason}"</div>}
                           </div>

@@ -43,72 +43,72 @@ export const CampaignRelationshipGraph: React.FC<CampaignRelationshipGraphProps>
         <svg className="w-full h-full" viewBox="0 0 600 300">
           <defs>
             <linearGradient id="clusterGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-              <stop offset="0%" stopColor="#4f46e5" />
-              <stop offset="100%" stopColor="#312e81" />
+              <stop offset="0%" stopColor="#FB3640" stopOpacity="0.85" />
+              <stop offset="100%" stopColor="#FB3640" stopOpacity="0.35" />
             </linearGradient>
             <marker id="arrow" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
-              <path d="M 0 0 L 10 5 L 0 10 z" fill="#6366f1" />
+              <path d="M 0 0 L 10 5 L 0 10 z" fill="#FB3640" />
             </marker>
           </defs>
 
           {/* Lines from Central Cluster to Member Orbit Nodes */}
           {/* Member 1: Sessions */}
-          <line x1="300" y1="150" x2="140" y2="80" stroke="#334155" strokeWidth="2" strokeDasharray="4 2" />
+          <line x1="300" y1="150" x2="140" y2="80" stroke="rgba(251, 54, 64, 0.25)" strokeWidth="2" strokeDasharray="4 2" />
           {/* Member 2: Profiles */}
-          <line x1="300" y1="150" x2="140" y2="220" stroke="#334155" strokeWidth="2" strokeDasharray="4 2" />
+          <line x1="300" y1="150" x2="140" y2="220" stroke="rgba(251, 54, 64, 0.25)" strokeWidth="2" strokeDasharray="4 2" />
           {/* Member 3: Alerts */}
-          <line x1="300" y1="150" x2="460" y2="80" stroke="#334155" strokeWidth="2" strokeDasharray="4 2" />
+          <line x1="300" y1="150" x2="460" y2="80" stroke="rgba(251, 54, 64, 0.25)" strokeWidth="2" strokeDasharray="4 2" />
           {/* Member 4: Sequences */}
-          <line x1="300" y1="150" x2="460" y2="220" stroke="#334155" strokeWidth="2" strokeDasharray="4 2" />
+          <line x1="300" y1="150" x2="460" y2="220" stroke="rgba(251, 54, 64, 0.25)" strokeWidth="2" strokeDasharray="4 2" />
 
           {/* Member Nodes */}
           <g>
-            <circle cx="140" cy="80" r="28" fill="#1e293b" stroke="#38bdf8" strokeWidth="2" />
-            <text x="140" y="78" textAnchor="middle" fill="#f8fafc" fontSize="11" fontWeight="bold">
+            <circle cx="140" cy="80" r="28" fill="#000F08" stroke="#FB3640" strokeWidth="2" />
+            <text x="140" y="78" textAnchor="middle" fill="#FB3640" fontSize="11" fontWeight="bold">
               {sessionCount}
             </text>
-            <text x="140" y="94" textAnchor="middle" fill="#94a3b8" fontSize="9">
+            <text x="140" y="94" textAnchor="middle" fill="rgba(251, 54, 64, 0.7)" fontSize="9">
               Sessions
             </text>
           </g>
 
           <g>
-            <circle cx="140" cy="220" r="28" fill="#1e293b" stroke="#818cf8" strokeWidth="2" />
-            <text x="140" y="218" textAnchor="middle" fill="#f8fafc" fontSize="11" fontWeight="bold">
+            <circle cx="140" cy="220" r="28" fill="#000F08" stroke="#FB3640" strokeWidth="2" />
+            <text x="140" y="218" textAnchor="middle" fill="#FB3640" fontSize="11" fontWeight="bold">
               {profileCount}
             </text>
-            <text x="140" y="234" textAnchor="middle" fill="#94a3b8" fontSize="9">
+            <text x="140" y="234" textAnchor="middle" fill="rgba(251, 54, 64, 0.7)" fontSize="9">
               Profiles
             </text>
           </g>
 
           <g>
-            <circle cx="460" cy="80" r="28" fill="#1e293b" stroke="#f97316" strokeWidth="2" />
-            <text x="460" y="78" textAnchor="middle" fill="#f8fafc" fontSize="11" fontWeight="bold">
+            <circle cx="460" cy="80" r="28" fill="#000F08" stroke="#FB3640" strokeWidth="2" />
+            <text x="460" y="78" textAnchor="middle" fill="#FB3640" fontSize="11" fontWeight="bold">
               {alertCount}
             </text>
-            <text x="460" y="94" textAnchor="middle" fill="#94a3b8" fontSize="9">
+            <text x="460" y="94" textAnchor="middle" fill="rgba(251, 54, 64, 0.7)" fontSize="9">
               Alerts
             </text>
           </g>
 
           <g>
-            <circle cx="460" cy="220" r="28" fill="#1e293b" stroke="#a855f7" strokeWidth="2" />
-            <text x="460" y="218" textAnchor="middle" fill="#f8fafc" fontSize="11" fontWeight="bold">
+            <circle cx="460" cy="220" r="28" fill="#000F08" stroke="#FB3640" strokeWidth="2" />
+            <text x="460" y="218" textAnchor="middle" fill="#FB3640" fontSize="11" fontWeight="bold">
               {sequenceCount}
             </text>
-            <text x="460" y="234" textAnchor="middle" fill="#94a3b8" fontSize="9">
+            <text x="460" y="234" textAnchor="middle" fill="rgba(251, 54, 64, 0.7)" fontSize="9">
               Sequences
             </text>
           </g>
 
           {/* Central Investigation Cluster Node */}
           <g>
-            <circle cx="300" cy="150" r="42" fill="url(#clusterGrad)" stroke="#a5b4fc" strokeWidth="3" />
-            <text x="300" y="146" textAnchor="middle" fill="#ffffff" fontSize="11" fontWeight="bold">
+            <circle cx="300" cy="150" r="42" fill="url(#clusterGrad)" stroke="#FB3640" strokeWidth="3" />
+            <text x="300" y="146" textAnchor="middle" fill="#000F08" fontSize="11" fontWeight="bold">
               {clusterId.substring(0, 9)}
             </text>
-            <text x="300" y="162" textAnchor="middle" fill="#c7d2fe" fontSize="9">
+            <text x="300" y="162" textAnchor="middle" fill="#000F08" fontSize="9" fontWeight="bold">
               Investigation
             </text>
           </g>

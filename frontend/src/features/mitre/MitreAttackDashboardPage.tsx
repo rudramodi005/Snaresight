@@ -16,7 +16,7 @@ import {
   AttackVisualState,
 } from '../../types/mitre';
 import { mitreApi } from '../../services/mitreApi';
-import { formatNumber, formatPercent, safeDivide } from '../../utils/format';
+import { formatNumber, formatPercent, safeDivide, formatDateTime } from '../../utils/format';
 
 export const MitreAttackDashboardPage: React.FC = () => {
   const [searchParams, setSearchParams] = useSearchParams();
@@ -1322,7 +1322,7 @@ export const MitreAttackDashboardPage: React.FC = () => {
                                 <div className="flex items-center gap-3 text-[11px] font-mono text-slate-500">
                                   {ev.session_id && <span>Session: {ev.session_id.slice(0, 8)}...</span>}
                                   {(ev.event_id || ev.record_id) && <span>Event: {(ev.event_id || ev.record_id).slice(0, 8)}...</span>}
-                                  {(ev.recorded_at || ev.observed_at) && <span>{new Date(ev.recorded_at || ev.observed_at).toLocaleString()}</span>}
+                                  {(ev.recorded_at || ev.observed_at) && <span>{formatDateTime(ev.recorded_at || ev.observed_at)}</span>}
                                 </div>
                               </div>
 

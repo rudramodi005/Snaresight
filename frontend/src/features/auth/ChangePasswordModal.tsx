@@ -1,5 +1,6 @@
 /**
  * Change Password modal for authenticated analysts.
+ * Strictly styled in SnareSight Obsidian (#000F08) and Crimson (#FB3640).
  */
 
 import React, { useState } from 'react';
@@ -40,7 +41,7 @@ export const ChangePasswordModal: React.FC<ChangePasswordModalProps> = ({ isOpen
         current_password: currentPassword,
         new_password: newPassword,
       });
-      setSuccess('Password updated successfully.');
+      setSuccess('Operator password rotated successfully.');
       setTimeout(() => {
         onClose();
         setCurrentPassword('');
@@ -49,87 +50,92 @@ export const ChangePasswordModal: React.FC<ChangePasswordModalProps> = ({ isOpen
         setSuccess(null);
       }, 1500);
     } catch (err: any) {
-      setError(err.message || 'Failed to change password');
+      setError(err.message || 'Failed to update operator password');
     } finally {
       setSubmitting(false);
     }
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 backdrop-blur-sm p-4">
-      <div className="bg-slate-900 border border-slate-800 rounded-xl max-w-md w-full p-6 shadow-2xl">
-        <div className="flex justify-between items-center mb-4">
-          <h2 className="text-base font-bold text-slate-100 flex items-center gap-2">
-            <span>🔒</span> Change SOC Password
-          </h2>
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-[#000F08]/80 backdrop-blur-md p-4 selection:bg-[#FB3640] selection:text-[#000F08]">
+      <div className="bg-[#000F08] border border-[#FB3640]/30 rounded-2xl max-w-md w-full p-6 shadow-crimson-lg text-[#FB3640]">
+        <div className="flex justify-between items-center mb-5 pb-3 border-b border-[#FB3640]/20">
+          <div className="flex items-center gap-2.5">
+            <span className="w-2.5 h-2.5 rounded-full bg-[#FB3640]" />
+            <h2 className="text-sm font-black tracking-wider uppercase text-[#FB3640]">
+              Rotate Operator Passphrase
+            </h2>
+          </div>
           <button
             onClick={onClose}
-            className="text-slate-400 hover:text-white text-sm"
+            className="w-7 h-7 rounded-lg bg-[#000F08] border border-[#FB3640]/30 hover:border-[#FB3640] text-[#FB3640] text-xs flex items-center justify-center transition-colors"
           >
             ✕
           </button>
         </div>
 
         {error && (
-          <div className="mb-4 p-3 rounded-lg bg-rose-950/60 border border-rose-800/80 text-rose-300 text-xs">
-            {error}
+          <div className="mb-4 p-3 rounded-xl bg-[#FB3640]/10 border border-[#FB3640]/40 text-[#FB3640] text-xs flex items-center gap-2">
+            <span>⚠️</span>
+            <span>{error}</span>
           </div>
         )}
 
         {success && (
-          <div className="mb-4 p-3 rounded-lg bg-emerald-950/60 border border-emerald-800/80 text-emerald-300 text-xs">
-            {success}
+          <div className="mb-4 p-3 rounded-xl bg-[#FB3640]/15 border border-[#FB3640]/50 text-[#FB3640] text-xs font-semibold flex items-center gap-2">
+            <span>✓</span>
+            <span>{success}</span>
           </div>
         )}
 
         <form onSubmit={handleSubmit} className="space-y-4 text-xs">
           <div>
-            <label className="block text-slate-400 mb-1 font-medium">Current Password</label>
+            <label className="block text-[#FB3640]/80 mb-1 font-semibold">Current Passphrase</label>
             <input
               type="password"
               required
               value={currentPassword}
               onChange={(e) => setCurrentPassword(e.target.value)}
-              className="w-full bg-slate-950 border border-slate-800 rounded-lg px-3 py-2 text-slate-200 focus:outline-none focus:border-blue-500"
+              className="w-full bg-[#000F08] border border-[#FB3640]/30 rounded-xl px-3.5 py-2.5 text-[#FB3640] placeholder-[#FB3640]/30 focus:outline-none focus:border-[#FB3640] font-mono"
             />
           </div>
 
           <div>
-            <label className="block text-slate-400 mb-1 font-medium">New Password (min 8 chars)</label>
+            <label className="block text-[#FB3640]/80 mb-1 font-semibold">New Passphrase (min 8 chars)</label>
             <input
               type="password"
               required
               value={newPassword}
               onChange={(e) => setNewPassword(e.target.value)}
-              className="w-full bg-slate-950 border border-slate-800 rounded-lg px-3 py-2 text-slate-200 focus:outline-none focus:border-blue-500"
+              className="w-full bg-[#000F08] border border-[#FB3640]/30 rounded-xl px-3.5 py-2.5 text-[#FB3640] placeholder-[#FB3640]/30 focus:outline-none focus:border-[#FB3640] font-mono"
             />
           </div>
 
           <div>
-            <label className="block text-slate-400 mb-1 font-medium">Confirm New Password</label>
+            <label className="block text-[#FB3640]/80 mb-1 font-semibold">Confirm New Passphrase</label>
             <input
               type="password"
               required
               value={confirmPassword}
               onChange={(e) => setConfirmPassword(e.target.value)}
-              className="w-full bg-slate-950 border border-slate-800 rounded-lg px-3 py-2 text-slate-200 focus:outline-none focus:border-blue-500"
+              className="w-full bg-[#000F08] border border-[#FB3640]/30 rounded-xl px-3.5 py-2.5 text-[#FB3640] placeholder-[#FB3640]/30 focus:outline-none focus:border-[#FB3640] font-mono"
             />
           </div>
 
-          <div className="flex justify-end gap-3 pt-2">
+          <div className="flex items-center justify-end gap-3 pt-3 border-t border-[#FB3640]/20">
             <button
               type="button"
               onClick={onClose}
-              className="px-4 py-2 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 font-medium transition-colors"
+              className="px-4 py-2 rounded-xl bg-[#000F08] border border-[#FB3640]/30 hover:border-[#FB3640] text-xs text-[#FB3640] font-semibold transition-colors"
             >
               Cancel
             </button>
             <button
               type="submit"
               disabled={submitting}
-              className="px-4 py-2 rounded-lg bg-blue-600 hover:bg-blue-500 text-white font-medium transition-colors disabled:opacity-50"
+              className="px-5 py-2 rounded-xl bg-[#FB3640] hover:bg-[#FB3640]/90 text-[#000F08] text-xs font-black tracking-wide uppercase transition-all shadow-crimson-sm disabled:opacity-50"
             >
-              {submitting ? 'Updating...' : 'Update Password'}
+              {submitting ? 'Updating...' : 'Confirm Rotation'}
             </button>
           </div>
         </form>
@@ -137,4 +143,3 @@ export const ChangePasswordModal: React.FC<ChangePasswordModalProps> = ({ isOpen
     </div>
   );
 };
-

@@ -16,6 +16,7 @@ import {
   updateEventReviewStatus,
   associateEventWithInvestigation,
 } from '../../services/eventsApi';
+import { formatInteger, formatDateTime } from '../../utils/format';
 
 export const SecurityEventsPage: React.FC = () => {
   // Main Data States
@@ -307,23 +308,23 @@ export const SecurityEventsPage: React.FC = () => {
         <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3 my-5">
           <div className="bg-slate-900/80 border border-slate-800 rounded-lg p-3">
             <span className="text-xs text-slate-400 font-medium">Total Events</span>
-            <div className="text-xl font-bold text-slate-100 mt-0.5">{summary.total_events.toLocaleString()}</div>
+            <div className="text-xl font-bold text-slate-100 mt-0.5">{formatInteger(summary?.total_events, '0')}</div>
           </div>
           <div className="bg-slate-900/80 border border-slate-800 rounded-lg p-3">
             <span className="text-xs text-slate-400 font-medium">Detected Alerts</span>
-            <div className="text-xl font-bold text-rose-400 mt-0.5">{summary.detected_events.toLocaleString()}</div>
+            <div className="text-xl font-bold text-rose-400 mt-0.5">{formatInteger(summary?.detected_events, '0')}</div>
           </div>
           <div className="bg-slate-900/80 border border-slate-800 rounded-lg p-3">
             <span className="text-xs text-slate-400 font-medium">Clean Telemetry</span>
-            <div className="text-xl font-bold text-slate-300 mt-0.5">{summary.clean_events.toLocaleString()}</div>
+            <div className="text-xl font-bold text-slate-300 mt-0.5">{formatInteger(summary?.clean_events, '0')}</div>
           </div>
           <div className="bg-slate-900/80 border border-slate-800 rounded-lg p-3">
             <span className="text-xs text-slate-400 font-medium">Distinct Inbound Sources</span>
-            <div className="text-xl font-bold text-cyan-400 mt-0.5">{summary.distinct_sources.toLocaleString()}</div>
+            <div className="text-xl font-bold text-cyan-400 mt-0.5">{formatInteger(summary?.distinct_sources, '0')}</div>
           </div>
           <div className="bg-slate-900/80 border border-slate-800 rounded-lg p-3">
             <span className="text-xs text-slate-400 font-medium">Active Honeypot Sensors</span>
-            <div className="text-xl font-bold text-emerald-400 mt-0.5">{summary.distinct_sensors}</div>
+            <div className="text-xl font-bold text-emerald-400 mt-0.5">{summary?.distinct_sensors ?? 0}</div>
           </div>
         </div>
       )}
@@ -605,7 +606,7 @@ export const SecurityEventsPage: React.FC = () => {
                         />
                       </td>
                       <td className="py-3 px-3 whitespace-nowrap font-mono text-xs text-slate-400">
-                        {new Date(ev.timestamp).toLocaleString()}
+                        {formatDateTime(ev.timestamp)}
                       </td>
                       <td className="py-3 px-3">
                         <div className="font-semibold text-slate-200">{ev.event_type}</div>
@@ -691,7 +692,7 @@ export const SecurityEventsPage: React.FC = () => {
         <div className="flex flex-col sm:flex-row items-center justify-between p-3 border-t border-slate-800 text-xs text-slate-400 gap-2">
           <div>
             Showing {(currentPage - 1) * pageSize + 1} -{' '}
-            {Math.min(currentPage * pageSize, totalEvents)} of {totalEvents.toLocaleString()} events
+            {Math.min(currentPage * pageSize, totalEvents)} of {formatInteger(totalEvents, '0')} events
           </div>
           <div className="flex items-center gap-2">
             <button
@@ -975,7 +976,7 @@ export const SecurityEventsPage: React.FC = () => {
                               <div>
                                 <span className="font-semibold text-slate-200">{stage.stage}</span>
                                 <div className="text-[11px] text-slate-500 font-mono mt-0.5">
-                                  {new Date(stage.timestamp).toLocaleString()}
+                                  {formatDateTime(stage.timestamp)}
                                 </div>
                               </div>
                               <span className="px-2 py-0.5 rounded bg-emerald-950 text-emerald-400 font-semibold text-[10px]">
@@ -1103,7 +1104,7 @@ export const SecurityEventsPage: React.FC = () => {
                                 <div className="flex items-center justify-between text-slate-400">
                                   <span className="font-semibold text-blue-400">{a.action_type}</span>
                                   <span className="font-mono text-[10px]">
-                                    {new Date(a.created_at).toLocaleString()}
+                                    {formatDateTime(a.created_at)}
                                   </span>
                                 </div>
                                 <div className="text-slate-300 mt-1">{a.notes}</div>

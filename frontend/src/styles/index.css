@@ -4,33 +4,73 @@
 
 :root {
   color-scheme: dark;
+  --bg-primary: #000F08;
+  --accent-crimson: #FB3640;
 }
 
 body {
   margin: 0;
-  background-color: #020617; /* slate-950 */
-  color: #f8fafc; /* slate-50 */
+  background-color: #000F08;
+  color: #FB3640;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
 }
 
-/* Custom Scrollbar for SOC Dark Theme */
+/* Text Selection */
+::selection {
+  background-color: #FB3640;
+  color: #000F08;
+}
+
+/* Custom Scrollbar for SnareSight Obsidian + Crimson Theme */
 ::-webkit-scrollbar {
   width: 6px;
   height: 6px;
 }
 
 ::-webkit-scrollbar-track {
-  background: #020617;
+  background: #000F08;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #1e293b;
+  background: rgba(251, 54, 64, 0.25);
   border-radius: 3px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #334155;
+  background: rgba(251, 54, 64, 0.5);
 }
 
+/* Glass and Glow Utilities */
+.glass-panel {
+  background: rgba(251, 54, 64, 0.03);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(251, 54, 64, 0.16);
+}
+
+.glass-panel-hover:hover {
+  background: rgba(251, 54, 64, 0.07);
+  border-color: rgba(251, 54, 64, 0.35);
+}
+
+.crimson-glow {
+  box-shadow: 0 0 25px rgba(251, 54, 64, 0.25);
+}
+
+.crimson-glow-sm {
+  box-shadow: 0 0 10px rgba(251, 54, 64, 0.2);
+}
+
+/* Radar Sweep Animation */
+@keyframes sweep {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.animate-radar {
+  animation: sweep 4s linear infinite;
+  transform-origin: center;
+}

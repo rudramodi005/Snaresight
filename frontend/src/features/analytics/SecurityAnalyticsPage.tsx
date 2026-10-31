@@ -19,6 +19,7 @@ import {
   ReportMetadataResponse,
 } from '../../types/analytics';
 import { analyticsApi, AnalyticsFilterParams } from '../../services/analyticsApi';
+import { formatInteger, formatDateTime } from '../../utils/format';
 
 export const SecurityAnalyticsPage: React.FC = () => {
   const navigate = useNavigate();
@@ -332,11 +333,11 @@ export const SecurityAnalyticsPage: React.FC = () => {
         >
           <div className="text-[10px] font-medium uppercase tracking-wider text-slate-400">Total Events</div>
           <div className="mt-2 text-2xl font-bold font-mono text-slate-100">
-            {overview?.total_events.toLocaleString() ?? '...'}
+            {formatInteger(overview?.total_events, '...')}
           </div>
           <div className="mt-1 flex items-center justify-between text-[10px]">
             <span className="text-slate-500">vs prev</span>
-            {renderComparisonBadge(overview?.comparison['events'])}
+            {renderComparisonBadge(overview?.comparison?.['events'])}
           </div>
         </div>
 
@@ -346,11 +347,11 @@ export const SecurityAnalyticsPage: React.FC = () => {
         >
           <div className="text-[10px] font-medium uppercase tracking-wider text-slate-400">Total Alerts</div>
           <div className="mt-2 text-2xl font-bold font-mono text-amber-400">
-            {overview?.total_alerts.toLocaleString() ?? '...'}
+            {formatInteger(overview?.total_alerts, '...')}
           </div>
           <div className="mt-1 flex items-center justify-between text-[10px]">
             <span className="text-slate-500">vs prev</span>
-            {renderComparisonBadge(overview?.comparison['alerts'])}
+            {renderComparisonBadge(overview?.comparison?.['alerts'])}
           </div>
         </div>
 
@@ -364,7 +365,7 @@ export const SecurityAnalyticsPage: React.FC = () => {
           </div>
           <div className="mt-1 flex items-center justify-between text-[10px]">
             <span className="text-slate-500">vs prev</span>
-            {renderComparisonBadge(overview?.comparison['critical_alerts'])}
+            {renderComparisonBadge(overview?.comparison?.['critical_alerts'])}
           </div>
         </div>
 
@@ -378,7 +379,7 @@ export const SecurityAnalyticsPage: React.FC = () => {
           </div>
           <div className="mt-1 flex items-center justify-between text-[10px]">
             <span className="text-slate-500">vs prev</span>
-            {renderComparisonBadge(overview?.comparison['high_alerts'])}
+            {renderComparisonBadge(overview?.comparison?.['high_alerts'])}
           </div>
         </div>
 
@@ -388,11 +389,11 @@ export const SecurityAnalyticsPage: React.FC = () => {
         >
           <div className="text-[10px] font-medium uppercase tracking-wider text-slate-400">Active Sessions</div>
           <div className="mt-2 text-2xl font-bold font-mono text-blue-400">
-            {overview?.active_sessions.toLocaleString() ?? '...'}
+            {formatInteger(overview?.active_sessions, '...')}
           </div>
           <div className="mt-1 flex items-center justify-between text-[10px]">
             <span className="text-slate-500">vs prev</span>
-            {renderComparisonBadge(overview?.comparison['active_sessions'])}
+            {renderComparisonBadge(overview?.comparison?.['active_sessions'])}
           </div>
         </div>
 
@@ -473,7 +474,7 @@ export const SecurityAnalyticsPage: React.FC = () => {
                   <p className="text-[11px] text-slate-400">Discrete telemetry ingestion volume across time intervals</p>
                 </div>
                 <span className="text-xs font-mono text-emerald-400 font-bold">
-                  {eventTimeline?.total_events.toLocaleString()} Events
+                  {formatInteger(eventTimeline?.total_events, '0')} Events
                 </span>
               </div>
               <div className="h-56 flex items-end gap-1.5 pt-4 pb-2 border-b border-slate-800">
@@ -514,7 +515,7 @@ export const SecurityAnalyticsPage: React.FC = () => {
                   <p className="text-[11px] text-slate-400">Triggered security alerts grouped by severity and window</p>
                 </div>
                 <span className="text-xs font-mono text-amber-400 font-bold">
-                  {alertTimeline?.total_alerts.toLocaleString()} Alerts
+                  {formatInteger(alertTimeline?.total_alerts, '0')} Alerts
                 </span>
               </div>
               <div className="h-56 flex items-end gap-1.5 pt-4 pb-2 border-b border-slate-800">
@@ -601,7 +602,7 @@ export const SecurityAnalyticsPage: React.FC = () => {
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-slate-800 text-slate-300">
-                  {detections?.top_rules.map((r) => (
+                  {(detections?.top_rules || []).map((r) => (
                     <tr key={r.rule_id} className="hover:bg-slate-800/40">
                       <td className="py-2.5 px-4 font-mono font-semibold text-emerald-400">{r.rule_id}</td>
                       <td className="py-2.5 px-4 font-medium text-slate-100">{r.rule_name}</td>
@@ -620,7 +621,7 @@ export const SecurityAnalyticsPage: React.FC = () => {
                 Detections by Attack Category
               </h4>
               <div className="space-y-3 pt-2">
-                {detections?.category_breakdown.map((cat) => (
+                {(detections?.category_breakdown || []).map((cat) => (
                   <div key={cat.category} className="space-y-1">
                     <div className="flex justify-between text-xs font-mono">
                       <span className="text-slate-300">{cat.category}</span>
@@ -648,7 +649,7 @@ export const SecurityAnalyticsPage: React.FC = () => {
                 <p className="text-xs text-slate-400 mt-1">{severityData?.definitions_notice}</p>
               </div>
               <div className="space-y-3">
-                {severityData?.breakdown.map((item) => (
+                {(severityData?.breakdown || []).map((item) => (
                   <div key={item.severity} className="space-y-1.5">
                     <div className="flex justify-between text-xs font-mono">
                       <span className="font-semibold text-slate-200">{item.severity}</span>
@@ -672,7 +673,7 @@ export const SecurityAnalyticsPage: React.FC = () => {
                 <p className="text-xs text-slate-400 mt-1">{confidenceData?.interpretation_guidelines}</p>
               </div>
               <div className="space-y-3">
-                {confidenceData?.buckets.map((b) => (
+                {(confidenceData?.buckets || []).map((b) => (
                   <div key={b.range_label} className="p-2.5 rounded-lg bg-slate-950/60 border border-slate-800 space-y-1">
                     <div className="flex justify-between text-xs">
                       <span className="font-semibold text-blue-300 font-mono">{b.range_label}</span>
@@ -698,7 +699,7 @@ export const SecurityAnalyticsPage: React.FC = () => {
                 <p className="text-xs text-slate-400 mt-1">{sessionData?.interpretation_limits}</p>
               </div>
               <div className="space-y-3">
-                {sessionData?.duration_distribution.map((d) => (
+                {(sessionData?.duration_distribution || []).map((d) => (
                   <div key={d.bucket_label} className="space-y-1">
                     <div className="flex justify-between text-xs font-mono">
                       <span className="text-slate-300">{d.bucket_label}</span>
@@ -723,7 +724,7 @@ export const SecurityAnalyticsPage: React.FC = () => {
                 <p className="text-xs text-slate-400 mt-1">{sourceData?.privacy_and_identity_caveat}</p>
               </div>
               <div className="space-y-2">
-                {sourceData?.top_recurring_profiles.slice(0, 5).map((p) => (
+                {(sourceData?.top_recurring_profiles || []).slice(0, 5).map((p) => (
                   <div
                     key={p.profile_id}
                     onClick={() => navigate('/source-intelligence')}
@@ -763,7 +764,7 @@ export const SecurityAnalyticsPage: React.FC = () => {
                 </button>
               </div>
               <div className="space-y-2">
-                {investigationData?.top_investigations.map((inv) => (
+                {(investigationData?.top_investigations || []).map((inv) => (
                   <div
                     key={inv.cluster_id}
                     className="p-3 rounded-lg bg-slate-950 border border-slate-800 flex items-center justify-between text-xs"
@@ -797,7 +798,7 @@ export const SecurityAnalyticsPage: React.FC = () => {
                 </button>
               </div>
               <div className="space-y-2.5 max-h-72 overflow-y-auto pr-1">
-                {attackData?.tactics.map((t) => (
+                {(attackData?.tactics || []).map((t) => (
                   <div key={t.tactic_id} className="space-y-1">
                     <div className="flex justify-between text-xs font-mono">
                       <span className="text-slate-300">{t.tactic_id}: {t.tactic_name}</span>
@@ -823,7 +824,7 @@ export const SecurityAnalyticsPage: React.FC = () => {
               <p className="text-xs text-slate-400 mt-0.5">{sensorData?.operational_notice}</p>
             </div>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
-              {sensorData?.sensors.map((s) => (
+              {(sensorData?.sensors || []).map((s) => (
                 <div key={s.sensor_id} className="p-3.5 rounded-xl bg-slate-950 border border-slate-800 space-y-2">
                   <div className="flex items-center justify-between">
                     <span className="font-semibold text-xs text-slate-200 truncate">{s.sensor_name}</span>
@@ -913,7 +914,7 @@ export const SecurityAnalyticsPage: React.FC = () => {
           <div className="p-4 rounded-xl bg-amber-950/20 border border-amber-500/30 text-amber-200/90 text-xs space-y-2">
             <h4 className="font-semibold text-amber-300 uppercase font-mono text-[11px]">Documented Operational Limitations</h4>
             <ul className="list-disc list-inside space-y-1 text-slate-300">
-              {executiveSummary?.operational_limitations.map((lim, idx) => (
+              {(executiveSummary?.operational_limitations || []).map((lim, idx) => (
                 <li key={idx}>{lim}</li>
               ))}
             </ul>

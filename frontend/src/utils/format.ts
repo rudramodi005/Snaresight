@@ -69,3 +69,29 @@ export function safeDivide(
   return isValidNumber(result) ? result : fallback;
 }
 
+/**
+ * Safely formats an integer with thousand separators (e.g. 1,000,000).
+ * Prevents TypeError crashes from calling .toLocaleString() on undefined/null.
+ */
+export function formatInteger(val: unknown, fallback: string = '0'): string {
+  if (!isValidNumber(val)) {
+    return fallback;
+  }
+  return Math.round(val).toLocaleString();
+}
+
+/**
+ * Safely formats a timestamp or date string.
+ * Returns fallback when input is null, undefined, or invalid date.
+ */
+export function formatDateTime(val: unknown, fallback: string = 'N/A'): string {
+  if (!val) return fallback;
+  try {
+    const d = new Date(val as string | number);
+    return Number.isNaN(d.getTime()) ? fallback : d.toLocaleString();
+  } catch {
+    return fallback;
+  }
+}
+
+

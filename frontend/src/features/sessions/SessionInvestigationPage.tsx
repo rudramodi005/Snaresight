@@ -171,11 +171,11 @@ export const SessionInvestigationPage: React.FC = () => {
 
           {loading ? (
             <div className="p-8 text-center text-xs text-slate-500">Loading sessions...</div>
-          ) : paginated?.items.length === 0 ? (
+          ) : (!paginated?.items || paginated.items.length === 0) ? (
             <div className="p-8 text-center text-xs text-slate-500">No activity sessions found.</div>
           ) : (
             <div className="divide-y divide-slate-800 overflow-y-auto flex-1">
-              {paginated?.items.map((s) => (
+              {(paginated?.items || []).map((s) => (
                 <div
                   key={s.session_id}
                   onClick={() => loadSessionDetails(s.session_id)}

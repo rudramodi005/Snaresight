@@ -38,7 +38,7 @@ import {
   AuditVerification,
 } from '../../types/resilience';
 import { resilienceApi } from '../../services/resilienceApi';
-import { formatNumber } from '../../utils/format';
+import { formatNumber, formatDateTime } from '../../utils/format';
 
 export const PlatformSecurityHealthPage: React.FC = () => {
   // Navigation tabs
@@ -519,7 +519,7 @@ export const PlatformSecurityHealthPage: React.FC = () => {
       {activeTab === 'health' && (
         <div className="space-y-6">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-            {diagnostics?.components.map((comp) => (
+            {(diagnostics?.components || []).map((comp) => (
               <div
                 key={comp.name}
                 className="p-5 rounded-xl bg-slate-900/60 border border-slate-800 hover:border-slate-700 transition-all flex flex-col justify-between"
@@ -577,7 +577,7 @@ export const PlatformSecurityHealthPage: React.FC = () => {
                   <span>Total Records: <strong className="text-white">{auditResult.total_records}</strong></span>
                   <span>Verified Hashes: <strong className="text-emerald-400">{auditResult.verified_hashes}</strong></span>
                   <span>Corrupted Records: <strong className="text-emerald-400">{auditResult.corrupted_records}</strong></span>
-                  <span>Timestamp: <span className="text-slate-400">{new Date(auditResult.timestamp).toLocaleString()}</span></span>
+                  <span>Timestamp: <span className="text-slate-400">{formatDateTime(auditResult.timestamp)}</span></span>
                 </div>
               </div>
             </div>
@@ -777,7 +777,7 @@ export const PlatformSecurityHealthPage: React.FC = () => {
                     </td>
                     <td className="p-3.5 text-slate-400 text-[11px] truncate max-w-xs">{bck.storage_location_ref}</td>
                     <td className="p-3.5 text-slate-400 font-sans text-xs">
-                      {new Date(bck.started_at).toLocaleString()}
+                      {formatDateTime(bck.started_at)}
                     </td>
                     <td className="p-3.5">
                       {bck.restore_verified ? (
