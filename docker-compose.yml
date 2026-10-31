@@ -37,8 +37,8 @@ services:
         condition: service_healthy
     environment:
       ENVIRONMENT: release_candidate
-      DATABASE_URL: postgresql+psycopg://snaresight_app:local_dev_password@postgres:5432/snaresight
-      MIGRATION_DATABASE_URL: postgresql+psycopg://snaresight_app:local_dev_password@postgres:5432/snaresight
+      DATABASE_URL: postgresql+psycopg2://snaresight_app:local_dev_password@postgres:5432/snaresight
+      MIGRATION_DATABASE_URL: postgresql+psycopg2://snaresight_app:local_dev_password@postgres:5432/snaresight
       SECRET_KEY: change_this_to_a_random_32_byte_secret_key_in_production
       JWT_SECRET_KEY: change_this_to_a_random_32_byte_secret_key_in_production
       INGESTION_API_KEY: snare-collector-key-dev-2026

@@ -68,3 +68,4 @@ export function safeDivide(
   const result = numerator / denominator;
   return isValidNumber(result) ? result : fallback;
 }
+

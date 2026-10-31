@@ -22,9 +22,10 @@ FROM python:3.11-slim AS runner
 
 WORKDIR /app
 
-# Create non-root unprivileged security service user
+# Create non-root unprivileged security service user and ensure directory ownership
 RUN groupadd -g 1001 snaresight && \
-    useradd -u 1001 -g snaresight -s /bin/bash -m snaresight
+    useradd -u 1001 -g snaresight -s /bin/bash -m snaresight && \
+    mkdir -p /app && chown -R snaresight:snaresight /app
 
 # Copy virtualenv from builder
 COPY --from=builder /opt/venv /opt/venv

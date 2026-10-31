@@ -31,6 +31,11 @@ def get_url():
     # Convert postgresql+asyncpg to psycopg2 / postgresql for synchronous Alembic runner
     if url.startswith("postgresql+asyncpg://"):
         return url.replace("postgresql+asyncpg://", "postgresql://")
+    if url.startswith("postgresql+psycopg://"):
+        try:
+            import psycopg  # noqa: F401
+        except ImportError:
+            return url.replace("postgresql+psycopg://", "postgresql+psycopg2://")
     return url
 
 

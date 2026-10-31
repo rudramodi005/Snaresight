@@ -83,6 +83,14 @@ def on_startup():
         print(f"[Startup Notice] Database initialization: {e}")
 
     try:
+        from app.modules.mitre.dashboard_service import AttackDashboardService
+        from app.db.session import SessionLocal
+        with SessionLocal() as db:
+            AttackDashboardService.ensure_catalogue_initialized(db)
+    except Exception as e:
+        print(f"[Startup Notice] MITRE ATT&CK catalogue initialization: {e}")
+
+    try:
         from app.detection.scenario_catalogue import register_scenario_catalogue
         register_scenario_catalogue()
     except Exception as e:

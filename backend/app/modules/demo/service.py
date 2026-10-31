@@ -316,6 +316,13 @@ class DemoService:
             sec_ids = [se.event_id for se in sec_events]
 
             if sec_ids:
+                # 1b. Delete correlated activity session event associations to satisfy RESTRICT foreign key
+                from app.db.models.correlation import ActivitySessionEventModel, ActivitySessionModel
+                db.query(ActivitySessionEventModel).filter(
+                    ActivitySessionEventModel.event_id.in_(sec_ids)
+                ).delete(synchronize_session=False)
+                db.flush()
+
                 # 2. Delete alert evidence associations
                 evidence_links = (
                     db.query(AlertEvidenceModel)
@@ -347,6 +354,16 @@ class DemoService:
                 # 4. Delete security events
                 for se in sec_events:
                     db.delete(se)
+                db.flush()
+
+            # Clean up associated synthetic activity sessions
+            if synthetic_sessions:
+                from app.db.models.correlation import ActivitySessionModel
+                for sess_id in synthetic_sessions:
+                    sess = db.query(ActivitySessionModel).filter(ActivitySessionModel.session_id == sess_id).first()
+                    if sess:
+                        db.delete(sess)
+                        deleted_sessions += 1
                 db.flush()
 
             # 5. Delete raw events
