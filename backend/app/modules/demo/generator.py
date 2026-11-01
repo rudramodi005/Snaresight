@@ -129,7 +129,7 @@ class SyntheticTelemetryGenerator:
             # Attack Events: repeated failed logins in same session
             user_fingerprint = cls._hash_username("admin")
             for i in range(attack_count):
-                ev_id = str(uuid.UUID(int=prng.getrandbits(128), version=4))
+                ev_id = str(uuid.uuid4())
                 obs_time = base_time + timedelta(seconds=i * 10)
                 event = {
                     "raw_event_id": ev_id,
@@ -167,7 +167,7 @@ class SyntheticTelemetryGenerator:
 
             # Benign background noise across separate sessions
             for i in range(benign_count):
-                ev_id = str(uuid.UUID(int=prng.getrandbits(128), version=4))
+                ev_id = str(uuid.uuid4())
                 obs_time = base_time + timedelta(seconds=attack_count * 10 + i * 5)
                 b_sess = cls._generate_session_id(prng)
                 b_ip = prng.choice(TEST_IPS[1:])
@@ -217,7 +217,7 @@ class SyntheticTelemetryGenerator:
 
             # Attack Events: probing multiple distinct usernames
             for i in range(attack_count):
-                ev_id = str(uuid.UUID(int=prng.getrandbits(128), version=4))
+                ev_id = str(uuid.uuid4())
                 obs_time = base_time + timedelta(seconds=i * 8)
                 username = COMMON_USERNAMES[i % len(COMMON_USERNAMES)]
                 event = {
@@ -255,7 +255,7 @@ class SyntheticTelemetryGenerator:
                 ground_truth["attack_events_count"] += 1
 
             for i in range(benign_count):
-                ev_id = str(uuid.UUID(int=prng.getrandbits(128), version=4))
+                ev_id = str(uuid.uuid4())
                 obs_time = base_time + timedelta(seconds=attack_count * 8 + i * 5)
                 b_sess = cls._generate_session_id(prng)
                 event = {
@@ -305,7 +305,7 @@ class SyntheticTelemetryGenerator:
 
             # 1. Directory Traversal Probes (WEB-002)
             for i in range(traversal_count):
-                ev_id = str(uuid.UUID(int=prng.getrandbits(128), version=4))
+                ev_id = str(uuid.uuid4())
                 obs_time = base_time + timedelta(seconds=i * 6)
                 path = TRAVERSAL_PATHS[i % len(TRAVERSAL_PATHS)]
                 event = {
@@ -344,7 +344,7 @@ class SyntheticTelemetryGenerator:
 
             # 2. Distinct Web Path Probing (WEB-001)
             for i in range(enum_count):
-                ev_id = str(uuid.UUID(int=prng.getrandbits(128), version=4))
+                ev_id = str(uuid.uuid4())
                 obs_time = base_time + timedelta(seconds=(traversal_count + i) * 6)
                 path = f"/api/v1/internal_test_endpoint_{i}"
                 event = {
@@ -383,7 +383,7 @@ class SyntheticTelemetryGenerator:
 
             # Benign background
             for i in range(benign_count):
-                ev_id = str(uuid.UUID(int=prng.getrandbits(128), version=4))
+                ev_id = str(uuid.uuid4())
                 obs_time = base_time + timedelta(seconds=(traversal_count + enum_count + i) * 5)
                 b_sess = cls._generate_session_id(prng)
                 event = {
@@ -435,7 +435,7 @@ class SyntheticTelemetryGenerator:
 
             # Session 1: Reconnaissance (Web Path Discovery)
             for i in range(attack_count_s1):
-                ev_id = str(uuid.UUID(int=prng.getrandbits(128), version=4))
+                ev_id = str(uuid.uuid4())
                 obs_time = base_time + timedelta(seconds=i * 8)
                 event = {
                     "raw_event_id": ev_id,
@@ -473,7 +473,7 @@ class SyntheticTelemetryGenerator:
 
             # Session 2: Credential Guessing from Same Attacker IP
             for i in range(attack_count_s2):
-                ev_id = str(uuid.UUID(int=prng.getrandbits(128), version=4))
+                ev_id = str(uuid.uuid4())
                 obs_time = base_time + timedelta(seconds=(attack_count_s1 * 8) + i * 8)
                 event = {
                     "raw_event_id": ev_id,
@@ -511,7 +511,7 @@ class SyntheticTelemetryGenerator:
 
             # Benign background
             for i in range(benign_count):
-                ev_id = str(uuid.UUID(int=prng.getrandbits(128), version=4))
+                ev_id = str(uuid.uuid4())
                 obs_time = base_time + timedelta(seconds=120 + i * 5)
                 b_sess = cls._generate_session_id(prng)
                 event = {

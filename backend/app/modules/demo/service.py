@@ -190,6 +190,21 @@ class DemoService:
             except Exception as exc:
                 resilience_info = {"note": f"Resilience components executed with fallback: {str(exc)}"}
 
+        # Trigger Multi-Session Sequence Discovery (Task P22) & Campaign Clustering (Task P24)
+        try:
+            from app.modules.correlation.sequence_engine import default_sequence_engine
+            for s_id in run_sessions:
+                default_sequence_engine.evaluate_session(db=db, session_id=s_id)
+        except Exception:
+            pass
+
+        try:
+            from app.modules.campaign_intelligence.clustering_engine import ClusteringEngine
+            clustering_engine = ClusteringEngine(db)
+            clustering_engine.run_clustering(force_all=True)
+        except Exception:
+            pass
+
         # 6. Evaluate Quality Metrics
         evaluation = DetectionQualityEvaluator.evaluate(
             ground_truth=ground_truth,

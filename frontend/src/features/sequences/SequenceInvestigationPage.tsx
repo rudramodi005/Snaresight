@@ -236,7 +236,17 @@ export const SequenceInvestigationPage: React.FC = () => {
             ) : error ? (
               <div className="p-8 text-center text-xs text-rose-400">{error}</div>
             ) : sequences.length === 0 ? (
-              <div className="p-8 text-center text-xs text-slate-500">No behavioral sequences match active criteria.</div>
+              <div className="p-8 text-center text-xs text-slate-500">
+                <p>No behavioral sequences match active criteria.</p>
+                {(statusFilter || patternFilter || searchIp) && (
+                  <button
+                    onClick={() => { setStatusFilter(''); setPatternFilter(''); setSearchIp(''); }}
+                    className="mt-2 text-cyan-400 hover:text-cyan-300 underline font-medium"
+                  >
+                    Reset active filters
+                  </button>
+                )}
+              </div>
             ) : (
               <div className="divide-y divide-slate-800">
                 {sequences.map((s) => {

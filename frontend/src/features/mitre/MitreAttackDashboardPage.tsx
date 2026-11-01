@@ -113,6 +113,14 @@ export const MitreAttackDashboardPage: React.FC = () => {
     }
   }, [activeTab]);
 
+  // Handle URL tab param synchronization
+  useEffect(() => {
+    const tab = searchParams.get('tab');
+    if (tab && ['matrix', 'tactics', 'explorer', 'coverage', 'traceability', 'reviews'].includes(tab) && tab !== activeTab) {
+      setActiveTab(tab as any);
+    }
+  }, [searchParams]);
+
   // Handle URL technique_id param
   useEffect(() => {
     const tid = searchParams.get('technique_id');

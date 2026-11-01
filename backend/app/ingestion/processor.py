@@ -162,6 +162,12 @@ class EventProcessor:
                                     detection_result=det_res,
                                     event=normalized_data,
                                 )
+                                # Post-Alert Sequence Correlation (Task P22)
+                                try:
+                                    from app.modules.correlation.sequence_engine import default_sequence_engine
+                                    default_sequence_engine.evaluate_session(db=db, session_id=str(normalized_data["session_id"]))
+                                except Exception:
+                                    pass
                             except Exception:
                                 pass
                 except Exception:
