@@ -46,7 +46,7 @@ export const responseApi = {
    * Fetch live summary metrics for the Defensive Response dashboard.
    */
   async getSummary(): Promise<ResponseDashboardSummary> {
-    const res = await fetch(`${BASE_URL}/summary`, { headers: getHeaders() });
+    const res = await authFetch(`${BASE_URL}/summary`, { headers: getHeaders() });
     if (!res.ok) {
       throw new Error(`Failed to fetch response summary (${res.status})`);
     }
@@ -72,7 +72,7 @@ export const responseApi = {
     if (params.page) searchParams.append('page', params.page.toString());
     if (params.limit) searchParams.append('limit', params.limit.toString());
 
-    const res = await fetch(`${BASE_URL}/cases?${searchParams.toString()}`, { headers: getHeaders() });
+    const res = await authFetch(`${BASE_URL}/cases?${searchParams.toString()}`, { headers: getHeaders() });
     if (!res.ok) {
       throw new Error(`Failed to list response cases (${res.status})`);
     }
@@ -83,7 +83,7 @@ export const responseApi = {
    * Retrieve full case details.
    */
   async getCase(caseId: string): Promise<ResponseCase> {
-    const res = await fetch(`${BASE_URL}/cases/${caseId}`, { headers: getHeaders() });
+    const res = await authFetch(`${BASE_URL}/cases/${caseId}`, { headers: getHeaders() });
     if (!res.ok) {
       throw new Error(`Failed to fetch case detail (${res.status})`);
     }
@@ -103,7 +103,7 @@ export const responseApi = {
     primary_cluster_id?: string;
     initial_note?: string;
   }): Promise<ResponseCase> {
-    const res = await fetch(`${BASE_URL}/cases`, {
+    const res = await authFetch(`${BASE_URL}/cases`, {
       method: 'POST',
       headers: getHeaders(),
       body: JSON.stringify(payload),
@@ -123,7 +123,7 @@ export const responseApi = {
     reason: string;
     resolution_category?: string;
   }): Promise<ResponseCase> {
-    const res = await fetch(`${BASE_URL}/cases/${caseId}/status`, {
+    const res = await authFetch(`${BASE_URL}/cases/${caseId}/status`, {
       method: 'POST',
       headers: getHeaders(),
       body: JSON.stringify(payload),
@@ -142,7 +142,7 @@ export const responseApi = {
     note_type?: string;
     content: string;
   }): Promise<CaseNote> {
-    const res = await fetch(`${BASE_URL}/cases/${caseId}/notes`, {
+    const res = await authFetch(`${BASE_URL}/cases/${caseId}/notes`, {
       method: 'POST',
       headers: getHeaders(),
       body: JSON.stringify(payload),
@@ -163,7 +163,7 @@ export const responseApi = {
     relationship_reason: string;
     confidence_score?: number;
   }): Promise<CaseRelationship> {
-    const res = await fetch(`${BASE_URL}/cases/${caseId}/links`, {
+    const res = await authFetch(`${BASE_URL}/cases/${caseId}/links`, {
       method: 'POST',
       headers: getHeaders(),
       body: JSON.stringify(payload),
@@ -185,7 +185,7 @@ export const responseApi = {
   ): Promise<ResponseRecommendation> {
     const recId = payloadMaybe ? recIdOrPayload : recommendationIdOrCaseId;
     const body = payloadMaybe || recIdOrPayload;
-    const res = await fetch(`${BASE_URL}/recommendations/${recId}/decision`, {
+    const res = await authFetch(`${BASE_URL}/recommendations/${recId}/decision`, {
       method: 'POST',
       headers: getHeaders(),
       body: JSON.stringify(body),
@@ -198,7 +198,7 @@ export const responseApi = {
   },
 
   async generateRecommendations(caseId: string): Promise<ResponseRecommendation[]> {
-    const res = await fetch(`${BASE_URL}/cases/${caseId}/recommendations`, { headers: getHeaders() });
+    const res = await authFetch(`${BASE_URL}/cases/${caseId}/recommendations`, { headers: getHeaders() });
     if (!res.ok) {
       throw new Error(`Failed to generate/fetch recommendations (${res.status})`);
     }
@@ -209,7 +209,7 @@ export const responseApi = {
    * Fetch all configured playbooks.
    */
   async listPlaybooks(): Promise<PlaybookDefinition[]> {
-    const res = await fetch(`${BASE_URL}/playbooks`, { headers: getHeaders() });
+    const res = await authFetch(`${BASE_URL}/playbooks`, { headers: getHeaders() });
     if (!res.ok) {
       throw new Error(`Failed to list playbooks (${res.status})`);
     }
@@ -220,7 +220,7 @@ export const responseApi = {
    * Execute a playbook on a case.
    */
   async executePlaybook(playbookId: string, caseId: string, inputs: Record<string, any> = {}): Promise<PlaybookExecution> {
-    const res = await fetch(`${BASE_URL}/playbooks/${playbookId}/execute/${caseId}`, {
+    const res = await authFetch(`${BASE_URL}/playbooks/${playbookId}/execute/${caseId}`, {
       method: 'POST',
       headers: getHeaders(),
       body: JSON.stringify({ inputs }),
@@ -245,7 +245,7 @@ export const responseApi = {
    * List approval requests.
    */
   async listApprovals(status: string = 'PENDING'): Promise<ResponseApproval[]> {
-    const res = await fetch(`${BASE_URL}/approvals?status=${status}`, { headers: getHeaders() });
+    const res = await authFetch(`${BASE_URL}/approvals?status=${status}`, { headers: getHeaders() });
     if (!res.ok) {
       throw new Error(`Failed to list approvals (${res.status})`);
     }
@@ -267,7 +267,7 @@ export const responseApi = {
   ): Promise<ResponseApproval> {
     const appId = payloadMaybe ? appIdOrPayload : approvalIdOrCaseId;
     const body = payloadMaybe || appIdOrPayload;
-    const res = await fetch(`${BASE_URL}/approvals/${appId}/decision`, {
+    const res = await authFetch(`${BASE_URL}/approvals/${appId}/decision`, {
       method: 'POST',
       headers: getHeaders(),
       body: JSON.stringify(body),
@@ -288,7 +288,7 @@ export const responseApi = {
     approval_id?: string;
     is_simulated?: boolean;
   }): Promise<ResponseAction> {
-    const res = await fetch(`${BASE_URL}/cases/${caseId}/actions`, {
+    const res = await authFetch(`${BASE_URL}/cases/${caseId}/actions`, {
       method: 'POST',
       headers: getHeaders(),
       body: JSON.stringify(payload),
@@ -308,7 +308,7 @@ export const responseApi = {
     evidence_identifier: string;
     hold_reason: string;
   }): Promise<EvidencePreservationHold> {
-    const res = await fetch(`${BASE_URL}/cases/${caseId}/holds`, {
+    const res = await authFetch(`${BASE_URL}/cases/${caseId}/holds`, {
       method: 'POST',
       headers: getHeaders(),
       body: JSON.stringify(payload),
@@ -338,7 +338,7 @@ export const responseApi = {
   ): Promise<EvidencePreservationHold> {
     const holdId = payloadMaybe ? holdIdOrPayload : holdIdOrCaseId;
     const body = payloadMaybe || holdIdOrPayload;
-    const res = await fetch(`${BASE_URL}/holds/${holdId}/release`, {
+    const res = await authFetch(`${BASE_URL}/holds/${holdId}/release`, {
       method: 'POST',
       headers: getHeaders(),
       body: JSON.stringify(body),
