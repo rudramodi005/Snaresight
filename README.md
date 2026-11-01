@@ -1,3 +1,4 @@
+# ARCCREATORS_D3C0Y_RudraModi
 # SnareSight
 ### Deception-Driven Threat Detection & Security Operations Platform
 
@@ -308,3 +309,5 @@ For detailed technical references, operational runbooks, and architectural desig
 ## 12. License & Intellectual Property
 
 SnareSight is developed as an academic and security research platform. All rights reserved. Refer to project contribution and licensing terms in [CONTRIBUTING.md](CONTRIBUTING.md).
+
+# ARCCREATORS_D3C0Y_RudraModi
