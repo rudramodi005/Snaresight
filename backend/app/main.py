@@ -104,6 +104,14 @@ def on_startup():
     except Exception as e:
         print(f"[Startup Notice] Default user seeding: {e}")
 
+    try:
+        from app.db.session import SessionLocal
+        from app.db.seed_demo_data import seed_default_sensors
+        with SessionLocal() as db:
+            seed_default_sensors(db)
+    except Exception as e:
+        print(f"[Startup Notice] Default sensors seeding: {e}")
+
 
 @app.get("/", tags=["Root"])
 @app.head("/", tags=["Root"])

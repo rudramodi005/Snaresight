@@ -166,7 +166,7 @@ def main():
     if postgres_live:
         print(f"  {CYAN}->{RESET} Database Engine:     {GREEN}PostgreSQL 16 (Online on 127.0.0.1:5432){RESET}")
     else:
-        db_path = os.path.join(BACKEND_DIR, "snaresight.db")
+        db_path = os.path.join(BACKEND_DIR, "snaresight.db").replace("\\", "/")
         print(f"  {CYAN}->{RESET} Database Engine:     {YELLOW}PostgreSQL not detected; using local storage ({db_path}){RESET}")
         env_vars["DATABASE_URL"] = f"sqlite:///{db_path}"
 
@@ -206,6 +206,11 @@ def main():
     if is_port_in_use(FRONTEND_PORT, "127.0.0.1"):
         print(f"  {YELLOW}[!] Notice: Port {FRONTEND_PORT} already in use. Reusing existing frontend server.{RESET}")
     else:
+        # Ensure node_modules exists
+        node_modules_path = os.path.join(FRONTEND_DIR, "node_modules")
+        if not os.path.isdir(node_modules_path):
+            print(f"  {CYAN}->{RESET} Installing frontend dependencies (npm install)...")
+            subprocess.run([npm_exec, "install"], cwd=FRONTEND_DIR, shell=(sys.platform == "win32"), check=True)
         print(f"\n{BOLD}[3/4] Starting React + Vite Frontend...{RESET}")
         frontend_cmd = [npm_exec, "run", "dev"]
         frontend_log_path = os.path.join(FRONTEND_DIR, "frontend.log")
