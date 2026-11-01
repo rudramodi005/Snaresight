@@ -121,6 +121,7 @@ export const DefensiveResponseCenterPage: React.FC = () => {
   const loadDashboard = async () => {
     try {
       setLoading(true);
+      setError(null);
       const [sum, caseList, pbs] = await Promise.all([
         responseApi.getSummary(),
         responseApi.listCases({
@@ -137,8 +138,13 @@ export const DefensiveResponseCenterPage: React.FC = () => {
       setTotalCases(caseList.total);
       setPlaybookCatalog(pbs);
 
-      if (caseList.items.length > 0 && !selectedCaseId) {
-        setSelectedCaseId(caseList.items[0].case_id);
+      if (caseList.items.length > 0) {
+        if (!selectedCaseId || !caseList.items.some((c) => c.case_id === selectedCaseId)) {
+          setSelectedCaseId(caseList.items[0].case_id);
+        }
+      } else {
+        setSelectedCaseId(null);
+        setSelectedCase(null);
       }
     } catch (err: any) {
       setError(err.message || 'Failed to load response data');
@@ -463,6 +469,25 @@ export const DefensiveResponseCenterPage: React.FC = () => {
             </div>
           </div>
         )}
+
+        {/* Error Alert */}
+        {error && (
+          <div className="mt-3 p-3 bg-red-950/40 border border-red-500/30 rounded-lg flex items-center justify-between text-xs text-red-200">
+            <div className="flex items-center gap-2">
+              <AlertTriangle className="w-4 h-4 text-red-400 shrink-0" />
+              <span>{error}</span>
+            </div>
+            <button
+              onClick={() => {
+                setError(null);
+                loadDashboard();
+              }}
+              className="px-2.5 py-1 bg-red-900/60 hover:bg-red-800 text-red-200 rounded border border-red-700 text-xs transition"
+            >
+              Retry
+            </button>
+          </div>
+        )}
       </div>
 
       {/* 2. Main Content Split View */}
@@ -516,7 +541,21 @@ export const DefensiveResponseCenterPage: React.FC = () => {
             {loading && cases.length === 0 ? (
               <div className="p-8 text-center text-xs text-slate-500">Loading cases...</div>
             ) : cases.length === 0 ? (
-              <div className="p-8 text-center text-xs text-slate-500">No response cases found</div>
+              <div className="p-8 text-center text-xs text-slate-500 space-y-2">
+                <p>No response cases match selected criteria.</p>
+                {(statusFilter !== 'ALL' || priorityFilter !== 'ALL' || searchQuery) && (
+                  <button
+                    onClick={() => {
+                      setStatusFilter('ALL');
+                      setPriorityFilter('ALL');
+                      setSearchQuery('');
+                    }}
+                    className="text-xs text-indigo-400 hover:text-indigo-300 underline font-medium"
+                  >
+                    Reset all filters
+                  </button>
+                )}
+              </div>
             ) : (
               cases.map((c) => {
                 const isSelected = selectedCaseId === c.case_id;

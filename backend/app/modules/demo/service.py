@@ -205,6 +205,13 @@ class DemoService:
         except Exception:
             pass
 
+        try:
+            from app.modules.source_intelligence.service import SourceIntelligenceService
+            source_service = SourceIntelligenceService(db)
+            source_service.trigger_aggregation()
+        except Exception:
+            pass
+
         # 6. Evaluate Quality Metrics
         evaluation = DetectionQualityEvaluator.evaluate(
             ground_truth=ground_truth,

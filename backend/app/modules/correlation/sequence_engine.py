@@ -56,9 +56,17 @@ class SequenceEngine:
         - Bounded execution: Queries only recent sessions within configured time window.
         - Non-destructive: Leaves original session and event records unmodified.
         """
-        session = db.query(ActivitySessionModel).filter(ActivitySessionModel.session_id == session_id).first()
+        session = (
+            db.query(ActivitySessionModel)
+            .filter(
+                (ActivitySessionModel.session_id == session_id)
+                | (ActivitySessionModel.explicit_session_id == session_id)
+            )
+            .first()
+        )
         if not session:
             return None
+        session_id = session.session_id
 
         # 1. Idempotency Check: Has this session already been assigned to an active sequence?
         existing_member = (

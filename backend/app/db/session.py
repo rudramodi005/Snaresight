@@ -24,15 +24,40 @@ def _resolve_database_url(url: str) -> str:
     return url
 
 
+def _is_postgres_online(host: str = "127.0.0.1", port: int = 5432) -> bool:
+    """Fast non-blocking probe to verify if PostgreSQL service is reachable."""
+    import socket
+    try:
+        with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
+            s.settimeout(0.4)
+            return s.connect_ex((host, port)) == 0
+    except Exception:
+        return False
+
+
 def _create_db_engine():
     """Initializes database engine with driver normalization and offline fallback."""
     raw_url = settings.db.DATABASE_URL
     if raw_url.startswith("sqlite"):
-        return create_engine(
+        eng = create_engine(
             raw_url,
             connect_args={"check_same_thread": False},
             echo=settings.db.DATABASE_ECHO,
         )
+        return eng
+
+    # If targeting localhost postgres but port 5432 is down, fall back to SQLite immediately
+    if ("127.0.0.1:5432" in raw_url or "localhost:5432" in raw_url) and not _is_postgres_online():
+        logger.info("PostgreSQL (5432) not reachable. Using local SQLite database.")
+        import os
+        base_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+        db_file = os.path.join(base_dir, "snaresight.db").replace("\\", "/")
+        eng = create_engine(
+            f"sqlite:///{db_file}",
+            connect_args={"check_same_thread": False},
+            echo=settings.db.DATABASE_ECHO,
+        )
+        return eng
 
     resolved_url = _resolve_database_url(raw_url)
     try:

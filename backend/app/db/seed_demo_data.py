@@ -222,3 +222,10 @@ def seed_complete_demo_data(db: Session) -> None:
     except Exception as e:
         print(f"[Demo Seeder] Source intelligence aggregation notice: {e}")
 
+    # 6. Seed diverse incident response cases across all priorities and workflow states
+    try:
+        from app.db.seed_response_cases import seed_response_cases
+        seed_response_cases(db)
+    except Exception as e:
+        print(f"[Demo Seeder] Response cases seeding notice: {e}")
+

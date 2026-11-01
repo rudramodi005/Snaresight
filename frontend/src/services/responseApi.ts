@@ -19,7 +19,7 @@ import {
 const BASE_URL = '/api/v1/response';
 
 function getHeaders(): Record<string, string> {
-  const token = sessionStorage.getItem('snaresight_token');
+  const token = sessionStorage.getItem('snaresight_token') || localStorage.getItem('snaresight_token');
   const headers: Record<string, string> = {
     'Content-Type': 'application/json',
   };
@@ -27,6 +27,18 @@ function getHeaders(): Record<string, string> {
     headers['Authorization'] = `Bearer ${token}`;
   }
   return headers;
+}
+
+async function authFetch(url: string, options: RequestInit = {}): Promise<Response> {
+  const headers = { ...getHeaders(), ...(options.headers as Record<string, string> || {}) };
+  let res = await fetch(url, { ...options, headers });
+  if (res.status === 401 && (sessionStorage.getItem('snaresight_token') || localStorage.getItem('snaresight_token'))) {
+    sessionStorage.removeItem('snaresight_token');
+    localStorage.removeItem('snaresight_token');
+    // Retry once in dev mode without dead token
+    res = await fetch(url, { ...options, headers: { 'Content-Type': 'application/json' } });
+  }
+  return res;
 }
 
 export const responseApi = {
